@@ -1,0 +1,24 @@
+.loginContainer {
+  margin: 69px auto 0 auto;
+}
+
+.authTitle {
+  margin: 29px auto 40px;
+}
+
+.account,
+.name,
+.email,
+.password {
+  margin-bottom: 32px;
+}
+
+.passwordConfirm {
+  margin-bottom: 40px;
+}
+
+.cancel {
+  color: var(--primary);
+  text-decoration: underline;
+  margin-top: 22px;
+}

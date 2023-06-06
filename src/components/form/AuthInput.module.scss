@@ -1,4 +1,4 @@
-.inputContiner {
+.inputContainer {
   position: relative;
   margin: 0 auto;
   background-color: #f5f8fa;
@@ -14,15 +14,17 @@
 .label {
   width: 100%;
   line-height: 22px;
-  text-align: left;
   font-size: 14px;
-  color: var(--grayscale-80);
+  text-align: start;
+  color: var(--grayscale-dark-80);
 }
 
 .input {
+  position: relative;
   width: 100%;
   line-height: 26px;
   font-size: 16px;
+  text-align: start;
   line-height: 22px;
   border: none;
   background-color: inherit;
@@ -32,6 +34,12 @@
   &:focus ~ .borderLine,
   &:hover ~ .borderLine {
     background-color: var(--secondary-blue);
+  }
+  &::placeholder {
+    position: absolute;
+    left: 0;
+    color: var(--grayscale-dark-60);
+    width: 100%;
   }
 }
 

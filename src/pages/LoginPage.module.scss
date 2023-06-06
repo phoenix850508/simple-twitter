@@ -1,5 +1,5 @@
-.container {
-  margin: 69px auto;
+.loginContainer {
+  margin: 69px auto 0 auto;
 }
 
 .authTitle {
@@ -12,4 +12,27 @@
 
 .password {
   margin-bottom: 40px;
+}
+
+.redirContainer {
+  margin: 22px auto 0 auto;
+  max-width: 356px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.signup,
+.admin,
+.dot {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--primary);
+  text-decoration: underline;
+  align-self: center;
+  margin-right: 12px;
+}
+
+.dot {
+  text-decoration: none;
+  color: black;
 }
