@@ -1,70 +1,37 @@
-# Getting Started with Create React App
+# 🎓🎓Introduction🎓🎓
+This is a Simple Twitter project from Alpha Camp in semester 3 (frontend), and could be regarded as a capstone of our learning journey.  
+There will be a series of updates from this topic, so we'll keep updating through time while upscaling our skills in JSX, components, Sass, etc.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The image below shows what it will look like.  
+![Twitter README 使用圖片](https://github.com/phoenix850508/simple-twitter/assets/121143837/74911a9d-e2e7-43c2-92ba-2539d03a4cfc)
 
-## Available Scripts
 
-In the project directory, you can run:
+# Features
+* A simple version of Twitter would be anticipated here.
 
-### `npm start`
+# Prerequisites
+* Node.js 15.9.0
+* React 18.2.0
+* Sass 1.62.1
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Installation and Execution
+1. Please ensure that Node.js and npm are well installed in your local environment.
+2. Find a folder where you want to put this project, open Terminal, and run the command for cloning:
+```
+git clone https://github.com/phoenix850508/simple-twitter.git
+```
+3. Then, you'll see a directory called "simple-twitter". Enter the directory and run the command (would take a while, be patient):
+```
+npm install
+```
+4. After installment, run:
+```
+npm start
+```
+5. The project is ran successfully while seeing the following info in Terminal:
+```
+webpack compiled successfully
+```
+6. Usually, your browser will run automatically and show the project. If it doesn't, please open your browser, type "http://localhost:3000", then enjoy the project.
+7. Press "ctrl + c" in Terminal if you want to stop running the project.
