@@ -10,6 +10,17 @@
   margin-bottom: 32px;
 }
 
+.borderLine {
+  &::after {
+    content: "帳號不存在";
+    position: absolute;
+    left: 0;
+    color: var(--error);
+    font-size: 12px;
+    line-height: 20px;
+  }
+}
+
 .password {
   margin-bottom: 40px;
 }
