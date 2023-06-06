@@ -52,4 +52,9 @@ body {
   }
 
   font-family: var(--main-font-family);
+
+  button {
+    box-shadow: none;
+    border: none;
+  }
 }

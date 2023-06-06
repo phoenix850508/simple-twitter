@@ -1,7 +1,8 @@
-const HomaPage = () => {
-    return (<div>
+function HomaPage() {
+    return (
+    <div>
       <p>homepage</p>
-    </div>)
-}
+    </div>
+)}
 
 export default HomaPage

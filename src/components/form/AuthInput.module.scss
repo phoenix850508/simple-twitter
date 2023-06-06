@@ -1,0 +1,45 @@
+.inputContiner {
+  position: relative;
+  margin: 0 auto;
+  background-color: #f5f8fa;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2px 10.55px 4px;
+  width: 356px;
+  height: 54px;
+  border-radius: 2px;
+}
+
+.label {
+  width: 100%;
+  line-height: 22px;
+  text-align: left;
+  font-size: 14px;
+  color: var(--grayscale-80);
+}
+
+.input {
+  width: 100%;
+  line-height: 26px;
+  font-size: 16px;
+  line-height: 22px;
+  border: none;
+  background-color: inherit;
+  &:focus {
+    outline: none;
+  }
+  &:focus ~ .borderLine,
+  &:hover ~ .borderLine {
+    background-color: var(--secondary-blue);
+  }
+}
+
+.borderLine {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background-color: #657786;
+}
