@@ -6,15 +6,15 @@
   --main-font-family: "Noto Sans TC", sans-serif;
   --main-font-number: "Montserrat", sans-serif;
   --white: #ffffff;
-  --grayscale-20: #fafafb;
-  --grayscale-30: #f1f1f5;
-  --grayscale-40: #e2e2ea;
-  --grayscale-50: #d5d5dc;
-  --grayscale-60: #b5b5be;
-  --grayscale-70: #92929d;
-  --grayscale-80: #696974;
-  --grayscale-90: #44444f;
-  --grayscale-100: #171725;
+  --grayscale-dark-20: #fafafb;
+  --grayscale-dark-30: #f1f1f5;
+  --grayscale-dark-40: #e2e2ea;
+  --grayscale-dark-50: #d5d5dc;
+  --grayscale-dark-60: #b5b5be;
+  --grayscale-dark-70: #92929d;
+  --grayscale-dark-80: #696974;
+  --grayscale-dark-90: #44444f;
+  --grayscale-dark-100: #171725;
 }
 
 body {
@@ -52,4 +52,9 @@ body {
   }
 
   font-family: var(--main-font-family);
+
+  button {
+    box-shadow: none;
+    border: none;
+  }
 }
