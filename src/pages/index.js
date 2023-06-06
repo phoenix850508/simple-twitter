@@ -1,6 +1,6 @@
 import AdminPage from "./AdminPage";
 import LoginPage from "./LoginPage";
 import SignupPage from "./SignupPage";
-import HomaPage from "./HomaPage";
+import HomePage from "./HomePage";
 
-export { AdminPage, LoginPage, SignupPage, HomaPage };
+export { AdminPage, LoginPage, SignupPage, HomePage };
