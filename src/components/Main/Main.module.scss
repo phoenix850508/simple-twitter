@@ -1,0 +1,9 @@
+// 主頁最外層 container，把三欄位包住
+.mainContainer {
+  display: flex;
+  position: relative;
+  width: 1140px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
