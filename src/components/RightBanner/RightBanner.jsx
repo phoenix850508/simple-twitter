@@ -1,6 +1,7 @@
 import styles from "./RightBanner.module.scss";
-import follow from 'icons/follow.svg'
+import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 import following from 'icons/following.svg'
+import follow from 'icons/follow.svg'
 
 
 export default function RightBanner() {
@@ -16,7 +17,12 @@ export default function RightBanner() {
 
 function RecommendCollection() {
   return (
-    <div>
+    <div className={styles.RecommendCollectionContainer}>
+      <RecommendItem />
+      <RecommendItem />
+      <RecommendItem />
+      <RecommendItem />
+      <RecommendItem />
       <RecommendItem />
       <RecommendItem />
       <RecommendItem />
@@ -27,7 +33,16 @@ function RecommendCollection() {
 function RecommendItem() {
   return (
     <div className={styles.RecommendItemContainer}>
-      RecommendItem
+      <div>
+        <img src={avatarDefaultMini} alt="avatarDefaultMini.svg" />
+      </div>
+      <div className={styles.RecommendItemInfo}>
+        <div className={styles.RecommendItemInfoName}>name</div>
+        <div className={styles.RecommendItemInfoAccount}>@account</div>
+      </div>
+      <div>
+        <img src={following} alt="following.svg" />
+      </div>
     </div>
   )
 }
