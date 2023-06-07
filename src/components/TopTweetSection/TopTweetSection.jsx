@@ -1,5 +1,5 @@
-import TopTweetButton from './MainTweetComponents/TopTweetButton'
-import UserTweetPhoto from './MainTweetComponents/UserTweetPhoto'
+import TopTweetButton from './topTweetComponents/TopTweetButton'
+import UserTweetPhoto from './topTweetComponents/UserTweetPhoto'
 import styles from './MainTopTweet.module.scss'
 
 export default function TopTweetSection() {
