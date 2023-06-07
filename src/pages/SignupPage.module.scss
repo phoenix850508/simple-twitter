@@ -1,3 +1,24 @@
+%error-msg {
+  content: "";
+  position: absolute;
+  left: 0;
+  color: var(--error);
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+%word-length {
+  content: "/10";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translateY(100%);
+  color: var(--grayscale-dark-80);
+  font-size: 12px;
+  line-height: 20px;
+}
+
 .loginContainer {
   margin: 69px auto 0 auto;
 }
@@ -11,6 +32,17 @@
 .email,
 .password {
   margin-bottom: 32px;
+}
+
+.nameLengthError {
+  &::after {
+    @extend %error-msg;
+    content: "字數超出上限";
+  }
+  &::before {
+    @extend %word-length;
+    content: "50/50";
+  }
 }
 
 .passwordConfirm {
