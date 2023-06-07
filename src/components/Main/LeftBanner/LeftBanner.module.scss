@@ -1,66 +1,69 @@
-.leftBannerContainer {
-  width: 178px;
-  height: 1200px;
-  position: relative;
-}
+// 左欄各項目
+.leftBanner {
+  &Container {
+    width: 178px;
+    height: 1200px;
+    position: relative;
+  }
 
-.leftBannerLogo {
-  display: flex;
-  margin-top: 8px;
-  margin-left: 8px;
-  margin-bottom: 8px;
-}
+  &Logo {
+    display: flex;
+    margin-top: 8px;
+    margin-left: 8px;
+    margin-bottom: 8px;
+  }
 
-.leftBannerItem {
-  display: flex;
-  width: 100%;
-  height: 58px;
-  margin-bottom: 8px;
-}
+  &Item {
+    display: flex;
+    width: 100%;
+    height: 58px;
+    margin-bottom: 8px;
+  }
 
-.leftBannerIcon {
-  margin-top: 16px;
-  margin-left: 16px;
-  margin-bottom: 16px;
-}
+  &Icon {
+    margin-top: 16px;
+    margin-left: 16px;
+    margin-bottom: 16px;
+  }
 
-.LeftBannerTweetBtn {
-  width: 100%;
-  height: 46px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 8px 24px;
-  background: var(--brand);
-  border-radius: 50px;
-}
+  &TweetBtn {
+    width: 100%;
+    height: 46px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 24px;
+    background: var(--brand);
+    border-radius: 50px;
+  }
 
-.LeftBannerTweetText {
-  /* Text */
-  width: 40px;
-  height: 30px;
+  &TweetText {
+    /* Text */
+    width: 40px;
+    height: 30px;
 
-  font-family: 'Noto Sans TC';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 30px;
-  /* identical to box height, or 150% */
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+    /* identical to box height, or 150% */
 
-  display: flex;
-  align-items: center;
-  text-align: center;
+    display: flex;
+    align-items: center;
+    text-align: center;
 
-  /* Global/09. White */
-  color: #FFFFFF;
-}
+    /* Global/09. White */
+    color: #FFFFFF;
+  }
 
-.LeftBannerLogoutBtn {
-  background-color: #FFFFFF;
-}
+  &LogoutBtn {
+    background-color: #FFFFFF;
+  }
 
-.leftBannerLogout {
-  position: absolute;
-  bottom: 0px;
+  &Logout {
+    position: absolute;
+    bottom: 0px;
+  }
 }
