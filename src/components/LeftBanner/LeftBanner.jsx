@@ -1,9 +1,9 @@
 import styles from "./LeftBanner.module.scss";
+import Logout from "components/Logout/Logout.jsx";
 import ac_logo from 'icons/ac_logo.svg'
 import homeActive from 'icons/homeActive.svg'
 import userInfo from 'icons/userInfo.svg'
 import settings from 'icons/settings.svg'
-import logout from 'icons/logout.svg'
 
 export default function LeftBanner() {
   return (
@@ -42,17 +42,6 @@ function LeftBannerTweet() {
   return (
     <div>
       <button className={styles.leftBannerTweetBtn}><p className={styles.leftBannerTweetText}>推文</p></button>
-    </div>
-  )
-}
-
-// 登出按鈕
-function Logout() {
-  return (
-    <div className={styles.leftBannerItem}>
-      <button className={styles.leftBannerLogoutBtn}>
-        <img className={styles.leftBannerIcon} src={logout} alt="logout.svg" />
-      </button>
     </div>
   )
 }

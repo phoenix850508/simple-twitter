@@ -1,10 +1,10 @@
-import Main from "components/Main/Main.jsx";
-import LeftBanner from "components/Main/LeftBanner/LeftBanner.jsx";
+import MainContainer from "components/MainContainer/MainContainer.jsx";
+import LeftBanner from "components/LeftBanner/LeftBanner.jsx";
 
 export default function MainPage() {
   return (
-    <Main>
+    <MainContainer>
       <LeftBanner />
-    </Main>
+    </MainContainer>
   )
 }
