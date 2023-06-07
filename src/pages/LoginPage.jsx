@@ -13,10 +13,12 @@ export default function LoginPage() {
   // 這邊的isSuccess主要是讓<AuthInput/>可以製造出錯誤訊息，但是目前還不確定若帳號不存在，後端要如何告訴前端這個問題，所以目前只要沒有登入成功就會顯示帳號不存在
   const [isSuccess, setIsSuccess] = useState(true)
   const handleClick = async () => {
+    // 檢查格式是否符合需求
     if(account.length === 0 || password.length === 0) return
-    const {success, authToken} = await login({username: account, password})
-    if(success) {
-      localStorage.setItem('authToken', authToken)
+    const {status, data} = await login({email: account, password})
+    const {token} = data
+    if(status === "success") {
+      localStorage.setItem('authToken', token)
     }
     else {
       return setIsSuccess(!isSuccess)

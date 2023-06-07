@@ -1,8 +1,8 @@
-function HomaPage() {
+function HomePage() {
     return (
     <div>
       <p>homepage</p>
     </div>
 )}
 
-export default HomaPage
+export default HomePage
