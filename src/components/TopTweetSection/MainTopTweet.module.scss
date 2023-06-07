@@ -1,0 +1,43 @@
+.topTweetContainer {
+  width: 639px;
+  height: 211px;
+  margin: 0 auto;
+  border-left: solid #e6ecf0 1px;
+  border-right: solid #e6ecf0 1px;
+}
+
+.homepageHeaderSec {
+  height: 74px;
+  width: 100%;
+  border-bottom: solid var(--border) 1px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 23px;
+}
+
+.postingSec {
+  height: 146px;
+  width: 100%;
+  border-bottom: solid var(--border) 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24.69px 16px 26.49px;
+}
+
+.posting {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.placeholder {
+  color: var(--secondary);
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: flex-end;
+}
