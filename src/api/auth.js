@@ -4,10 +4,10 @@ import axios from "axios";
 const authURL = "https://todo-list.alphacamp.io/api/auth";
 
 // 這裡的account先用email來取代，等後端把account這筆資料建立起來後可以把email改成account
-export const login = async ({ username, password }) => {
+export const login = async ({ email, password }) => {
   try {
     const response = await axios.post(`${authURL}/login`, {
-      username,
+      email,
       password,
     });
     console.log(response);
