@@ -15,10 +15,10 @@ export default function LoginPage() {
   const handleClick = async () => {
     // 檢查格式是否符合需求
     if(account.length === 0 || password.length === 0) return
-    const {data} = await login({email: account, password})
-    console.log(data.status)
-    if(data.status === "success") {
-      return localStorage.setItem('authToken', data.data.token)
+    const data = await login({account, password})
+    console.log(data)
+    if(data.data.status === "success") {
+      return localStorage.setItem('authToken', data.data.data.token)
     }
     else {
       return setIsSuccess(!isSuccess)
