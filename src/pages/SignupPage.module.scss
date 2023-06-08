@@ -1,26 +1,26 @@
-%error-msg {
-  content: "";
-  position: absolute;
-  left: 0;
-  color: var(--error);
-  font-size: 12px;
-  line-height: 20px;
-  font-weight: 500;
+%authError {
+  background-color: var(--error);
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    color: var(--error);
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 500;
+  }
 }
 
-%word-length {
-  content: "/10";
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  transform: translateY(100%);
-  color: var(--grayscale-dark-80);
-  font-size: 12px;
-  line-height: 20px;
-}
-
-.loginContainer {
+.signupContainer {
+  position: relative;
   margin: 69px auto 0 auto;
+  .alert {
+    transform: scaleX(1);
+    display: block;
+    opacity: 1;
+    transition: all 0.5s ease-in-out;
+    transform-origin: left;
+  }
 }
 
 .authTitle {
@@ -35,18 +35,28 @@
 }
 
 .nameLengthError {
+  @extend %authError;
   &::after {
-    @extend %error-msg;
     content: "字數超出上限";
-  }
-  &::before {
-    @extend %word-length;
-    content: "50/50";
   }
 }
 
-.passwordConfirm {
+.accountBorderLineError {
+  @extend %authError;
+  &::after {
+    content: "此帳號已經存在";
+  }
+}
+
+.confirmPassword {
   margin-bottom: 40px;
+}
+
+.passwordUnequal {
+  @extend %authError;
+  &::after {
+    content: "密碼和確認密碼不一致";
+  }
 }
 
 .cancel {

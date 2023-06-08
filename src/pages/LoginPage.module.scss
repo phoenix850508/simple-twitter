@@ -7,6 +7,7 @@
     color: var(--error);
     font-size: 12px;
     line-height: 20px;
+    font-weight: 500;
   }
 }
 
@@ -30,13 +31,6 @@
   @extend %authError;
   &::after {
     content: "帳號或密碼錯誤";
-  }
-}
-
-.borderLine {
-  background-color: #657786;
-  &:hover {
-    background-color: var(--secondary-blue);
   }
 }
 
