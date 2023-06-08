@@ -2,7 +2,8 @@ import styles from "./TweetItem.module.scss";
 import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 import discussion from 'icons/discussion.svg'
 import like from 'icons/like.svg'
-import likeActive from 'icons/likeActive.svg'
+// likeActive 暫時沒用到先註解掉
+// import likeActive from 'icons/likeActive.svg'
 
 export default function TweetItem() {
   return (

@@ -7,9 +7,6 @@ export default function TweetCollection() {
       <TweetItem />
       <TweetItem />
       <TweetItem />
-      <TweetItem />
-      <TweetItem />
-      <TweetItem />
     </div>
   )
 }
