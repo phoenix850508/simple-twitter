@@ -1,10 +1,8 @@
-import TopTweetSection from 'components/topTweetSection/TopTweetSection.jsx'
 
 function HomePage() {
     return (
     <div>
-      {/* <p>homepage</p> */}
-      <TopTweetSection />
+      <p>homepage</p>
     </div>
 )}
 

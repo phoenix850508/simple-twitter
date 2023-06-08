@@ -1,7 +1,6 @@
 .topTweetContainer {
   width: 639px;
   height: 211px;
-  margin: 0 auto;
 }
 
 .homepageHeaderSec {
@@ -42,6 +41,7 @@
 }
 
 .modal {
+  margin: 0;
   &Dialog {
     --bs-modal-width: 634px;
     --bs-modal-padding: 0;

@@ -20,7 +20,7 @@ export default function TopTweetSection() {
         </div>
       </section>
       {/* Modal */}
-      <div className="modal" tabIndex={-1} id="TopTweetModal">
+      <div className={clsx("modal", styles.modal)} tabIndex={-1} id="TopTweetModal">
         <div className={clsx("modal-dialog", styles.modalDialog)}>
           <div className={clsx("modal-content", styles.modalContent)}>
             <div className={clsx("modal-header", styles.modalHeader)}>
