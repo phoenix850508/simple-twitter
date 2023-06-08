@@ -1,0 +1,9 @@
+// 三欄式中間那欄 container，把上下兩部份包住
+.middleColumnContainer {
+  // 641px，包含左右各一條 1px border（不知為何實際上會變成 0.8px） 
+  width: 641px;
+  height: 100vh;
+  margin: 0 auto;
+  border-left: 1px solid #E6ECF0;
+  border-right: 1px solid #E6ECF0;
+}
