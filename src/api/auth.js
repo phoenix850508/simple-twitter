@@ -13,6 +13,7 @@ export const login = async ({ account, password }) => {
     return response;
   } catch (error) {
     console.error("[Login Failed]", error);
+    return error;
   }
 };
 

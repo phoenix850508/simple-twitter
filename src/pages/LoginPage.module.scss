@@ -1,3 +1,15 @@
+%authError {
+  background-color: var(--error);
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    color: var(--error);
+    font-size: 12px;
+    line-height: 20px;
+  }
+}
+
 .loginContainer {
   margin: 69px auto 0 auto;
 }
@@ -10,14 +22,21 @@
   margin-bottom: 32px;
 }
 
-.borderLine {
+.accountBorderLineError {
+  background-color: var(--error);
+}
+
+.invalidUserBorderLine {
+  @extend %authError;
   &::after {
-    content: "帳號不存在";
-    position: absolute;
-    left: 0;
-    color: var(--error);
-    font-size: 12px;
-    line-height: 20px;
+    content: "帳號或密碼錯誤";
+  }
+}
+
+.borderLine {
+  background-color: #657786;
+  &:hover {
+    background-color: var(--secondary-blue);
   }
 }
 
