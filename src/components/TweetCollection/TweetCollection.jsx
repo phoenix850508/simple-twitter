@@ -4,7 +4,7 @@ import TweetItem from "components/TweetItem/TweetItem.jsx";
 import dummyTweets from "./dummyTweets";
 
 export default function TweetCollection() {
-  const [tweets, settweets] = useState(dummyTweets);
+  const [tweets, setTweets] = useState(dummyTweets);
 
   return (
     <div className={styles.tweetCollectionContainer}>

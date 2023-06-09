@@ -6,6 +6,7 @@ import MiddleColumnContainer from "components/MiddleColumnContainer/MiddleColumn
 import TopUserSection from "components/TopUserSection/TopUserSection.jsx";
 import ChangeUserContent from "components/ChangeUserContent/ChangeUserContent.jsx";
 // import TweetCollection from "components/TweetCollection/TweetCollection.jsx";
+import ReplyCollection from 'components/ReplyCollection/ReplyCollection';
 
 export default function UserSelfPage() {
   // 購物籃商品清單最新狀態
@@ -21,6 +22,7 @@ export default function UserSelfPage() {
       <MiddleColumnContainer>
         <TopUserSection />
         <ChangeUserContent userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
+        <ReplyCollection />
       </MiddleColumnContainer>
       <RightBanner />
     </MainContainer>
