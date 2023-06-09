@@ -1,0 +1,47 @@
+.prevPageContainer {
+  width: 100%;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-left: 25px;
+  display: flex;
+  justify-content: left;
+  border-left: 1px solid #E6ECF0;
+  border-right: 1px solid #E6ECF0;
+}
+
+.prevPageWrapper {
+  display: flex;
+  align-items: center;
+}
+
+// 按鈕
+.prevPageBtn {
+  background-color: #FFFFFF;
+}
+
+.prevPageWordsWrapper {
+  margin-left: 16px;
+}
+
+.topUserName {
+  /* heading/h5 */
+  font-family: 'Noto Sans TC';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 26px;
+  /* or 144% */
+  /* grayscale/dark-100 */
+  color: #171725;
+}
+
+.topUserTweetCount {
+  font-family: 'Noto Sans TC';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 19px;
+  /* identical to box height */
+  /* color/secondary */
+  color: #6C757D;
+}
