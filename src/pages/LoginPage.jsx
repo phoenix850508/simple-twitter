@@ -22,8 +22,9 @@ export default function LoginPage() {
     if(response.response) return setErrorMsg(response.response.data.message)
     //成功登入
     else if(response.data.status === "success") {
-      navigate('/main')
-      return localStorage.setItem('authToken', response.data.token)
+      console.log(response)
+       localStorage.setItem('authToken', response.data.data.token)
+       navigate('/main')
     }
   }
   return (

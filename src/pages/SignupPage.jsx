@@ -8,7 +8,6 @@ import {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import {signup} from 'api/auth.js'
 import Alert from 'components/form/Alert.jsx'
-
 export default function SignupPage() {
   const [account, setAccount] = useState('')
   const [name, setName] = useState('')
