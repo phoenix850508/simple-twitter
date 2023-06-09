@@ -1,0 +1,51 @@
+%authError {
+  background-color: var(--error);
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    color: var(--error);
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 500;
+  }
+}
+
+.adminLoginContainer {
+  margin: 69px auto 0 auto;
+  .account {
+    margin-bottom: 32px;
+  }
+  .password {
+    margin-bottom: 40px;
+  }
+  .accountBorderLineError {
+    background-color: var(--error);
+  }
+  .invalidUserBorderLine {
+    @extend %authError;
+    &::after {
+      content: "帳號或密碼錯誤";
+    }
+  }
+}
+
+.authTitle {
+  margin: 29px auto 40px;
+}
+
+.redirContainer {
+  margin: 22px auto 0 auto;
+  max-width: 356px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--primary);
+  text-decoration: underline;
+  align-self: center;
+  margin-right: 12px;
+}
