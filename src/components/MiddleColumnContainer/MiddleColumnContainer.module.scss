@@ -1,0 +1,49 @@
+// 最外層，為了讓捲軸不會直接貼齊中間欄外框線，多做個 container
+.ContainerForScrollbar {
+  width: 661px;
+  height: 100vh;
+  margin: 0 auto;
+  // 若 tweets 內容較多則出現捲軸，否則隱藏
+  overflow-y: auto;
+  // 不要出現橫向捲軸
+  overflow-x: hidden;
+}
+
+// 三欄式中間那欄 container，把上下兩部份包住
+.middleColumnContainer {
+  // 641px，包含左右各一條 1px border（不知為何實際上會變成 0.8px） 
+  width: 641px;
+  height: 100%;
+}
+
+// 捲軸樣式
+.scrollbar {
+  // 整條樣式
+  &::-webkit-scrollbar {
+    width: 15px;
+    position: relative;
+    margin-left: 5px;
+    background: #FAFAFA;
+    box-shadow: inset 1px 0px 0px #E8E8E8, inset -1px 0px 0px #F0F0F0;
+    padding: 3px;
+  }
+
+  // 捲軸內會移動的那個東西的樣式
+  &::-webkit-scrollbar-thumb {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 10px;
+
+    position: absolute;
+    width: 8px;
+    height: 25px;
+    left: calc(50% - 8px/2 + 0.5px);
+    top: calc(50% - 25px/2);
+
+    background: #C1C1C1;
+    // 設計稿上的 4px 在 Chrome 看起來沒什麼效果
+    border-radius: 20px;
+  }
+}

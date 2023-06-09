@@ -1,7 +1,8 @@
 import styles from "./RightBanner.module.scss";
 import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 import following from 'icons/following.svg'
-import follow from 'icons/follow.svg'
+// follow 暫時沒用到先註解掉
+// import follow from 'icons/follow.svg'
 
 
 export default function RightBanner() {

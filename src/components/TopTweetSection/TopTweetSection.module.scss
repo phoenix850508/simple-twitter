@@ -1,6 +1,8 @@
 .topTweetContainer {
-  width: 639px;
+  width: 100%;
   height: 211px;
+  border-left: 1px solid #E6ECF0;
+  border-right: 1px solid #E6ECF0;
 }
 
 .homepageHeaderSec {
@@ -42,6 +44,7 @@
 
 .modal {
   margin: 0;
+
   &Dialog {
     --bs-modal-width: 634px;
     --bs-modal-padding: 0;
@@ -53,22 +56,26 @@
     height: 300px;
     margin: 56px auto 0;
   }
+
   &Content {
     position: relative;
     height: 100%;
     width: 100%;
     background-color: white;
     border-radius: 14px;
+
     .modalSubmit {
       position: absolute;
       right: 15px;
       bottom: 15px;
     }
   }
+
   &Header {
     height: 56px;
     border-bottom: 1px solid var(--border);
     justify-content: flex-start;
+
     .btnClose {
       --bs-btn-close-opacity: 1;
       --bs-btn-close-bg: none;
@@ -79,14 +86,17 @@
       height: 15px;
     }
   }
+
   &Title {
     height: 56px;
   }
+
   &Body {
     flex: none;
     padding: 0;
     height: 187px;
   }
+
   &Post {
     margin-top: 16px;
     padding: 0 24px;
@@ -94,12 +104,14 @@
     align-items: center;
     gap: 8px;
   }
+
   &Input {
     height: 26px;
     width: 100%;
     font-size: 16px;
     border: none;
     outline: none;
+
     &::placeholder {
       color: var(--secondary);
     }

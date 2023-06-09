@@ -1,3 +1,7 @@
 .tweetCollectionContainer {
-  width: 639px;
+  width: 641px;
+  // 用 padding 而不用 margin，這樣 border 才不會出現空白段
+  padding-top: 10px;
+  border-left: 1px solid #E6ECF0;
+  border-right: 1px solid #E6ECF0;
 }

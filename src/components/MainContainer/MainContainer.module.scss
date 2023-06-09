@@ -1,8 +1,10 @@
 // 主頁最外層 container，把三欄位包住
 .mainContainer {
+  // border: 3px solid red;
   display: flex;
   position: relative;
   width: 1140px;
+  height: 100%;
   margin: 0 auto;
   flex-wrap: wrap;
   justify-content: space-between;

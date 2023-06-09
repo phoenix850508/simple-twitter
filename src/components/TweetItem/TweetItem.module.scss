@@ -1,14 +1,13 @@
 .tweetItemContainer {
-  width: 639px;
-  height: 152px;
-  margin-top: 16px;
+  width: 641px;
+  height: 168px;
   border-bottom: 1px solid #E6ECF0;
+  padding: 16px 24px;
 
   .tweetItemWrapper {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    padding: 0px 24px;
     gap: 8px;
     width: 634px;
     height: 136px;

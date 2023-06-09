@@ -1,8 +1,10 @@
 // 左欄各項目
 .leftBanner {
   &Container {
+    // border: 3px solid green;
     width: 178px;
-    height: 1200px;
+    // 符合螢幕高度，才不會高度拉太長
+    height: 100vh;
     position: relative;
   }
 
