@@ -10,10 +10,10 @@ export default function TopUserSection() {
       <PrePageBtn />
       <div className={styles.topUserInfoWrapper}>
         <img src={dummyBackgroundImage} alt="dummyBackgroundImage.svg" />
-        <div className={styles.topUserPhotoAndEditWrapper}>
-          <img src={dummyUserPhoto} alt="dummyUserPhoto.svg" />
+        <img className={styles.topUserPhoto} src={dummyUserPhoto} alt="dummyUserPhoto.svg" />
+        <button className={styles.topUserEditBtn}>
           <img src={editUserInfoBtn} alt="editUserInfoBtn.svg" />
-        </div>
+        </button>
         <div className={styles.topUserWordsWrapper}>
           <div className={styles.topUserName}>name</div>
           <div className={styles.topUserAccount}>@account</div>
@@ -22,7 +22,7 @@ export default function TopUserSection() {
             <div>
               <span className={styles.topUserFollowCount}>followingCount</span><span className={styles.topUserFollowWord}>跟隨中</span>
             </div>
-            <div>
+            <div className={styles.topUserFollowerWrapper}>
               <span className={styles.topUserFollowCount}>followerCount</span><span className={styles.topUserFollowWord}>跟隨者</span>
             </div>
           </div>
