@@ -6,4 +6,12 @@ import MainPage from "./MainPage";
 import AdminUsersPage from "./AdminUsersPage";
 import UserSelfPage from "./UserSelfPage";
 
-export { AdminPage, AdminUsersPage, LoginPage, SignupPage, HomePage, MainPage, UserSelfPage };
+export {
+  AdminPage,
+  AdminUsersPage,
+  LoginPage,
+  SignupPage,
+  HomePage,
+  MainPage,
+  UserSelfPage,
+};

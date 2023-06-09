@@ -36,3 +36,16 @@ export const signup = async ({
     return error;
   }
 };
+
+export const adminLogin = async ({ account, password }) => {
+  try {
+    const response = await axios.post(`${authURL}/api/admin/signin`, {
+      account,
+      password,
+    });
+    return response;
+  } catch (error) {
+    console.error("[Login Failed]", error);
+    return error;
+  }
+};

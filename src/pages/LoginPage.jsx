@@ -33,7 +33,7 @@ export default function LoginPage() {
       <h3 className={styles.authTitle}>{"登入 Alphitter"}</h3>
       <AuthInput 
       className={styles.account} 
-      borderLine={clsx({[styles.borderLine]: !errorMsg.length}, {[styles.accountBorderLineError]: errorMsg === "Error: 帳號不存在！" || errorMsg === "Error: 帳密錯誤！"})}
+      borderLine={clsx({[styles.borderLine]: !errorMsg.length}, {[styles.accountBorderLineError]: errorMsg === "Error: 帳號不存在！" || errorMsg === "Error: 帳密錯誤！" || errorMsg === "帳號不存在"})}
       label={"帳號"} 
       placeholder={"請輸入帳號"}
       value={account} 
@@ -42,7 +42,7 @@ export default function LoginPage() {
         setAccount(accountInput)}} />
       <AuthInput 
       className={styles.password} 
-      borderLine={clsx({[styles.borderLine]: !errorMsg.length}, {[styles.invalidUserBorderLine]: errorMsg === "Error: 帳號不存在！" || errorMsg === "Error: 帳密錯誤！"})}
+      borderLine={clsx({[styles.borderLine]: !errorMsg.length}, {[styles.invalidUserBorderLine]: errorMsg === "Error: 帳號不存在！" || errorMsg === "Error: 帳密錯誤！" || errorMsg === "帳號不存在"})}
       label={"密碼"} 
       placeholder={"請輸入密碼"} 
       type="password"
@@ -56,7 +56,9 @@ export default function LoginPage() {
           <span className={styles.signup}>註冊</span>
         </Link>
         <span className={styles.dot}>・</span>
-        <span className={styles.admin}>後台登入</span>
+        <Link to="/admin">
+           <span className={styles.admin}>後台登入</span>
+        </Link>
       </div>
     </div>
   )
