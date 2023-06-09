@@ -1,5 +1,5 @@
-import AuthButton from 'components/form/AuthButton.jsx'
-import AuthInput from 'components/form/AuthInput.jsx'
+import AuthButton from 'components/Form/AuthButton.jsx'
+import AuthInput from 'components/Form/AuthInput.jsx'
 import ac_logo from 'icons/ac_logo.svg'
 import styles from './SignupPage.module.scss'
 import clsx from 'clsx'
@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import {signup} from 'api/auth.js'
-import Alert from 'components/form/Alert.jsx'
+import Alert from 'components/Form/Alert.jsx'
 export default function SignupPage() {
   const [account, setAccount] = useState('')
   const [name, setName] = useState('')

@@ -5,9 +5,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HomePage, LoginPage, SignupPage, MainPage } from 'pages'
 
 function App() {
+  const basename = process.env.PUBLIC_URL
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <Routes>
           <Route path="*" element={<HomePage />} />
           <Route path="login" element={<LoginPage />} />

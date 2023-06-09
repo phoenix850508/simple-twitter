@@ -1,5 +1,5 @@
-import TopTweetButton from './topTweetComponents/TopTweetButton'
-import UserTweetPhoto from './topTweetComponents/UserTweetPhoto'
+import TopTweetButton from './TopTweetComponents/TopTweetButton'
+import UserTweetPhoto from './TopTweetComponents/UserTweetPhoto'
 import styles from './TopTweetSection.module.scss'
 import clsx from 'clsx'
 import cross from 'icons/cross.svg'

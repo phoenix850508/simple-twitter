@@ -1,5 +1,5 @@
-import AuthButton from 'components/form/AuthButton.jsx'
-import AuthInput from 'components/form/AuthInput.jsx'
+import AuthButton from 'components/Form/AuthButton.jsx'
+import AuthInput from 'components/Form/AuthInput.jsx'
 import ac_logo from 'icons/ac_logo.svg'
 import styles from './LoginPage.module.scss'
 import clsx from 'clsx'
