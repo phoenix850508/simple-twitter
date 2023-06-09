@@ -6,7 +6,7 @@ export default function AdminRightContainer({children}) {
       <div className={styles.titleSecion}>
         <h4 className={styles.title}>使用者列表</h4>
       </div>
-      <div className={styles.cartContainer}>
+      <div className={styles.contentContainer}>
         {children}
       </div>
     </div>

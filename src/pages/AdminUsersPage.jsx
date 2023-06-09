@@ -7,14 +7,13 @@ import {useState} from 'react'
 
 export default function AdminUsersPage() {
   const [users, setUsers] = useState(dummyUserCards)
-  console.log(users)
   return (
     <div>
       <AdminContainer>
        <LeftBanner />
        <AdminRightContainer>
         {users.map((user) => {
-          return <UserCard avatar={user.avatar} background={user.background} />
+          return <UserCard key={user.id} avatar={user.avatar} background={user.background} />
         })}
        </AdminRightContainer>
       </AdminContainer>
