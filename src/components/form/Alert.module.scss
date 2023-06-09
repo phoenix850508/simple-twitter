@@ -1,0 +1,35 @@
+.alert {
+  position: absolute;
+  right: 20px;
+  top: 0;
+  padding-left: 24px;
+  width: 394px;
+  height: 96px;
+  box-shadow: 0px 4px 16px 0px #33333314;
+  background-color: #ffffff;
+  z-index: 999;
+  border-radius: 8px;
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.text {
+  position: absolute;
+  top: 34px;
+  left: 24px;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: bold;
+}
+
+.success_noti {
+  position: absolute;
+  top: 42px;
+  right: 44px;
+}
+
+.success_noti_background {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+}

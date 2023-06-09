@@ -5,37 +5,52 @@ import styles from './SignupPage.module.scss'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom';
 import {useState} from 'react'
+import { useNavigate } from 'react-router-dom';
 import {signup} from 'api/auth.js'
-
+import Alert from 'components/form/Alert.jsx'
 export default function SignupPage() {
   const [account, setAccount] = useState('')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [passwordConfirm, setPasswordConfirm] = useState('')
-  //等確定後端回傳資料格式，可以再增加錯誤訊息 e.g. 帳號已重複註冊, Email已重複註冊...
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [isPasswordEqual, setIsPasswordEqual] = useState(true)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const navigate = useNavigate()
+  // 這邊的errorMsg是用來判斷若後端response的資料不存在或有誤，可以讓<AuthInput/>可以製造出相對的錯誤訊息
+  const [errorMsg, setErrorMsg] = useState('')
   const handleClick = async () => {
-    console.log(account, email, password, passwordConfirm)
+    //檢查格式是否符合需求
     if (account.length === 0 || name.length === 0 || email.length === 0 || password.length === 0) return
     else if (name.length > 50) return
-    else if (password !== passwordConfirm) return 
-    const {status, data} = await signup({account, name, email, password})
-    if (status === "success") {
-      const {token} = data
-      console.log("註冊成功")
-      console.log(data)
-      console.log(token)
-    } 
+    else if (password !== confirmPassword) {
+      return setIsPasswordEqual(false)
+    }
+    const response = await signup({account, name, email, password, confirmPassword})
+    //產生錯誤訊息
+    if (response.response) return setErrorMsg(response.response.data.message)
+    //成功註冊
+    else if(response.data.status === "success") {
+      setIsSuccess(true)
+      setTimeout(() => {
+        navigate('/login')
+      }, 1200)
+    }
   }
   return (
-    <div className={styles.loginContainer}>
+    <div className={styles.signupContainer}>
+      <Alert alertClassName={clsx('', {[styles.alert]: isSuccess})} />
       <img src={ac_logo} alt="ac_logo.svg" />
       <h3 className={styles.authTitle}>{"建立你的帳號"}</h3>
       <AuthInput 
       className={styles.account} 
+      borderLine={clsx('', {[styles.accountBorderLineError]: errorMsg === "Error: 帳號已存在！"})}
       label={"帳號"} 
       placeholder={"請輸入帳號"} 
-      onChange={(accountInput) => setAccount(accountInput)} />
+      onChange={(accountInput) => {
+        setErrorMsg('')
+        setAccount(accountInput)
+      }} />
       <AuthInput 
       className={styles.name} 
       borderLine={clsx('', {[styles.nameLengthError]: name.length > 50})}
@@ -49,15 +64,23 @@ export default function SignupPage() {
       onChange={(emailInput) => setEmail(emailInput)} />
       <AuthInput 
       className={styles.password} 
-      label={"密碼"} type="password" 
+      borderLine={clsx('', {[styles.passwordUnequal]: !isPasswordEqual})}
+      label={"密碼"} 
+      type="password" 
       placeholder={"請設定密碼"} 
-      onChange={(passwordInput) => setPassword(passwordInput)} />
+      onChange={(passwordInput) => {
+        setIsPasswordEqual(true)
+        setPassword(passwordInput)
+        }} />
       <AuthInput 
-      className={styles.passwordConfirm} 
+      className={styles.confirmPassword} 
+      borderLine={clsx('', {[styles.passwordUnequal]: !isPasswordEqual})}
       label={"密碼確認"} 
       type="password" 
       placeholder={"請再次輸入密碼"} 
-      onChange={(passwordConfirmInput) => setPasswordConfirm(passwordConfirmInput)} />
+      onChange={(passwordConfirmInput) => {
+        setIsPasswordEqual(true)
+        setConfirmPassword(passwordConfirmInput)}} />
       <AuthButton btn={"註冊"} onClick={handleClick} />
       <Link to="/login">
         <p className={styles.cancel}>取消</p>
