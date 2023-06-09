@@ -11,7 +11,7 @@ export default function AdminUsersPage() {
     <div>
       <AdminContainer>
        <LeftBanner />
-       <AdminRightContainer>
+       <AdminRightContainer title={"使用者列表"}>
         {users.map((user) => {
           return <UserCard key={user.id} avatar={user.avatar} background={user.background} />
         })}

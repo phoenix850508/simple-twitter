@@ -1,0 +1,29 @@
+.settingContainer {
+  width: 972px;
+  .rightContainer {
+    border-right: 1px solid var(--border);
+    .contentContainer {
+      display: block;
+    }
+  }
+}
+
+.inputSection {
+  padding: calc(24px - 16px) calc(23px - 16px) calc(23px - 16px) calc(24px - 16px);
+  width: 100%;
+}
+
+.inputContainer {
+  width: 593px;
+  margin-bottom: 32px;
+}
+
+.inputContainerLast {
+  width: 593px;
+  margin-bottom: 40px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+}
