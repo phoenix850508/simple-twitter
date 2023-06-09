@@ -2,6 +2,8 @@
   &InfoWrapper {
     width: 100%;
     position: relative;
+    border-left: 1px solid #E6ECF0;
+    border-right: 1px solid #E6ECF0;
   }
 
   &Photo {
@@ -19,8 +21,8 @@
   }
 
   &WordsWrapper {
-    border: 1px solid red;
     margin-top: 78px;
+    margin-left: 16px;
     text-align: left;
   }
 
