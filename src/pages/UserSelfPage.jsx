@@ -11,7 +11,7 @@ import LikeCollection from 'components/LikeCollection/LikeCollection';
 
 
 export default function UserSelfPage() {
-  // 購物籃商品清單最新狀態
+  // 使用者點擊瀏覽項目最新狀態
   const [userContent, setUserContent] = useState('tweets')
 
   function handleChangeUserContentClick(targetValue) {
