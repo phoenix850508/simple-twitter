@@ -2,18 +2,12 @@ import styles from './TopUserSection.module.scss'
 import dummyBackgroundImage from 'icons/dummyBackgroundImage.svg'
 import dummyUserPhoto from 'icons/dummyUserPhoto.svg'
 import editUserInfoBtn from 'icons/editUserInfoBtn.svg'
-import leftArrow from 'icons/leftArrow.svg'
+import PrePageBtn from 'components/PrevPageBtn/PrevPageBtn.jsx'
 
 export default function TopUserSection() {
   return (
-    <div className={styles.topUserSectionContainer}>
-      <div className={styles.prevPage}>
-        <img src={leftArrow} alt="leftArrow.svg" />
-        <div>
-          <p className={styles.topUserName}>name</p>
-          <p className={styles.topUserTweetCount}>tweetCount</p>
-        </div>
-      </div>
+    <div>
+      <PrePageBtn />
       <div className={styles.topUserInfoWrapper}>
         <img src={dummyBackgroundImage} alt="dummyBackgroundImage.svg" />
         <div className={styles.topUserPhotoAndEditWrapper}>
