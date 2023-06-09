@@ -1,0 +1,67 @@
+// 左欄各項目
+.leftBanner {
+  &Container {
+    // border: 3px solid green;
+    width: 178px;
+    // 符合螢幕高度，才不會高度拉太長
+    height: 100vh;
+    position: relative;
+  }
+
+  &Logo {
+    display: flex;
+    margin-top: 8px;
+    margin-left: 8px;
+    margin-bottom: 8px;
+  }
+
+  &Item {
+    display: flex;
+    width: 100%;
+    height: 58px;
+    margin-bottom: 8px;
+  }
+
+  &Icon {
+    margin-top: 16px;
+    margin-left: 16px;
+    margin-bottom: 16px;
+  }
+
+  &TweetBtn {
+    width: 100%;
+    height: 46px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 24px;
+    background: var(--brand);
+    border-radius: 50px;
+  }
+
+  &TweetText {
+    /* Text */
+    width: 40px;
+    height: 30px;
+
+    font-family: "Noto Sans TC";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+    /* identical to box height, or 150% */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    /* Global/09. White */
+    color: #ffffff;
+  }
+
+  &Logout {
+    position: absolute;
+    bottom: 0px;
+  }
+}

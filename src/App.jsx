@@ -2,7 +2,7 @@ import "styles/App.css";
 import "styles/reset.scss";
 import "styles/base.scss";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { HomePage, LoginPage, SignupPage, MainPage, AdminPage, AdminUsersPage, UserSelfPage, ReplyListPage, UserSelfFollowPage, UserOtherPage } from 'pages'
+import { HomePage, LoginPage, SignupPage, MainPage, AdminPage, AdminUsersPage, UserSelfPage, ReplyListPage, UserSelfFollowPage, UserOtherPage, AdminMainPage } from 'pages'
 
 function App() {
   const basename = process.env.PUBLIC_URL
@@ -20,6 +20,7 @@ function App() {
           <Route path="replylist" element={<ReplyListPage />} />
           <Route path="user/self/follow" element={<UserSelfFollowPage />} />
           <Route path="user/other" element={<UserOtherPage />} />
+          <Route path="admin_main" element={<AdminMainPage />} />
         </Routes>
       </BrowserRouter>
     </div>
