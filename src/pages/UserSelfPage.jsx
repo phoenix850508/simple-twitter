@@ -5,8 +5,10 @@ import RightBanner from "components/RightBanner/RightBanner.jsx";
 import MiddleColumnContainer from "components/MiddleColumnContainer/MiddleColumnContainer.jsx";
 import TopUserSection from "components/TopUserSection/TopUserSection.jsx";
 import ChangeUserContent from "components/ChangeUserContent/ChangeUserContent.jsx";
-// import TweetCollection from "components/TweetCollection/TweetCollection.jsx";
+import TweetCollection from "components/TweetCollection/TweetCollection.jsx";
 import ReplyCollection from 'components/ReplyCollection/ReplyCollection';
+import LikeCollection from 'components/LikeCollection/LikeCollection';
+
 
 export default function UserSelfPage() {
   // 購物籃商品清單最新狀態
@@ -22,7 +24,9 @@ export default function UserSelfPage() {
       <MiddleColumnContainer>
         <TopUserSection />
         <ChangeUserContent userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
-        <ReplyCollection />
+        {userContent === 'tweets' && <TweetCollection />}
+        {userContent === 'replies' && <ReplyCollection />}
+        {userContent === 'likes' && <LikeCollection />}
       </MiddleColumnContainer>
       <RightBanner />
     </MainContainer>
