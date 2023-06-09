@@ -1,0 +1,118 @@
+.changeUserContent {
+  &BtnContainer {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 69px;
+    border-right: 1px solid #E6ECF0;
+    border-bottom: 1px solid #E6ECF0;
+    border-left: 1px solid #E6ECF0;
+  }
+
+  // 為了讓偽元素能依父層移動位置故增加這層
+  &BtnDiv {
+    position: relative;
+    width: 130px;
+    height: 53px;
+    margin-top: 16px;
+  }
+
+  &Btn {
+    width: 130px;
+    height: 53px;
+    // 設為透明
+    background-color: rgba(255, 255, 255, 0);
+    // 文字樣式
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 22px;
+    /* identical to box height */
+    text-align: center;
+    color: #657786;
+
+    // 如果被點擊需出現 Active 樣式
+    &Active {
+      // 繼承原本的樣式
+      @extend .changeUserContentBtn;
+      color: #FF6600;
+
+      // 下方橘線
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0px;
+        // 要留 1px 才不會蓋到灰線
+        bottom: 1px;
+        width: 130px;
+        height: 2px;
+        background: #FF6600;
+        border-radius: 100px
+      }
+    }
+  }
+}
+
+// .changeUserContent {
+//   &BtnContainer {
+//     display: flex;
+//     position: relative;
+//     width: 100%;
+//     height: 69px;
+//     border-right: 1px solid #E6ECF0;
+//     border-bottom: 1px solid #E6ECF0;
+//     border-left: 1px solid #E6ECF0;
+//   }
+
+//   &Btn {
+//     position: relative;
+//     width: 130px;
+//     height: 53px;
+//     margin-top: 16px;
+//     // 設為透明
+//     background-color: rgba(255, 255, 255, 0);
+//     // 文字樣式
+//     font-family: 'Noto Sans TC';
+//     font-style: normal;
+//     font-weight: 700;
+//     font-size: 15px;
+//     line-height: 22px;
+//     /* identical to box height */
+//     text-align: center;
+//     color: #657786;
+//   }
+// }
+
+// // 如果被點擊需出現 Active 樣式
+// .changeUserContentBtnActive {
+//   // 繼承原本的樣式
+//   // @extend .changeUserContentBtn;
+//   width: 130px;
+//   height: 53px;
+//   margin-top: 16px;
+//   // 設為透明
+//   background-color: rgba(255, 255, 255, 0);
+//   // 文字樣式
+//   font-family: 'Noto Sans TC';
+//   font-style: normal;
+//   font-weight: 700;
+//   font-size: 15px;
+//   line-height: 22px;
+//   /* identical to box height */
+//   text-align: center;
+//   color: #FF6600;
+// }
+
+// // 下方橘線
+// .changeUserContentBtnActive::after {
+//   content: "";
+//   position: relative;
+//   left: 0px;
+//   // 要留 1px 才不會蓋到灰線
+//   bottom: 1px;
+//   width: 130px;
+//   height: 2px;
+//   background: #FF6600;
+//   border-radius: 100px
+// }
