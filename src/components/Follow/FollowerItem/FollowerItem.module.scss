@@ -1,0 +1,58 @@
+.followerItem {
+  &Container {
+    width: 100%;
+    height: 159;
+    padding: 16px 29px 16px 24px;
+    border-right: 1px solid #E6ECF0;
+    border-bottom: 1px solid #E6ECF0;
+    border-left: 1px solid #E6ECF0;
+  }
+
+  &Wrapper {
+    display: flex;
+    position: relative;
+  }
+
+  &InfoWrapper {
+    margin-left: 8px;
+  }
+
+  &NameFollowWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &Name {
+    /* body/16px/medium */
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
+    /* identical to box height, or 162% */
+    /* grayscale/dark-100 */
+    color: #171725;
+  }
+
+  // 跟隨按鈕
+  &FollowBtn {
+    // 這樣右邊才能與文字對齊
+    padding-right: 0px;
+    background-color: rgba(255, 255, 255, 0);
+  }
+
+  &Intro {
+    /* body/16px/regular */
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    /* or 162% */
+    /* grayscale/dark-100 */
+    color: #171725;
+    text-align: left;
+  }
+}
