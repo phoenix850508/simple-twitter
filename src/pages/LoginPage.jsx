@@ -4,9 +4,9 @@ import ac_logo from 'icons/ac_logo.svg'
 import styles from './LoginPage.module.scss'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { login } from 'api/auth.js'
+import {useAuth} from 'context/authContext.js'
 
 export default function LoginPage() {
   const [account, setAccount] = useState('')
@@ -14,19 +14,22 @@ export default function LoginPage() {
   // 這邊的errorMsg是用來判斷若後端response的資料不存在或有誤，可以讓<AuthInput/>可以製造出相對的錯誤訊息
   const [errorMsg, setErrorMsg] = useState('')
   const navigate = useNavigate();
+  const {login, isAuthenticated, currentUser } = useAuth()
+
   const handleClick = async () => {
     // 檢查格式是否符合需求
     if (account.length === 0 || password.length === 0) return
     const response = await login({ account, password })
     //產生錯誤訊息
     if (response.response) return setErrorMsg(response.response.data.message)
-    //成功登入
-    else if (response.data.status === "success") {
-      console.log(response)
-      localStorage.setItem('authToken', response.data.token)
-      navigate('/main')
-    }
+    //成功的話可以取得該使用者的資料
   }
+  useEffect(() => {
+    if(isAuthenticated) {
+      console.log(currentUser)
+      navigate('/main');
+    }
+  }, [navigate, isAuthenticated, currentUser])
   return (
     <div className={styles.loginContainer}>
       <img src={ac_logo} alt="ac_logo.svg" />

@@ -10,6 +10,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter basename={basename}>
+        <AuthProvider>
         <Routes>
           <Route path="*" element={<HomePage />} />
           <Route path="login" element={<LoginPage />} />
@@ -23,6 +24,7 @@ function App() {
           <Route path="user/other" element={<UserOtherPage />} />
           <Route path="admin_main" element={<AdminMainPage />} />
         </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </div>
   );

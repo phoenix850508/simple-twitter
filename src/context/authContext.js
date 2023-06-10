@@ -4,6 +4,9 @@ import * as jwt from "jsonwebtoken";
 
 const defaultAuthContext = {
   currentUser: null,
+  isAuthenticated: false,
+  login: null,
+  logout: null,
 };
 
 const AuthContext = createContext(defaultAuthContext);
@@ -12,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [payload, setPayload] = useState(null);
   return (
-    <AuthProvider
+    <AuthContext.Provider
       value={{
         isAuthenticated,
         currentUser: payload && {
@@ -23,17 +26,24 @@ export const AuthProvider = ({ children }) => {
             account: data.account,
             password: data.password,
           });
-          const autToken = response.data.token;
-          const status = response.data.status;
-          const temPayload = jwt.decode(autToken);
-          if (temPayload) {
+          console.log(response);
+          //若成功可以把payload的資料讓所有頁面看到
+          if (response.data.status === "success") {
+            console.log("I'm success");
+            const authToken = response.data.token;
+            const temPayload = jwt.decode(authToken);
             setPayload(temPayload);
             setIsAuthenticated(true);
-          } else {
-            setPayload(null);
-            setIsAuthenticated(null);
+            localStorage.setItem("authToken", authToken);
           }
-          return status;
+          //若獲得的response不符合上面條件，回傳response讓LoginPage去做錯誤顯示
+          else {
+            console.log("I'm error");
+            setPayload(null);
+            setIsAuthenticated(false);
+            console.logI("Im error");
+            return response;
+          }
         },
         logout: () => {
           localStorage.removeItem("authToken");
@@ -43,6 +53,6 @@ export const AuthProvider = ({ children }) => {
       }}
     >
       {children}
-    </AuthProvider>
+    </AuthContext.Provider>
   );
 };
