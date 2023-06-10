@@ -20,7 +20,7 @@ export const signup = async ({
   account,
   name,
   password,
-  confirmPassword,
+  checkPassword,
 }) => {
   try {
     const response = await axios.post(`${authURL}/api/users`, {
@@ -28,7 +28,7 @@ export const signup = async ({
       name,
       email,
       password,
-      confirmPassword,
+      checkPassword,
     });
     return response;
   } catch (error) {

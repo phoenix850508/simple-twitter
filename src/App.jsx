@@ -3,6 +3,7 @@ import "styles/reset.scss";
 import "styles/base.scss";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HomePage, LoginPage, SignupPage, MainPage, AdminPage, AdminUsersPage, UserSelfPage, ReplyListPage, UserSelfFollowPage, UserOtherPage, AdminMainPage } from 'pages'
+import {AuthProvider} from 'context/authContext.js'
 
 function App() {
   const basename = process.env.PUBLIC_URL
