@@ -70,6 +70,23 @@
           color: #171725;
         }
       }
+
+      &To {
+        /* body/14px/regular */
+        font-family: 'Noto Sans TC';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 22px;
+        /* identical to box height, or 157% */
+        /* color/secondary */
+        color: #6C757D;
+
+        &Account {
+          @extend .replyItemInfoTo;
+          color: #FF6600;
+        }
+      }
     }
   }
 }
