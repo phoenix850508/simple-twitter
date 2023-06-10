@@ -2,8 +2,8 @@
   &InfoWrapper {
     width: 100%;
     position: relative;
-    border-left: 1px solid #E6ECF0;
-    border-right: 1px solid #E6ECF0;
+    border-left: 1px solid #e6ecf0;
+    border-right: 1px solid #e6ecf0;
   }
 
   &Photo {
@@ -14,7 +14,7 @@
 
   &EditBtn {
     position: absolute;
-    // 124px + photo height 140px - btn height 40px - btn bottom margin 8px 
+    // 124px + photo height 140px - btn height 40px - btn bottom margin 8px
     top: 216px;
     right: 16px;
     background-color: rgba(255, 255, 255, 0);
@@ -28,7 +28,7 @@
 
   &Name {
     /* heading/h5 */
-    font-family: 'Noto Sans TC';
+    font-family: "Noto Sans TC";
     font-style: normal;
     font-weight: 700;
     font-size: 18px;
@@ -40,20 +40,20 @@
 
   &Account {
     /* body/14px/regular */
-    font-family: 'Noto Sans TC';
+    font-family: "Noto Sans TC";
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 22px;
     /* identical to box height, or 157% */
     /* color/secondary */
-    color: #6C757D;
+    color: #6c757d;
   }
 
   &Intro {
     margin-top: 6px;
     /* body/14px/regular */
-    font-family: 'Noto Sans TC';
+    font-family: "Noto Sans TC";
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -74,7 +74,7 @@
 
   &FollowCount {
     /* body/14px/regular */
-    font-family: 'Noto Sans TC';
+    font-family: "Noto Sans TC";
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -86,13 +86,101 @@
 
   &FollowWord {
     /* body/14px/regular */
-    font-family: 'Noto Sans TC';
+    font-family: "Noto Sans TC";
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 22px;
     /* identical to box height, or 157% */
     /* color/secondary */
-    color: #6C757D;
+    color: #6c757d;
   }
+}
+
+.modalContainer {
+  position: relative;
+}
+
+.modal {
+  left: 0;
+  transform: translateX(-4%);
+  --bs-modal-width: 634px;
+  border-radius: 14px;
+  &Header {
+    display: flex;
+    height: 56px;
+    border-bottom: 1px solid var(--border);
+    justify-content: flex-start;
+    align-items: center;
+    --bs-modal-header-padding: 0;
+    .modalClose {
+      --bs-btn-close-opacity: 1;
+      --bs-btn-close-bg: none;
+      margin: 0;
+      margin-left: 19.5px;
+      padding: 0;
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+    }
+  }
+
+  &Title {
+    width: 100%;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    margin-left: 36.5px;
+  }
+
+  &Body {
+    position: relative;
+    width: 100%;
+    flex: none;
+    padding: 0;
+    height: 553px;
+  }
+
+  &BackgroundImage {
+    width: 100%;
+    height: 100%;
+    filter: brightness(50%);
+  }
+
+  &UserPhoto {
+    filter: brightness(50%);
+  }
+
+  &Submit {
+    margin-right: 16px;
+  }
+}
+
+.nameInput {
+  width: 602px;
+  margin-bottom: 37px;
+}
+
+.introductionInput {
+  width: 602px;
+  height: 147px;
+}
+
+.iconCamera {
+  position: absolute;
+  top: 90px;
+  right: 340px;
+}
+
+.iconWhiteCross {
+  position: absolute;
+  top: 92.5px;
+  right: 286.5px;
+}
+
+.iconCameraUserPhoto {
+  z-index: 999;
+  position: absolute;
+  top: 184px;
+  left: 76px;
 }

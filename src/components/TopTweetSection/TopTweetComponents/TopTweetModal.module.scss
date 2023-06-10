@@ -1,0 +1,62 @@
+.modalContainer {
+  position: relative;
+}
+
+.modal {
+  left: 0;
+  transform: translateX(-4%);
+  --bs-modal-width: 634px;
+  border-radius: 14px;
+  &Header {
+    height: 56px;
+    border-bottom: 1px solid var(--border);
+    justify-content: flex-start;
+    --bs-modal-header-padding: 0;
+    .modalClose {
+      --bs-btn-close-opacity: 1;
+      --bs-btn-close-bg: none;
+      margin: 0;
+      margin-left: 19.5px;
+      padding: 0;
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+    }
+  }
+
+  &Title {
+    height: 56px;
+  }
+
+  &Body {
+    flex: none;
+    padding: 0;
+    height: 243px;
+  }
+
+  &Post {
+    margin-top: 16px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &Input {
+    height: 26px;
+    width: 100%;
+    font-size: 16px;
+    border: none;
+    outline: none;
+
+    &::placeholder {
+      color: var(--secondary);
+    }
+  }
+
+  &Submit {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+  }
+}
