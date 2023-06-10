@@ -103,7 +103,7 @@ const dummyTweets = [
     },
 
     tweets: {
-      id: 1,
+      id: 7,
       description:
         "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.",
       createdAt: "3 小時",
@@ -119,7 +119,7 @@ const dummyTweets = [
     },
 
     tweets: {
-      id: 2,
+      id: 8,
       description:
         "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.",
       createdAt: "3 小時",
@@ -135,7 +135,7 @@ const dummyTweets = [
     },
 
     tweets: {
-      id: 3,
+      id: 9,
       description:
         "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.",
       createdAt: "3 小時",
@@ -151,7 +151,7 @@ const dummyTweets = [
     },
 
     tweets: {
-      id: 4,
+      id: 10,
       description:
         "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.",
       createdAt: "3 小時",
@@ -167,7 +167,7 @@ const dummyTweets = [
     },
 
     tweets: {
-      id: 5,
+      id: 11,
       description:
         "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.",
       createdAt: "3 小時",
@@ -183,7 +183,7 @@ const dummyTweets = [
     },
 
     tweets: {
-      id: 6,
+      id: 12,
       description:
         "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.",
       createdAt: "3 小時",
@@ -199,7 +199,7 @@ const dummyTweets = [
     },
 
     tweets: {
-      id: 1,
+      id: 13,
       description:
         "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.",
       createdAt: "3 小時",
@@ -215,7 +215,7 @@ const dummyTweets = [
     },
 
     tweets: {
-      id: 2,
+      id: 14,
       description:
         "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.",
       createdAt: "3 小時",
@@ -231,7 +231,7 @@ const dummyTweets = [
     },
 
     tweets: {
-      id: 3,
+      id: 15,
       description:
         "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.",
       createdAt: "3 小時",
@@ -247,7 +247,7 @@ const dummyTweets = [
     },
 
     tweets: {
-      id: 4,
+      id: 16,
       description:
         "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.",
       createdAt: "3 小時",
@@ -263,7 +263,7 @@ const dummyTweets = [
     },
 
     tweets: {
-      id: 5,
+      id: 17,
       description:
         "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.",
       createdAt: "3 小時",
@@ -279,7 +279,7 @@ const dummyTweets = [
     },
 
     tweets: {
-      id: 6,
+      id: 18,
       description:
         "Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.",
       createdAt: "3 小時",
