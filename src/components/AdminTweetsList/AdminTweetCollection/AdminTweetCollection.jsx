@@ -1,9 +1,9 @@
-import styles from "./TweetCollection.module.scss";
+import styles from "./AdminTweetCollection.module.scss";
 import { useState } from 'react';
-import TweetItem from "components/TweetItem/TweetItem.jsx";
+import AdminTweetItem from "components/AdminTweetsList/AdminTweetItem/AdminTweetItem.jsx";
 import dummyTweets from "./dummyTweets";
 
-export default function TweetCollection() {
+export default function AdminTweetCollection() {
   const [tweets, setTweets] = useState(dummyTweets);
 
   return (
@@ -12,7 +12,7 @@ export default function TweetCollection() {
         const { name, account, avatar } = tweet.users
         const { id, description, createdAt, replyCount, likeCount } = tweet.tweets
         return (
-          <TweetItem
+          <AdminTweetItem
             key={id}
             name={name}
             account={account}

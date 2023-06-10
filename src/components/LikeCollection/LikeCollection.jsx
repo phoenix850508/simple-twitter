@@ -1,9 +1,11 @@
-import styles from "./TweetCollection.module.scss";
+// LikeCollection 的 layout 跟 TweetCollection 一樣
+// 之後要寫邏輯判斷是否為 like、發文者資訊
+import styles from "./LikeCollection.module.scss";
 import { useState } from 'react';
-import TweetItem from "components/TweetItem/TweetItem.jsx";
+import LikeItem from "components/LikeItem/LikeItem.jsx";
 import dummyTweets from "./dummyTweets";
 
-export default function TweetCollection() {
+export default function LikeCollection() {
   const [tweets, setTweets] = useState(dummyTweets);
 
   return (
@@ -12,7 +14,7 @@ export default function TweetCollection() {
         const { name, account, avatar } = tweet.users
         const { id, description, createdAt, replyCount, likeCount } = tweet.tweets
         return (
-          <TweetItem
+          <LikeItem
             key={id}
             name={name}
             account={account}
