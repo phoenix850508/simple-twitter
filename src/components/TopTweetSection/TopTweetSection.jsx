@@ -19,7 +19,7 @@ export default function TopTweetSection() {
           <h5 className={styles.placeholder}>有什麼新鮮事？</h5>
         </div>
         <div className={styles.btnContainer}>
-          <TopTweetButton />
+          <TopTweetButton text={"推文"} />
         </div>
       </section>
       <TopTweetModal  show={show} handleClose={handleClose} />

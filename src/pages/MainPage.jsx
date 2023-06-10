@@ -12,28 +12,29 @@ import { getTweets } from '../api/tweets';
 
 
 export default function MainPage() {
-  // tweets 存在這
-  const [tweets, setTweets] = useState([]);
+  // // tweets 存在這
+  // const [tweets, setTweets] = useState([]);
 
-  // 透過 API 撈初始資料
-  useEffect(() => {
-    const getTweetsAsync = async () => {
-      try {
-        const tweets = await getTweets();
-        setTweets(tweets.map((tweet) => ({ ...tweet })));
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getTweetsAsync();
-  }, []);
+  // // 透過 API 撈初始資料
+  // useEffect(() => {
+  //   const getTweetsAsync = async () => {
+  //     try {
+  //       const tweets = await getTweets();
+  //       setTweets(tweets.map((tweet) => ({ ...tweet })));
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   getTweetsAsync();
+  // }, []);
 
   return (
     <MainContainer>
       <LeftBanner />
       <MiddleColumnContainer>
         <TopTweetSection />
-        <TweetCollection tweets={tweets} />
+        {/* <TweetCollection tweets={tweets} /> */}
+        <TweetCollection />
       </MiddleColumnContainer>
       <RightBanner />
     </MainContainer>
