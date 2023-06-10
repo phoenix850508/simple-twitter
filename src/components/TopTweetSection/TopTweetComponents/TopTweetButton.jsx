@@ -1,8 +1,8 @@
 import styles from './TopTweetButton.module.scss'
 import clsx from 'clsx'
 
-export default function TopTweetButton({btnName}) {
+export default function TopTweetButton({btnName, text}) {
   return (
-    <button className={clsx(styles.tweetBtn, btnName)}>推文</button>
+    <button className={clsx(styles.tweetBtn, btnName)}>{text}</button>
   )
 }

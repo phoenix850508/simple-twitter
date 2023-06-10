@@ -1,12 +1,13 @@
 import styles from './AdminRightContainer.module.scss'
+import clsx from 'clsx'
 
-export default function AdminRightContainer({children}) {
+export default function AdminRightContainer({children, title, rightContainerClassName, contentContainerClassName}) {
   return (
-    <div className={styles.adminRightContainer}>
+    <div className={clsx(styles.adminRightContainer, rightContainerClassName)}>
       <div className={styles.titleSecion}>
-        <h4 className={styles.title}>使用者列表</h4>
+        <h4 className={styles.title}>{title}</h4>
       </div>
-      <div className={styles.contentContainer}>
+      <div className={clsx(styles.contentContainer, contentContainerClassName)}>
         {children}
       </div>
     </div>
