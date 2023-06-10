@@ -33,3 +33,14 @@ export const getTweets = async () => {
     console.error("[Get Tweets failed]: ", error);
   }
 };
+
+//新增推文給後端
+export const postTweets = async ({ description }) => {
+  try {
+    const res = axiosInstance.post(`${baseUrl}/tweets`, { description });
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.error("[Post Tweeets failed]", error);
+  }
+};
