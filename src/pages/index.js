@@ -8,6 +8,7 @@ import UserSelfPage from "./UserSelfPage";
 import ReplyListPage from "./ReplyListPage";
 import UserSelfFollowPage from "./UserSelfFollowPage";
 import UserOtherPage from "./UserOtherPage";
+import AdminMainPage from "./AdminMainPage";
 
 export {
   AdminPage,
@@ -20,4 +21,5 @@ export {
   ReplyListPage,
   UserSelfFollowPage,
   UserOtherPage,
+  AdminMainPage,
 };
