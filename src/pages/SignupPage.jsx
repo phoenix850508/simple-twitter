@@ -13,7 +13,7 @@ export default function SignupPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const [checkPassword, setCheckPassword] = useState('')
   const [isPasswordEqual, setIsPasswordEqual] = useState(true)
   const [isSuccess, setIsSuccess] = useState(false)
   const navigate = useNavigate()
@@ -23,10 +23,10 @@ export default function SignupPage() {
     //檢查格式是否符合需求
     if (account.length === 0 || name.length === 0 || email.length === 0 || password.length === 0) return
     else if (name.length > 50) return
-    else if (password !== confirmPassword) {
+    else if (password !== checkPassword) {
       return setIsPasswordEqual(false)
     }
-    const response = await signup({account, name, email, password, confirmPassword})
+    const response = await signup({account, name, email, password, checkPassword})
     //產生錯誤訊息
     if (response.response) return setErrorMsg(response.response.data.message)
     //成功註冊
@@ -73,14 +73,14 @@ export default function SignupPage() {
         setPassword(passwordInput)
         }} />
       <AuthInput 
-      className={styles.confirmPassword} 
+      className={styles.checkPassword} 
       borderLine={clsx('', {[styles.passwordUnequal]: !isPasswordEqual})}
       label={"密碼確認"} 
       type="password" 
       placeholder={"請再次輸入密碼"} 
       onChange={(passwordConfirmInput) => {
         setIsPasswordEqual(true)
-        setConfirmPassword(passwordConfirmInput)}} />
+        setCheckPassword(passwordConfirmInput)}} />
       <AuthButton btn={"註冊"} onClick={handleClick} />
       <Link to="/login">
         <p className={styles.cancel}>取消</p>

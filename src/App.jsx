@@ -2,6 +2,7 @@ import "styles/App.css";
 import "styles/reset.scss";
 import "styles/base.scss";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {AuthProvider} from 'context/authContext.js'
 import { HomePage, LoginPage, SignupPage, MainPage, AdminPage, AdminUsersPage, UserSelfPage, ReplyListPage, UserSelfFollowPage, UserOtherPage, AdminMainPage, SettingPage } from 'pages'
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter basename={basename}>
+        <AuthProvider>
         <Routes>
           <Route path="*" element={<HomePage />} />
           <Route path="login" element={<LoginPage />} />
@@ -23,6 +25,7 @@ function App() {
           <Route path="user/other" element={<UserOtherPage />} />
           <Route path="admin_main" element={<AdminMainPage />} />
         </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </div>
   );
