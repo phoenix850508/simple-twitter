@@ -59,3 +59,38 @@ export const getTweetReplyList = async (tweetId) => {
     console.error("[Get TweetReplyList failed]: ", error);
   }
 };
+
+
+export const getUserReplies = async () => {
+  try {
+    const response = await axiosInstance.get(
+      `${baseUrl}/users/14/replied_tweets`
+    );
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error("[Get User Replies failed]: ", error);
+    }
+};
+
+export const putUserSelf = async ({ id, formData }) => {
+  try {
+    // 先設定資料要帶入的contetnt type + header
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    console.log(config);
+    // 這邊需要帶入使用者的id，才能讓後端知道目前的self指的是哪一位使用者
+    const res = await axiosInstance.put(`${baseUrl}/user/${id}`, config, {
+      id,
+      formData,
+    });
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.error("[Post User-Self failed]", error);
+    return error;
+  }
+};
