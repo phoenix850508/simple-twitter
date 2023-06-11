@@ -71,8 +71,18 @@ export const getUserReplies = async () => {
   }
 };
 
+// get某位使用者資料
+export const getUser = async (id) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/users/${id}`);
+    return res;
+  } catch (error) {
+    console.error("[Get user failed]", error);
+  }
+};
+
 // 編輯個人資料
-export const putUserSelf = async ({ id, formData }) => {
+export const putUserSelf = async (id, { formData }) => {
   try {
     // 先設定資料要帶入的contetnt type + header
     const config = {
@@ -80,16 +90,14 @@ export const putUserSelf = async ({ id, formData }) => {
         "Content-Type": "multipart/form-data",
       },
     };
-    console.log(config);
     // 這邊需要帶入使用者的id，才能讓後端知道目前的self指的是哪一位使用者
-    const res = await axiosInstance.put(`${baseUrl}/user/${id}`, config, {
-      id,
+    const res = await axiosInstance.put(`${baseUrl}/users/${id}`, config, {
       formData,
     });
     console.log(res);
     return res;
   } catch (error) {
-    console.error("[Post User-Self failed]", error);
+    console.error("[Put user failed]", error);
     return error;
   }
 };
