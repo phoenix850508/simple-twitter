@@ -11,7 +11,9 @@ import TweetCollection from "components/TweetCollection/TweetCollection.jsx";
 import ReplyCollection from 'components/ReplyCollection/ReplyCollection';
 import LikeCollection from 'components/LikeCollection/LikeCollection';
 // API
-import { getTweets } from '../api/tweets';
+import { getUserTweets } from '../api/tweets';
+// 引用封裝好的 Context 資訊
+import { useAuth } from '../context/authContext.js';
 
 
 
@@ -20,27 +22,33 @@ export default function UserSelfPage() {
   const [userContent, setUserContent] = useState('tweets')
   // tweets 存在這
   const [tweets, setTweets] = useState([]);
+  // 使用蟲洞從 authContext.js 拿資料：使用者資訊
+  const { currentUser, isAuthenticated } = useAuth();
 
   // 變更瀏覽區塊
   function handleChangeUserContentClick(targetValue) {
     setUserContent(targetValue)
   }
 
-  // 透過 API 撈初始資料
+  // 透過 API 撈推文資料
   useEffect(() => {
     const getTweetsAsync = async () => {
       try {
-        const tweets = await getTweets();
+        // 用 Context 裡的 user id 去撈他的推文
+        const tweets = await getUserTweets(currentUser.id);
+        console.log('currentUser: ', currentUser)
         setTweets(tweets.map((tweet) => ({ ...tweet })));
       } catch (error) {
         console.error(error);
       }
     };
     getTweetsAsync();
-  }, []);
+    console.log('UserSelfPage 的 currentUser: ', currentUser)
+    console.log('UserSelfPage 的 isAuthenticated: ', isAuthenticated)
+  }, [currentUser, isAuthenticated]);
 
   return (
-    <MainContainer>
+    <MainContainer >
       <LeftBanner />
       <MiddleColumnContainer>
         <TopUserSection />
@@ -50,6 +58,6 @@ export default function UserSelfPage() {
         {userContent === 'likes' && <LikeCollection />}
       </MiddleColumnContainer>
       <RightBanner />
-    </MainContainer>
+    </MainContainer >
   )
 }
