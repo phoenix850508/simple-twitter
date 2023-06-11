@@ -13,6 +13,7 @@ import camera from 'icons/camera.svg'
 import white_cross from 'icons/white_cross.svg'
 import {putUserSelf} from 'api/tweets.js'
 import {useAuth} from 'context/AuthContext.jsx'
+import {useNavigate} from 'react-router-dom'
 
 
 export default function TopUserSection() {
@@ -24,6 +25,10 @@ export default function TopUserSection() {
   const {currentUser} = useAuth()
   const nameInputRef = useRef(null)
   const introInputRef = useRef(null)
+  const navigate = useNavigate()
+  const handlePrevPageClick = () => {
+    navigate('/main')
+  }
   // 這邊需要加入GET user/:id 的API去取得user原始的資料，包括背景圖片、大頭貼、、名稱和自我介紹
   // 不過這條API可以之後再做，現在先只處理POST API的資訊傳遞(需轉換成 Form-data)
   const updatedUserSelf = new FormData()
@@ -64,7 +69,7 @@ export default function TopUserSection() {
   }
   return (
     <div>
-      <PrePageBtn />
+      <PrePageBtn onClick={handlePrevPageClick} />
       <div className={styles.topUserInfoWrapper}>
         <img src={dummyBackgroundImage} alt="dummyBackgroundImage.svg" />
         <img className={styles.topUserPhoto} src={dummyUserPhoto} alt="dummyUserPhoto.svg" />
