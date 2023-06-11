@@ -1,3 +1,16 @@
+%authError {
+  background-color: var(--error);
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    color: var(--error);
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 500;
+  }
+}
+
 .topUser {
   &InfoWrapper {
     width: 100%;
@@ -149,6 +162,7 @@
 
   &UserPhoto {
     filter: brightness(50%);
+    cursor: pointer;
   }
 
   &Submit {
@@ -170,12 +184,14 @@
   position: absolute;
   top: 90px;
   right: 340px;
+  cursor: pointer;
 }
 
 .iconWhiteCross {
   position: absolute;
   top: 92.5px;
   right: 286.5px;
+  cursor: pointer;
 }
 
 .iconCameraUserPhoto {
@@ -183,4 +199,12 @@
   position: absolute;
   top: 184px;
   left: 76px;
+  cursor: pointer;
+}
+
+.wordLengthError {
+  @extend %authError;
+  &::after {
+    content: "字數超出上限";
+  }
 }

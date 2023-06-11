@@ -34,13 +34,24 @@ export const getTweets = async () => {
   }
 };
 
-//新增推文給後端
-export const postTweets = async ({ description }) => {
+export const putUserSelf = async ({ id, formData }) => {
   try {
-    const res = axiosInstance.post(`${baseUrl}/tweets`, { description });
+    // 先設定資料要帶入的contetnt type + header
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    console.log(config);
+    // 這邊需要帶入使用者的id，才能讓後端知道目前的self指的是哪一位使用者
+    const res = await axiosInstance.put(`${baseUrl}/user/${id}`, config, {
+      id,
+      formData,
+    });
     console.log(res);
     return res;
   } catch (error) {
-    console.error("[Post Tweeets failed]", error);
+    console.error("[Post User-Self failed]", error);
+    return error;
   }
 };
