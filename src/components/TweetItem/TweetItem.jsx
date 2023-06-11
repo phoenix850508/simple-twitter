@@ -50,6 +50,7 @@ export function ReplyTweetModal({handleShow, show, handleClose}) {
   return (
     <div className={styles.modalContainer}>
       <Modal className={clsx("fade modal show", styles.modal)} show={show} onHide={handleClose}>
+        <Modal className={clsx("modal-content", styles.modalContent)}/>
         <Modal.Header className={clsx(styles.modalHeader)}>
         <Modal.Header/>
           <Modal.Title>

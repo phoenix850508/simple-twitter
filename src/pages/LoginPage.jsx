@@ -6,7 +6,7 @@ import clsx from 'clsx'
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import {useAuth} from 'context/authContext.js'
+import {useAuth} from 'context/AuthContext.jsx'
 
 export default function LoginPage() {
   const [account, setAccount] = useState('')

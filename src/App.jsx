@@ -2,7 +2,7 @@ import "styles/App.css";
 import "styles/reset.scss";
 import "styles/base.scss";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import {AuthProvider} from 'context/authContext.js'
+import {AuthProvider} from 'context/AuthContext.jsx'
 import { HomePage, LoginPage, SignupPage, MainPage, AdminPage, AdminUsersPage, UserSelfPage, ReplyListPage, UserSelfFollowPage, UserOtherPage, AdminMainPage, SettingPage } from 'pages'
 
 function App() {
