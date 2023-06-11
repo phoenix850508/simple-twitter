@@ -34,6 +34,19 @@ export const getTweets = async () => {
   }
 };
 
+
+export const getUserReplies = async () => {
+  try {
+    const response = await axiosInstance.get(
+      `${baseUrl}/users/14/replied_tweets`
+    );
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error("[Get User Replies failed]: ", error);
+    }
+};
+
 export const putUserSelf = async ({ id, formData }) => {
   try {
     // 先設定資料要帶入的contetnt type + header
