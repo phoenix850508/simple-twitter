@@ -22,12 +22,13 @@ export default function LoginPage() {
     if (account.length === 0 || password.length === 0) return
     const response = await login({ account, password })
     //產生錯誤訊息
-    if (response.response) return setErrorMsg(response.response.data.message)
+    if(!response.data) {
+      if (response.response.data.status === "error") return setErrorMsg(response.response.data.message)
+    }
     //成功的話可以取得該使用者的資料
   }
   useEffect(() => {
     if (isAuthenticated) {
-      console.log(currentUser)
       navigate('/main');
     }
   }, [navigate, isAuthenticated, currentUser])

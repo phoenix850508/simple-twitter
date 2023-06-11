@@ -25,7 +25,6 @@ axiosInstance.interceptors.request.use(
 export const getAllTweets = async () => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/tweets`);
-    console.log("getAllTweets: ", res);
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
@@ -72,6 +71,7 @@ export const getUserReplies = async () => {
   }
 };
 
+// 編輯個人資料
 export const putUserSelf = async ({ id, formData }) => {
   try {
     // 先設定資料要帶入的contetnt type + header
