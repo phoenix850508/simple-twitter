@@ -12,7 +12,7 @@ import AuthInput from 'components/Form/AuthInput'
 import camera from 'icons/camera.svg'
 import white_cross from 'icons/white_cross.svg'
 import {putUserSelf} from 'api/tweets.js'
-import {useAuth} from 'context/authContext.js'
+import {useAuth} from 'context/AuthContext.jsx'
 
 
 export default function TopUserSection() {

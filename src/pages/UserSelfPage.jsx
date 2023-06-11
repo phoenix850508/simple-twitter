@@ -13,7 +13,7 @@ import LikeCollection from 'components/LikeCollection/LikeCollection';
 // API
 import { getUserTweets } from '../api/tweets';
 // 引用封裝好的 Context 資訊
-import { useAuth } from '../context/authContext.js';
+import { useAuth } from 'context/AuthContext.jsx';
 
 
 
