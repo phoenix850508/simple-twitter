@@ -21,15 +21,41 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// 因為還沒做 Context，這邊可先用 user1 去 login 測試
-// 瀏覽 tweets
-export const getTweets = async () => {
+// 瀏覽所有 tweets
+export const getAllTweets = async () => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/tweets`);
-    console.log(res);
-    // 這邊要注意回傳內容，要有兩層 data 才抓得到
-    return res.data.data;
+    console.log("getAllTweets: ", res);
+    // 這邊要注意回傳內容，只有一層 data
+    return res.data;
   } catch (error) {
-    console.error("[Get Tweets failed]: ", error);
+    console.error("[Get AllTweets failed]: ", error);
+  }
+};
+
+// 瀏覽某一使用者的 tweets
+// GET /api/users/:id/tweets
+export const getUserTweets = async (id) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/users/${id}/tweets`);
+    // console.log(res);
+    // 這邊要注意回傳內容，只有一層 data
+    return res.data;
+  } catch (error) {
+    console.error("[Get AllTweets failed]: ", error);
+  }
+};
+
+// 點擊某一則 tweet 可以到 reply list 頁面並查看該推文細節
+// GET /api/tweets/:id
+export const getTweetReplyList = async (tweetId) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/tweets/${tweetId}/replies`);
+    console.log("tweets 裡的回覆: ", res);
+    console.log("tweets 裡的 tweetId : ", tweetId);
+    // 這邊要注意回傳內容，只有一層 data
+    return res.data;
+  } catch (error) {
+    console.error("[Get TweetReplyList failed]: ", error);
   }
 };

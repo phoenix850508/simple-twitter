@@ -6,7 +6,7 @@ import clsx from 'clsx'
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import {useAuth} from 'context/authContext.js'
+import { useAuth } from 'context/authContext.js'
 
 export default function LoginPage() {
   const [account, setAccount] = useState('')
@@ -14,7 +14,7 @@ export default function LoginPage() {
   // 這邊的errorMsg是用來判斷若後端response的資料不存在或有誤，可以讓<AuthInput/>可以製造出相對的錯誤訊息
   const [errorMsg, setErrorMsg] = useState('')
   const navigate = useNavigate();
-  const {login, isAuthenticated, currentUser } = useAuth()
+  const { login, isAuthenticated, currentUser } = useAuth()
 
   const handleClick = async () => {
     // 檢查格式是否符合需求
@@ -25,7 +25,7 @@ export default function LoginPage() {
     //成功的話可以取得該使用者的資料
   }
   useEffect(() => {
-    if(isAuthenticated) {
+    if (isAuthenticated) {
       console.log(currentUser)
       navigate('/main');
     }

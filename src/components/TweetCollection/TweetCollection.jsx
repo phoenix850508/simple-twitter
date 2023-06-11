@@ -9,11 +9,12 @@ export default function TweetCollection({ tweets }) {
   return (
     <div className={styles.tweetCollectionContainer}>
       {tweets.map((tweet) => {
-        const { name, account, avatar } = tweet.users
-        const { id, description, createdAt, replyCount, likeCount } = tweet.tweets
+        const { name, account, avatar } = tweet.User
+        const { id, description, createdAt, replyCount, likeCount } = tweet
         return (
           <TweetItem
             key={id}
+            id={id}
             name={name}
             account={account}
             description={description}

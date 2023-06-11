@@ -8,18 +8,25 @@ import MiddleColumnContainer from "components/MiddleColumnContainer/MiddleColumn
 import TopTweetSection from "components/TopTweetSection/TopTweetSection.jsx";
 import TweetCollection from "components/TweetCollection/TweetCollection.jsx";
 // API
-import { getTweets } from '../api/tweets';
+import { getAllTweets } from '../api/tweets';
+// 引用封裝好的 Context 資訊
+import { useAuth } from 'context/authContext.js';
 
 
 export default function MainPage() {
   // tweets 存在這
   const [tweets, setTweets] = useState([]);
+  // 使用蟲洞從 authContext.js 拿資料：tweetId 與底下回覆
+  const { tweetId, isAuthenticated, userInfo } = useAuth();
+  console.log('MainPage 裡從 Context 抓到的推文 id: ', tweetId)
+  console.log('MainPage 裡從 Context 抓到的isAuthenticated: ', isAuthenticated)
+  console.log('MainPage 裡從 Context 抓到的userInfo: ', userInfo)
 
   // 透過 API 撈初始資料
   useEffect(() => {
     const getTweetsAsync = async () => {
       try {
-        const tweets = await getTweets();
+        const tweets = await getAllTweets();
         setTweets(tweets.map((tweet) => ({ ...tweet })));
       } catch (error) {
         console.error(error);
