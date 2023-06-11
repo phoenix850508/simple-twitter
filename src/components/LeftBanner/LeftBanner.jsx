@@ -7,6 +7,8 @@ import settings from 'icons/settings.svg'
 import TopTweetModal from 'components/TopTweetSection/TopTweetComponents/TopTweetModal'
 import {useState} from 'react'
 import {postTweets} from 'api/tweets.js'
+import {useAuth} from 'context/AuthContext.jsx'
+import { useNavigate } from 'react-router-dom';
 
 export default function LeftBanner() {
   const [show, setShow] = useState(false);
@@ -14,17 +16,30 @@ export default function LeftBanner() {
   const handleShow = () => setShow(true);
   const [tweet, setTweet] = useState('')
   const [isUpdating, setIsUpdating] = useState(false)
+  const {logout} = useAuth()
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    logout();
+    navigate('/login')
+  }
+  const handleHomePageClick = () => {
+    navigate('/main')
+  }
+  const handleUserSelfPageClick = () => {
+    navigate('/user/self')
+  }
+  const handleSettingPageClick = () => {
+    navigate('/setting')
+  }
   //在左邊欄也增加新增推文的API請求
   const handleSubmit = async () => {
     try { 
-      if(isUpdating) {
-        return
-      }
+      if(isUpdating) return
+      if(tweet.trim().length < 1 || tweet.length > 140) return alert("推文不能為空白")
       setIsUpdating(true)
       const res = await postTweets({description: tweet})
       //若新增推文成功
       if (res) {
-        alert("推文新增成功！");
         setShow(false)
         console.log(res);
       }
@@ -41,9 +56,9 @@ export default function LeftBanner() {
       <div className={styles.leftBannerLogo}>
         <img src={ac_logo} alt="ac_logo.svg" />
       </div>
-      <LeftBannerItems onClick={handleShow} />
+      <LeftBannerItems onTweetClick={handleShow} onHomePageClick={handleHomePageClick} onUserSelfClick={handleUserSelfPageClick} onSettingClick={handleSettingPageClick} />
       <div className={styles.leftBannerLogout}>
-        <Logout />
+        <Logout onClick={handleLogout} />
       </div>
       <TopTweetModal show={show} handleClose={handleClose} buttonText={"推文"} onSubmit={handleSubmit} onChange={(tweetInput) => setTweet(tweetInput)} />
     </div>
@@ -51,19 +66,19 @@ export default function LeftBanner() {
 }
 
 // 左欄項目，不含 logo
-function LeftBannerItems({onClick}) {
+function LeftBannerItems({onTweetClick, onHomePageClick, onUserSelfClick, onSettingClick}) {
   return (
     <div>
-      <div className={styles.leftBannerItem}>
+      <div className={styles.leftBannerItem} onClick={onHomePageClick}>
         <img className={styles.leftBannerIcon} src={homeActive} alt="homeActive.svg" />
       </div>
-      <div className={styles.leftBannerItem}>
+      <div className={styles.leftBannerItem} onClick={onUserSelfClick}>
         <img className={styles.leftBannerIcon} src={userInfo} alt="userInfo.svg" />
       </div>
-      <div className={styles.leftBannerItem}>
+      <div className={styles.leftBannerItem} onClick={onSettingClick}>
         <img className={styles.leftBannerIcon} src={settings} alt="settings.svg" />
       </div>
-      <LeftBannerTweet onClick={onClick} />
+      <LeftBannerTweet onClick={onTweetClick} />
     </div>
   )
 }

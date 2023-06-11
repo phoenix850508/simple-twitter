@@ -14,14 +14,12 @@ export default function TopTweetSection() {
   const [isUpdating, setIsUpdating] = useState(false)
   const handleSubmit = async () => {
     try { 
-      if(isUpdating) {
-        return
-      }
-      setIsUpdating(true)
+      if(isUpdating) return
+      if(tweet.trim().length < 1 || tweet.length > 140) return alert("推文不能為空白")
+      setTimeout(() => setIsUpdating(true), 1000)
       const res = await postTweets({description: tweet})
       //若新增推文成功
       if (res) {
-        alert("推文新增成功！");
         setShow(false)
         console.log(res);
       }
