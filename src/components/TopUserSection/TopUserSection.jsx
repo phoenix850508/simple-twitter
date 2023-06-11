@@ -3,7 +3,7 @@ import dummyBackgroundImage from 'icons/dummyBackgroundImage.svg'
 import dummyUserPhoto from 'icons/dummyUserPhoto.svg'
 import editUserInfoBtn from 'icons/editUserInfoBtn.svg'
 import PrePageBtn from 'components/PrevPageBtn/PrevPageBtn.jsx'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import clsx from 'clsx'
 import Modal from 'react-bootstrap/Modal';
 import cross from 'icons/cross.svg'
@@ -37,10 +37,11 @@ export default function TopUserSection() {
   // 這邊需要加入GET user/:id 的API去取得user原始的資料，包括背景圖片、大頭貼、、名稱和自我介紹
   // 不過這條API可以之後再做，現在先只處理POST API的資訊傳遞(需轉換成 Form-data)
   const updatedUserSelf = new FormData()
-  updatedUserSelf.append('name', newName)
-  updatedUserSelf.apend('introduction', newIntroduction)
   const handleSave = async() => {
+    updatedUserSelf.append('name', newName)
+    updatedUserSelf.apend('introduction', newIntroduction)
     const response = await postUserSelf({id: currentUser, formData: updatedUserSelf, name: newName, introduction: newIntroduction})
+    console.log(response)
     // 若成功把使用者編輯資料送出
     if (response.id) {
       alert('successfully updated')
@@ -48,7 +49,6 @@ export default function TopUserSection() {
     }
     // 若使用者編輯資料失敗
     else {
-      console.log(response)
       alert('failed to update')
       setShow(false)
     }

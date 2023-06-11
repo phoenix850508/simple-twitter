@@ -36,16 +36,20 @@ export const getTweets = async () => {
 
 export const postUserSelf = async (id, formData, name, introduction) => {
   try {
+    const token = localStorage.getItem("authToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    };
     // 這邊需要帶入使用者的id，才能讓後端知道目前的self指的是哪一位使用者
-    const res = await axiosInstance.post(
-      `${baseUrl}/user/${id}`,
-      { formData, name, introduction },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const res = await axios.post(`${baseUrl}/user/${id}`, config, {
+      id,
+      formData,
+      name,
+      introduction,
+    });
     console.log(res);
     return res;
   } catch (error) {
