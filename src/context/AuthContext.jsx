@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
   const { pathname } = useLocation();
   // 儲存 userInfo 物件方便運用，裡面包含 account、avatar、banner、name 等
   const [userInfo, setUserInfo] = useState(null);
+  console.log('userInfo: ', userInfo)
   // 儲存使用者點擊想看的 tweetId 與底下回覆
   const [tweetId, setTweetId] = useState(null);
   const [tweetReplyList, setTweetReplyList] = useState([]);
@@ -71,16 +72,16 @@ export const AuthProvider = ({ children }) => {
             password: data.password,
           });
           //若成功可以把payload的資料讓所有頁面看到
-          if(response.data) {
+          if (response.data) {
             if (response.data.status === "success") {
-            const authToken = response.data.token;
-            const temPayload = jwt.decode(authToken);
-            setPayload(temPayload);
-            setIsAuthenticated(true);
-            localStorage.setItem("authToken", authToken);
-            // 儲存使用者資訊到 state
-            setUserInfo(response.data.user);
-          }
+              const authToken = response.data.token;
+              const temPayload = jwt.decode(authToken);
+              setPayload(temPayload);
+              setIsAuthenticated(true);
+              localStorage.setItem("authToken", authToken);
+              // 儲存使用者資訊到 state
+              setUserInfo(response.data.user);
+            }
           }
           //若獲得的response不符合上面條件，回傳response讓LoginPage去做錯誤顯示
           else {
