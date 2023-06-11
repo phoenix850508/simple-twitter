@@ -15,11 +15,11 @@ export default function ReplyCollection() {
         console.log(response)
         setReplies(response.data)
       } catch(error){
-        console.error("[Get User Replies failed]: ",error)
+        console.error("[Get User Replies failed]: ", error)
       }
     }
     getUserRepliesAsync()
-  }, [])
+  }, [currentUser])
   return (
     <div className={styles.replyCollectionContainer}>
       {replies.map((reply) => {

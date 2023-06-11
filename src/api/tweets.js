@@ -39,6 +39,7 @@ export const getUserReplies = async () => {
     const response = await axiosInstance.get(
       `${baseUrl}/users/14/replied_tweets`
     );
+    console.log(response);
     return response;
   } catch (error) {
     console.error("[Get User Replies failed]: ", error);
