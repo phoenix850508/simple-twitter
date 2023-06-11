@@ -24,6 +24,8 @@ export const AuthProvider = ({ children }) => {
   // 儲存使用者點擊想看的 tweetId 與底下回覆
   const [tweetId, setTweetId] = useState(null);
   const [tweetReplyList, setTweetReplyList] = useState([]);
+  // 儲存使用者所有已回覆的 tweet
+  const [userReplyList, setUserReplyList] = useState([]);
 
   // 換頁要驗證 token
   useEffect(() => {
@@ -61,11 +63,13 @@ export const AuthProvider = ({ children }) => {
         currentUser: payload && {
           id: payload.id,
         },
-        userInfo,
+        userInfo: { userInfo },
         tweetId,
         setTweetId,
         tweetReplyList,
         setTweetReplyList,
+        userReplyList,
+        setUserReplyList,
         login: async (data) => {
           const response = await login({
             account: data.account,

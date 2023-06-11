@@ -17,10 +17,11 @@ export default function MainPage() {
   // tweets 存在這
   const [tweets, setTweets] = useState([]);
   // 使用蟲洞從 authContext.js 拿資料：tweetId 與底下回覆
-  const { tweetId, isAuthenticated, userInfo } = useAuth();
+  const { tweetId, isAuthenticated, userInfo, currentUser } = useAuth();
   console.log('MainPage 裡從 Context 抓到的推文 id: ', tweetId)
   console.log('MainPage 裡從 Context 抓到的isAuthenticated: ', isAuthenticated)
   console.log('MainPage 裡從 Context 抓到的userInfo: ', userInfo)
+  console.log('MainPage 裡從 Context 抓到的currentUser: ', currentUser)
 
   // 透過 API 撈初始資料
   useEffect(() => {

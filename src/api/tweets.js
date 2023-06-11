@@ -60,13 +60,15 @@ export const getTweetReplyList = async (tweetId) => {
   }
 };
 
-export const getUserReplies = async () => {
+// user self 可以切換到回覆區塊並查看所有已回覆內容
+// GET api/users/:id/replied_tweets
+export const getUserReplies = async (id) => {
   try {
     const response = await axiosInstance.get(
-      `${baseUrl}/users/14/replied_tweets`
+      `${baseUrl}/users/${id}/replied_tweets`
     );
-    console.log(response);
-    return response;
+    console.log("tweets 裡撈到的所有已回覆內容", response);
+    return response.data;
   } catch (error) {
     console.error("[Get User Replies failed]: ", error);
   }
