@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import ReplyItem from "components/ReplyItem/ReplyItem.jsx";
 // import dummyReplies from "./dummyReplies"; 假資料，目前不會用到
 // 引用封裝好的 Context 資訊
-import { useAuth } from 'context/authContext.js';
+import { useAuth } from 'context/AuthContext.jsx';
 // API
 import { getUserReplies } from 'api/tweets'
 

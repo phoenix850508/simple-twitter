@@ -10,7 +10,7 @@ import TweetCollection from "components/TweetCollection/TweetCollection.jsx";
 // API
 import { getAllTweets } from '../api/tweets';
 // 引用封裝好的 Context 資訊
-import { useAuth } from 'context/authContext.js';
+import { useAuth } from 'context/AuthContext.jsx';
 
 
 export default function MainPage() {

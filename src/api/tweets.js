@@ -60,7 +60,6 @@ export const getTweetReplyList = async (tweetId) => {
   }
 };
 
-
 export const getUserReplies = async () => {
   try {
     const response = await axiosInstance.get(
@@ -70,7 +69,7 @@ export const getUserReplies = async () => {
     return response;
   } catch (error) {
     console.error("[Get User Replies failed]: ", error);
-    }
+  }
 };
 
 export const putUserSelf = async ({ id, formData }) => {
@@ -92,5 +91,16 @@ export const putUserSelf = async ({ id, formData }) => {
   } catch (error) {
     console.error("[Post User-Self failed]", error);
     return error;
+  }
+};
+
+//新增推文給後端
+export const postTweets = async ({ description }) => {
+  try {
+    const res = axiosInstance.post(`${baseUrl}/tweets`, { description });
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.error("[Post Tweeets failed]", error);
   }
 };

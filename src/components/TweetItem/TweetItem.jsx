@@ -12,7 +12,7 @@ import clsx from 'clsx'
 // likeActive 暫時沒用到先註解掉
 // import likeActive from 'icons/likeActive.svg'
 // 引用封裝好的 Context 資訊
-import { useAuth } from 'context/authContext.js';
+import { useAuth } from 'context/AuthContext.jsx';
 
 export default function TweetItem({ id, name, account, description, createdAt, replyCount, likeCount }) {
   const navigate = useNavigate();
