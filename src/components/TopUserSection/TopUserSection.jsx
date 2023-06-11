@@ -3,7 +3,7 @@ import dummyBackgroundImage from 'icons/dummyBackgroundImage.svg'
 import dummyUserPhoto from 'icons/dummyUserPhoto.svg'
 import editUserInfoBtn from 'icons/editUserInfoBtn.svg'
 import PrePageBtn from 'components/PrevPageBtn/PrevPageBtn.jsx'
-import {useState, useEffect} from 'react'
+import {useState, useRef} from 'react'
 import clsx from 'clsx'
 import Modal from 'react-bootstrap/Modal';
 import cross from 'icons/cross.svg'
@@ -11,7 +11,7 @@ import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTwe
 import AuthInput from 'components/Form/AuthInput'
 import camera from 'icons/camera.svg'
 import white_cross from 'icons/white_cross.svg'
-import {postUserSelf} from 'api/tweets.js'
+import {putUserSelf} from 'api/tweets.js'
 import {useAuth} from 'context/authContext.js'
 
 
@@ -22,25 +22,26 @@ export default function TopUserSection() {
   const [newName, setNewName] = useState('');
   const [newIntroduction, setNewIntroduction] = useState('');
   const {currentUser} = useAuth()
-//   {
-//     "id": 14,
-//     "email": "user1@example.com",
-//     "account": "user1",
-//     "name": "Spongebob",
-//     "avatar": "https://loremflickr.com/320/240/people",
-//     "banner": null,
-//     "introduction": "HI!",
-//     "role": "user",
-//     "createdAt": "2023-06-11T01:22:52.000Z",
-//     "updatedAt": "2023-06-11T04:08:46.401Z"
-// }
+  const nameInputRef = useRef(null)
+  const introInputRef = useRef(null)
   // 這邊需要加入GET user/:id 的API去取得user原始的資料，包括背景圖片、大頭貼、、名稱和自我介紹
   // 不過這條API可以之後再做，現在先只處理POST API的資訊傳遞(需轉換成 Form-data)
   const updatedUserSelf = new FormData()
+  //點擊儲存按鈕
   const handleSave = async() => {
-    updatedUserSelf.append('name', newName)
-    updatedUserSelf.apend('introduction', newIntroduction)
-    const response = await postUserSelf({id: currentUser, formData: updatedUserSelf, name: newName, introduction: newIntroduction})
+    // 若input空值，則返回
+    if(nameInputRef.current.value.length < 0 || introInputRef.current.value.length < 0) return
+    // 若自我介紹或是名字長度超過限制，則返回
+    if (nameInputRef.current.value.length > 50 || introInputRef.current.value.length > 150) return
+    if (!updatedUserSelf.has('name')) {
+      console.log("added new name form")
+      updatedUserSelf.append('name', newName)
+    }
+    if(!updatedUserSelf.has('introduction')) {
+      console.log("added new introduction form")
+      updatedUserSelf.apend('introduction', newIntroduction)
+    }
+    const response = await putUserSelf({id: currentUser.id, formData: updatedUserSelf, name: newName, introduction: newIntroduction})
     console.log(response)
     // 若成功把使用者編輯資料送出
     if (response.id) {
@@ -82,12 +83,16 @@ export default function TopUserSection() {
       onNameChange={(updateNameInput) => setNewName(updateNameInput)}
       onIntroChange={(updateIntroInput) => setNewIntroduction(updateIntroInput)}
       onSave={handleSave}
+      nameInputRef={nameInputRef}
+      introInputRef={introInputRef}
+      nameBorderLine={clsx('', {[styles.wordLengthError]: newName.length > 50})}
+      introBorderLine={clsx('', {[styles.wordLengthError]: newIntroduction.length > 150})}
       />
     </div>
   )
 }
 
-export function EditUserModal({show, handleClose, onNameChange, onIntroChange, onSave}) {
+export function EditUserModal({show, handleClose, onNameChange, onIntroChange, onSave, nameInputRef, introInputRef, nameBorderLine, introBorderLine}) {
   return (
     <div className={styles.modalContainer}>
       <Modal className={clsx("fade modal show", styles.modal)} show={show} onHide={handleClose}>
@@ -116,14 +121,18 @@ export function EditUserModal({show, handleClose, onNameChange, onIntroChange, o
         {/* 使用者input的名字 */}
         <AuthInput 
         className={styles.nameInput}
+        borderLine={nameBorderLine}
         placeholder={"名稱"}
         onChange={onNameChange}
+        inputRef={nameInputRef}
         />
         {/* 使用者input的自我介紹 */}
         <AuthInput 
         className={styles.introductionInput}
+        borderLine={introBorderLine}
         placeholder={"自我介紹"}
         onChange={onIntroChange}
+        inputRef={introInputRef}
         />
         </Modal.Body>
       </Modal>

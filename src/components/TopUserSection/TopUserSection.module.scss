@@ -1,3 +1,16 @@
+%authError {
+  background-color: var(--error);
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    color: var(--error);
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 500;
+  }
+}
+
 .topUser {
   &InfoWrapper {
     width: 100%;
@@ -187,4 +200,11 @@
   top: 184px;
   left: 76px;
   cursor: pointer;
+}
+
+.wordLengthError {
+  @extend %authError;
+  &::after {
+    content: "字數超出上限";
+  }
 }
