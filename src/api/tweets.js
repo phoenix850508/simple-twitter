@@ -34,7 +34,7 @@ export const getTweets = async () => {
   }
 };
 
-export const putUserSelf = async ({ id, formData, name, introduction }) => {
+export const putUserSelf = async ({ id, formData }) => {
   try {
     // 先設定資料要帶入的contetnt type + header
     const config = {
@@ -47,8 +47,6 @@ export const putUserSelf = async ({ id, formData, name, introduction }) => {
     const res = await axiosInstance.put(`${baseUrl}/user/${id}`, config, {
       id,
       formData,
-      name,
-      introduction,
     });
     console.log(res);
     return res;

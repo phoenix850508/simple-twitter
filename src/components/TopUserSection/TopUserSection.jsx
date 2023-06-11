@@ -33,15 +33,23 @@ export default function TopUserSection() {
     if(nameInputRef.current.value.length < 0 || introInputRef.current.value.length < 0) return
     // 若自我介紹或是名字長度超過限制，則返回
     if (nameInputRef.current.value.length > 50 || introInputRef.current.value.length > 150) return
+    // 若FormData內無已有的欄位，新增名字欄位
     if (!updatedUserSelf.has('name')) {
       console.log("added new name form")
       updatedUserSelf.append('name', newName)
     }
+    else {
+      updatedUserSelf.set("name", nameInputRef.current.value)
+    }
+    // 若FormData內無已有的欄位，新增自介欄位
     if(!updatedUserSelf.has('introduction')) {
       console.log("added new introduction form")
-      updatedUserSelf.apend('introduction', newIntroduction)
+      updatedUserSelf.apend('introduction', introInputRef.current.value)
     }
-    const response = await putUserSelf({id: currentUser.id, formData: updatedUserSelf, name: newName, introduction: newIntroduction})
+    else {
+      updatedUserSelf.set("introduction", introInputRef.current.value)
+    }
+    const response = await putUserSelf({id: currentUser.id, formData: updatedUserSelf})
     console.log(response)
     // 若成功把使用者編輯資料送出
     if (response.id) {
