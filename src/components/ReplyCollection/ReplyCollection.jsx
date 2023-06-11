@@ -1,11 +1,12 @@
 import styles from "./ReplyCollection.module.scss";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ReplyItem from "components/ReplyItem/ReplyItem.jsx";
-import dummyReplies from "./dummyReplies";
+import dummyReplies from './dummyReplies.js'
+import {useAuth} from 'context/AuthContext'
 
 export default function ReplyCollection() {
   const [replies, setReplies] = useState(dummyReplies);
-
+  const {currentUser} = useAuth()
   return (
     <div className={styles.replyCollectionContainer}>
       {replies.map((reply) => {
