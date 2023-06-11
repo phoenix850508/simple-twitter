@@ -149,6 +149,7 @@
 
   &UserPhoto {
     filter: brightness(50%);
+    cursor: pointer;
   }
 
   &Submit {
@@ -170,12 +171,14 @@
   position: absolute;
   top: 90px;
   right: 340px;
+  cursor: pointer;
 }
 
 .iconWhiteCross {
   position: absolute;
   top: 92.5px;
   right: 286.5px;
+  cursor: pointer;
 }
 
 .iconCameraUserPhoto {
@@ -183,4 +186,5 @@
   position: absolute;
   top: 184px;
   left: 76px;
+  cursor: pointer;
 }

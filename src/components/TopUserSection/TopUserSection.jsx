@@ -11,12 +11,28 @@ import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTwe
 import AuthInput from 'components/Form/AuthInput'
 import camera from 'icons/camera.svg'
 import white_cross from 'icons/white_cross.svg'
+import {postUserSelf} from 'api/tweets.js'
 
 
 export default function TopUserSection() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+//   {
+//     "id": 14,
+//     "email": "user1@example.com",
+//     "account": "user1",
+//     "name": "Spongebob",
+//     "avatar": "https://loremflickr.com/320/240/people",
+//     "banner": null,
+//     "introduction": "HI!",
+//     "role": "user",
+//     "createdAt": "2023-06-11T01:22:52.000Z",
+//     "updatedAt": "2023-06-11T04:08:46.401Z"
+// }
+  const response = async () => {
+    await postUserSelf()
+  }
   return (
     <div>
       <PrePageBtn />
@@ -62,6 +78,7 @@ export function EditUserModal({show, handleClose}) {
         <Modal.Body className={clsx(styles.modalBody)}>
           <div className={styles.modalImageContainer}>
             <img className={styles.modalBackgroundImage} src={dummyBackgroundImage} alt="dummyBackgroundImage.svg" />
+            {/* 照片的src會隨著TopUserSection的照片改變，這邊先放入假資料 */}
             <img className={clsx(styles.topUserPhoto, styles.modalUserPhoto)} src={dummyUserPhoto} alt="dummyUserPhoto.svg" />
             <img className={styles.iconCameraUserPhoto} src={camera} alt="camera.svg" />
             <img className={styles.iconCamera} src={camera} alt="camera.svg" />

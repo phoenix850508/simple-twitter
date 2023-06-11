@@ -33,3 +33,14 @@ export const getTweets = async () => {
     console.error("[Get Tweets failed]: ", error);
   }
 };
+
+export const postUserSelf = async (id) => {
+  try {
+    // 這邊需要帶入使用者的id，才能讓後端知道目前的self指的是哪一位使用者
+    const res = await axiosInstance.post(`${baseUrl}/user/${id}`);
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.error("[Post User-Self failed]", error);
+  }
+};
