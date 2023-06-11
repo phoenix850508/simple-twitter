@@ -3,11 +3,36 @@ import UserTweetPhoto from './TopTweetComponents/UserTweetPhoto'
 import styles from './TopTweetSection.module.scss'
 import TopTweetModal from './TopTweetComponents/TopTweetModal'
 import {useState} from 'react'
+import {postTweets} from 'api/tweets.js'
+import clsx from 'clsx'
 
 export default function TopTweetSection() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [tweet, setTweet] = useState('')
+  const [isUpdating, setIsUpdating] = useState(false)
+  const handleSubmit = async () => {
+    try { 
+      if(isUpdating) {
+        return
+      }
+      setIsUpdating(true)
+      const res = await postTweets({description: tweet})
+      //若新增推文成功
+      if (res) {
+        alert("推文新增成功！");
+        setShow(false)
+        console.log(res);
+      }
+      setIsUpdating(false);
+    } catch (error) {
+      console.error("[Post Tweeets failed 2]", error)
+      setIsUpdating(false);
+      alert("發文失敗")
+      setShow(false)
+    }
+  }
   return (
     <div className={styles.topTweetContainer}>
       <section className={styles.homepageHeaderSec}>
@@ -22,7 +47,7 @@ export default function TopTweetSection() {
           <TopTweetButton text={"推文"} />
         </div>
       </section>
-      <TopTweetModal  show={show} handleClose={handleClose} />
+      <TopTweetModal show={show} handleClose={handleClose} onChange={(tweetInput) => setTweet(tweetInput)} value={tweet} onSubmit={handleSubmit} buttonText={clsx({'推文': !isUpdating}, {'處理中': isUpdating})} />
     </div>
   )
 } 

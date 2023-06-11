@@ -26,22 +26,20 @@ export const AuthProvider = ({ children }) => {
             account: data.account,
             password: data.password,
           });
-          console.log(response);
           //若成功可以把payload的資料讓所有頁面看到
-          if (response.data.status === "success") {
-            console.log("I'm success");
+          if(response.data) {
+            if (response.data.status === "success") {
             const authToken = response.data.token;
             const temPayload = jwt.decode(authToken);
             setPayload(temPayload);
             setIsAuthenticated(true);
             localStorage.setItem("authToken", authToken);
           }
+          }
           //若獲得的response不符合上面條件，回傳response讓LoginPage去做錯誤顯示
           else {
-            console.log("I'm error");
             setPayload(null);
             setIsAuthenticated(false);
-            console.logI("Im error");
             return response;
           }
         },

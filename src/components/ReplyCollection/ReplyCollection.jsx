@@ -1,6 +1,7 @@
 import styles from "./ReplyCollection.module.scss";
 import { useState, useEffect } from 'react';
 import ReplyItem from "components/ReplyItem/ReplyItem.jsx";
+
 import {getUserReplies} from 'api/tweets'
 import {useAuth} from 'context/authContext'
 
@@ -20,6 +21,7 @@ export default function ReplyCollection() {
     }
     getUserRepliesAsync()
   }, [currentUser])
+
   return (
     <div className={styles.replyCollectionContainer}>
       {replies.map((reply) => {
