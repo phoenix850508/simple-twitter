@@ -34,14 +34,12 @@ export default function LeftBanner() {
   //在左邊欄也增加新增推文的API請求
   const handleSubmit = async () => {
     try { 
-      if(isUpdating) {
-        return
-      }
+      if(isUpdating) return
+      if(tweet.trim().length < 1 || tweet.length > 140) return alert("推文不能為空白")
       setIsUpdating(true)
       const res = await postTweets({description: tweet})
       //若新增推文成功
       if (res) {
-        alert("推文新增成功！");
         setShow(false)
         console.log(res);
       }
@@ -86,10 +84,10 @@ function LeftBannerItems({onTweetClick, onHomePageClick, onUserSelfClick, onSett
 }
 
 // 左欄推文按鈕
-function LeftBannerTweet({onTweetClick}) {
+function LeftBannerTweet({onClick}) {
   return (
     <div>
-      <button className={styles.leftBannerTweetBtn} onClick={onTweetClick}><p className={styles.leftBannerTweetText}>推文</p></button>
+      <button className={styles.leftBannerTweetBtn} onClick={onClick}><p className={styles.leftBannerTweetText}>推文</p></button>
     </div>
   )
 }
