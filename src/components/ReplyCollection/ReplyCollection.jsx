@@ -1,11 +1,20 @@
 import styles from "./ReplyCollection.module.scss";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ReplyItem from "components/ReplyItem/ReplyItem.jsx";
-import dummyReplies from "./dummyReplies";
+import {getUserReplies} from 'api/tweets'
+import dummyReplies from './dummyReplies.js'
+import {useAuth} from 'context/authContext'
 
 export default function ReplyCollection() {
   const [replies, setReplies] = useState(dummyReplies);
-
+  const {currentUser} = useAuth()
+  useEffect(() => {
+  console.log(currentUser)
+  const getUserRepliesAsync = async({currentUser}) => {
+    const response = await getUserReplies()
+    console.log(response)
+  } 
+  })
   return (
     <div className={styles.replyCollectionContainer}>
       {replies.map((reply) => {
