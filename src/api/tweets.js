@@ -34,13 +34,12 @@ export const getTweets = async () => {
   }
 };
 
-export const getUserReplies = async ({ id }) => {
+export const getUserReplies = async () => {
   try {
-    const res = await axiosInstance.get(
-      `${baseUrl}/users/${id}/replied_tweets`
+    const response = await axiosInstance.get(
+      `${baseUrl}/users/14/replied_tweets`
     );
-    console.log(res);
-    return res;
+    return response;
   } catch (error) {
     console.error("[Get User Replies failed]: ", error);
   }

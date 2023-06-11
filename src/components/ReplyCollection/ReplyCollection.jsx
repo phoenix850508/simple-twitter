@@ -2,30 +2,37 @@ import styles from "./ReplyCollection.module.scss";
 import { useState, useEffect } from 'react';
 import ReplyItem from "components/ReplyItem/ReplyItem.jsx";
 import {getUserReplies} from 'api/tweets'
-import dummyReplies from './dummyReplies.js'
 import {useAuth} from 'context/authContext'
 
 export default function ReplyCollection() {
-  const [replies, setReplies] = useState(dummyReplies);
-  const {currentUser} = useAuth()
+  const [replies, setReplies] = useState(null);
+  //這邊需要去看是否有登入，並且透過currentUser去取user id
+  const {currentUser, isAuthenticated} = useAuth()
   useEffect(() => {
-  console.log(currentUser)
-  const getUserRepliesAsync = async({currentUser}) => {
-    const response = await getUserReplies()
-    console.log(response)
-  } 
-  })
+    const getUserRepliesAsync = async() => {
+      try {
+        const response = await getUserReplies()
+        console.log(response)
+        setReplies(response.data)
+      } catch(error){
+        console.error("[Get User Replies failed]: ",error)
+      }
+    }
+    getUserRepliesAsync()
+  }, [])
   return (
     <div className={styles.replyCollectionContainer}>
       {replies.map((reply) => {
-        const { name, account, avatar } = reply.users
-        const { id, description, createdAt } = reply.replies
+        const name = "Me"
+        const account = "MyAccount"
+        const avatar = "MyAvatar"
+        const { id, comment, createdAt } = reply
         return (
           <ReplyItem
             key={id}
             name={name}
             account={account}
-            description={description}
+            comment={comment}
             createdAt={createdAt}
           />
         );
