@@ -1,7 +1,7 @@
 .tweetItemContainer {
   width: 641px;
   height: 168px;
-  border-bottom: 1px solid #E6ECF0;
+  border-bottom: 1px solid #e6ecf0;
   padding: 16px 24px;
 
   .tweetItemWrapper {
@@ -47,7 +47,7 @@
           /* identical to box height, or 157% */
           line-height: 22px;
           /* color/secondary */
-          color: #6C757D;
+          color: #6c757d;
         }
       }
 
@@ -89,15 +89,16 @@
           gap: 8px;
           width: 38px;
           height: 16px;
+          cursor: pointer;
 
           .tweetDiscussionNum {
-            font-family: 'Montserrat';
+            font-family: "Montserrat";
             font-weight: 600;
             font-size: 14px;
             /* identical to box height, or 100% */
             line-height: 14px;
             /* color/secondary */
-            color: #6C757D;
+            color: #6c757d;
           }
         }
 
@@ -112,15 +113,210 @@
           height: 16px;
 
           .tweetLikeNum {
-            font-family: 'Montserrat';
+            font-family: "Montserrat";
             font-weight: 600;
             font-size: 14px;
             /* identical to box height, or 100% */
             line-height: 14px;
             /* color/secondary */
-            color: #6C757D;
+            color: #6c757d;
           }
         }
+      }
+    }
+  }
+}
+
+.modal {
+  left: 0;
+  transform: translateX(-4%);
+  --bs-modal-width: 634px;
+  &Content {
+    outline: solid red 2px;
+    border-radius: 40px;
+  }
+  &Header {
+    height: 56px;
+    border-bottom: 1px solid var(--border);
+    justify-content: flex-start;
+    --bs-modal-header-padding: 0;
+    .modalClose {
+      --bs-btn-close-opacity: 1;
+      --bs-btn-close-bg: none;
+      margin: 0;
+      margin-left: 19.5px;
+      padding: 0;
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+    }
+  }
+
+  &Title {
+    height: 56px;
+  }
+
+  &Body {
+    flex: none;
+    padding: 0;
+    height: 443px;
+  }
+
+  &Post {
+    position: relative;
+    margin-top: 16px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &Input {
+    height: 26px;
+    width: 100%;
+    font-size: 16px;
+    border: none;
+    outline: none;
+
+    &::placeholder {
+      color: var(--secondary);
+    }
+  }
+
+  &Submit {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+  }
+}
+
+.replyModaldAvatarContainer {
+  position: relative;
+  align-self: flex-start;
+  &::after {
+    content: "";
+    position: absolute;
+    right: 50%;
+    top: 56px;
+    background-color: var(--grayscale-dark-60);
+    width: 2px;
+    height: 86px;
+  }
+}
+
+.replyAt {
+  color: var(--brand);
+}
+
+.tweetItemInfo {
+  &Wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 8px;
+    width: 528px;
+    height: 136px;
+  }
+
+  &User {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 8px;
+    height: 26px;
+
+    &Name {
+      font-weight: 700;
+      font-size: 16px;
+      /* identical to box height, or 162% */
+      line-height: 26px;
+      /* grayscale/dark-100 */
+      color: #171725;
+    }
+
+    &Detail {
+      height: 22px;
+      font-weight: 400;
+      font-size: 14px;
+      /* identical to box height, or 157% */
+      line-height: 22px;
+      /* color/secondary */
+      color: #6c757d;
+    }
+  }
+
+  &ContentWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    align-items: flex-start;
+    padding: 0px;
+    width: 528px;
+    height: 78px;
+
+    // Tweet 文字內容
+    .tweetItemInfoContent {
+      text-align: left;
+      font-weight: 400;
+      font-size: 16px;
+      /* or 162% */
+      line-height: 26px;
+      /* grayscale/dark-100 */
+      color: #171725;
+    }
+  }
+
+  &Bottom {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 40px;
+    width: 120px;
+    height: 16px;
+
+    &Discussion {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 0px;
+      gap: 8px;
+      width: 38px;
+      height: 16px;
+      cursor: pointer;
+
+      .tweetDiscussionNum {
+        font-family: "Montserrat";
+        font-weight: 600;
+        font-size: 14px;
+        /* identical to box height, or 100% */
+        line-height: 14px;
+        /* color/secondary */
+        color: #6c757d;
+      }
+    }
+
+    &Like {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 0px;
+      gap: 8px;
+      width: 42px;
+      height: 16px;
+
+      .tweetLikeNum {
+        font-family: "Montserrat";
+        font-weight: 600;
+        font-size: 14px;
+        /* identical to box height, or 100% */
+        line-height: 14px;
+        /* color/secondary */
+        color: #6c757d;
       }
     }
   }

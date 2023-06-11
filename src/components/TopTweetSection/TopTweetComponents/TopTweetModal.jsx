@@ -7,7 +7,7 @@ import TopTweetButton from './TopTweetButton'
 
 
 
-export default function TopTweetModal({modal, modalHeader, modalClose, modalBody, modalInput, modalSubmit, handleClose, show}) {
+export default function TopTweetModal({modal, modalHeader, modalClose, modalBody, modalInput, modalSubmit, handleClose, show, onChange, value, onSubmit, buttonText}) {
 
   return (
     <div className={styles.modalContainer}>
@@ -23,9 +23,15 @@ export default function TopTweetModal({modal, modalHeader, modalClose, modalBody
         <Modal.Body className={clsx(styles.modalBody, modalBody)}>
           <div className={styles.modalPost}>
             <UserTweetPhoto />
-            <input className={clsx(styles.modalInput, modalInput)} type="text" placeholder="有什麼新鮮事？" />
+            <input 
+            className={clsx(styles.modalInput, modalInput)}
+            type="text" 
+            placeholder="有什麼新鮮事？" 
+            onChange={(e) => onChange?.(e.target.value)}
+            value={value}
+             />
           </div>
-          <TopTweetButton btnName={clsx(styles.modalSubmit, modalSubmit)} text={"推文"} />
+          <TopTweetButton btnName={clsx(styles.modalSubmit, modalSubmit)} text={clsx(buttonText)} onClick={onSubmit} />
         </Modal.Body>
       </Modal>
     </div>

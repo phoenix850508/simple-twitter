@@ -16,24 +16,25 @@ export default function MainPage() {
   const [tweets, setTweets] = useState([]);
 
   // 透過 API 撈初始資料
-  useEffect(() => {
-    const getTweetsAsync = async () => {
-      try {
-        const tweets = await getTweets();
-        setTweets(tweets.map((tweet) => ({ ...tweet })));
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getTweetsAsync();
-  }, []);
+  // useEffect(() => {
+  //   const getTweetsAsync = async () => {
+  //     try {
+  //       const tweets = await getTweets();
+  //       setTweets(tweets.map((tweet) => ({ ...tweet })));
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   getTweetsAsync();
+  // }, []);
 
   return (
     <MainContainer>
       <LeftBanner />
       <MiddleColumnContainer>
         <TopTweetSection />
-        <TweetCollection tweets={tweets} />
+        {/* <TweetCollection tweets={tweets} /> */}
+        <TweetCollection />
       </MiddleColumnContainer>
       <RightBanner />
     </MainContainer>
