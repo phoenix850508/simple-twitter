@@ -1,7 +1,7 @@
 import styles from "./TweetCollection.module.scss";
 import { useState } from 'react';
 import TweetItem from "components/TweetItem/TweetItem.jsx";
-import dummyTweets from "./dummyTweets";
+// import dummyTweets from "./dummyTweets";
 
 // export default function TweetCollection() {
 export default function TweetCollection({ tweets }) {
