@@ -12,12 +12,16 @@ import AuthInput from 'components/Form/AuthInput'
 import camera from 'icons/camera.svg'
 import white_cross from 'icons/white_cross.svg'
 import {postUserSelf} from 'api/tweets.js'
+import {useAuth} from 'context/authContext.js'
 
 
 export default function TopUserSection() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [newName, setNewName] = useState('');
+  const [newIntroduction, setNewIntroduction] = useState('');
+  const {currentUser} = useAuth()
 //   {
 //     "id": 14,
 //     "email": "user1@example.com",
@@ -30,8 +34,24 @@ export default function TopUserSection() {
 //     "createdAt": "2023-06-11T01:22:52.000Z",
 //     "updatedAt": "2023-06-11T04:08:46.401Z"
 // }
-  const response = async () => {
-    await postUserSelf()
+  // 這邊需要加入GET user/:id 的API去取得user原始的資料，包括背景圖片、大頭貼、、名稱和自我介紹
+  // 不過這條API可以之後再做，現在先只處理POST API的資訊傳遞(需轉換成 Form-data)
+  const updatedUserSelf = new FormData()
+  updatedUserSelf.append('name', newName)
+  updatedUserSelf.apend('introduction', newIntroduction)
+  const handleSave = async() => {
+    const response = await postUserSelf({id: currentUser, formData: updatedUserSelf, name: newName, introduction: newIntroduction})
+    // 若成功把使用者編輯資料送出
+    if (response.id) {
+      alert('successfully updated')
+      setShow(false)
+    }
+    // 若使用者編輯資料失敗
+    else {
+      console.log(response)
+      alert('failed to update')
+      setShow(false)
+    }
   }
   return (
     <div>
@@ -56,12 +76,18 @@ export default function TopUserSection() {
           </div>
         </div>
       </div>
-      <EditUserModal handleClose={handleClose} show={show} />
+      <EditUserModal 
+      handleClose={handleClose} 
+      show={show}
+      onNameChange={(updateNameInput) => setNewName(updateNameInput)}
+      onIntroChange={(updateIntroInput) => setNewIntroduction(updateIntroInput)}
+      onSave={handleSave}
+      />
     </div>
   )
 }
 
-export function EditUserModal({show, handleClose}) {
+export function EditUserModal({show, handleClose, onNameChange, onIntroChange, onSave}) {
   return (
     <div className={styles.modalContainer}>
       <Modal className={clsx("fade modal show", styles.modal)} show={show} onHide={handleClose}>
@@ -73,10 +99,11 @@ export function EditUserModal({show, handleClose}) {
           <Modal.Title className={styles.modalTitle}>
             <h5 className={styles.modalText}>編輯個人資料</h5>
           </Modal.Title>
-          <TopTweetButton btnName={clsx(styles.modalSubmit)}  text={"儲存"}/>
+          <TopTweetButton btnName={clsx(styles.modalSubmit)} text={"儲存"} onClick={onSave}/>
         </Modal.Header>
         <Modal.Body className={clsx(styles.modalBody)}>
           <div className={styles.modalImageContainer}>
+            {/* 背景的照片的會隨著TopUserSection的背景照片改變，這邊先放入假資料 */}
             <img className={styles.modalBackgroundImage} src={dummyBackgroundImage} alt="dummyBackgroundImage.svg" />
             {/* 照片的src會隨著TopUserSection的照片改變，這邊先放入假資料 */}
             <img className={clsx(styles.topUserPhoto, styles.modalUserPhoto)} src={dummyUserPhoto} alt="dummyUserPhoto.svg" />
@@ -86,13 +113,17 @@ export function EditUserModal({show, handleClose}) {
           </div>
           <div className={styles.topUserWordsWrapper}>
           </div>
+        {/* 使用者input的名字 */}
         <AuthInput 
         className={styles.nameInput}
         placeholder={"名稱"}
+        onChange={onNameChange}
         />
+        {/* 使用者input的自我介紹 */}
         <AuthInput 
         className={styles.introductionInput}
         placeholder={"自我介紹"}
+        onChange={onIntroChange}
         />
         </Modal.Body>
       </Modal>

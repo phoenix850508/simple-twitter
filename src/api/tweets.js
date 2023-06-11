@@ -34,13 +34,22 @@ export const getTweets = async () => {
   }
 };
 
-export const postUserSelf = async (id) => {
+export const postUserSelf = async (id, formData, name, introduction) => {
   try {
     // 這邊需要帶入使用者的id，才能讓後端知道目前的self指的是哪一位使用者
-    const res = await axiosInstance.post(`${baseUrl}/user/${id}`);
+    const res = await axiosInstance.post(
+      `${baseUrl}/user/${id}`,
+      { formData, name, introduction },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     console.log(res);
     return res;
   } catch (error) {
     console.error("[Post User-Self failed]", error);
+    return error;
   }
 };
