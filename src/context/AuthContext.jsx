@@ -116,6 +116,7 @@ const AuthProvider = ({ children }) => {
           localStorage.removeItem("authToken");
           localStorage.removeItem("userInfo");
           localStorage.removeItem("tweetId");
+          localStorage.removeItem("otherUserId");
           setPayload(null);
           setIsAuthenticated(false);
         },

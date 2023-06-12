@@ -6,10 +6,15 @@
     border-right: 1px solid #E6ECF0;
   }
 
+  // 大頭照
   &Photo {
     position: absolute;
     top: 124px;
     left: 16px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 4px solid #FFFFFF;
   }
 
   &EditBtnWrapper {

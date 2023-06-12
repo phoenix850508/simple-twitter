@@ -2,12 +2,12 @@
 import styles from "./ReplyItem.module.scss";
 import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 
-export default function ReplyItem({ name, account, comment, createdAt, replyTo }) {
+export default function ReplyItem({ name, account, avatar, comment, createdAt, replyTo }) {
   return (
     <div className={styles.replyItemContainer}>
       <div className={styles.replyItemWrapper}>
         <div>
-          <img src={avatarDefaultMini} alt="avatarDefaultMini.svg" />
+          <img className={styles.avatar} src={avatar} alt={avatarDefaultMini} />
         </div>
         <div className={styles.replyItemInfoWrapper}>
           <div className={styles.replyItemInfoUser}>

@@ -26,8 +26,6 @@ export default function UserSelfPage() {
   const [replies, setReplies] = useState([]);
   // 喜歡過的推特存在這
   const [likes, setLikes] = useState([]);
-  // 使用蟲洞從 authContext.js 拿資料：使用者資訊
-  // const { userInfo } = useContext(AuthContext);
   // userInfo 資料從 localStorage 拿
   const savedUserInfo = localStorage.getItem("userInfo")
   const savedUserInfoParsed = JSON.parse(savedUserInfo)
@@ -38,8 +36,9 @@ export default function UserSelfPage() {
     setUserContent(targetValue)
   }
 
-  // 透過 API 撈推文資料、已回覆內容
+  // 透過 API 撈資料
   useEffect(() => {
+    // 所有自己的推文
     const getTweetsAsync = async () => {
       try {
         // 用 Context 裡的 user id 去撈他的推文
@@ -49,6 +48,7 @@ export default function UserSelfPage() {
         console.error(error);
       }
     };
+    // 所有自己已回覆的內容
     const getUserRepliesAsync = async () => {
       try {
         // 用 Context 裡的 user id 去撈他的回覆內容
@@ -58,6 +58,7 @@ export default function UserSelfPage() {
         console.error(error);
       }
     };
+    // 所有自己已喜歡的內容
     const getUserLikesAsync = async () => {
       try {
         const { data } = await getUserLikes(savedUserInfoId)
@@ -80,7 +81,7 @@ export default function UserSelfPage() {
         <TopUserSection />
         <ChangeUserContent userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
         {userContent === 'tweets' && <TweetCollection tweets={tweets} />}
-        {userContent === 'replies' && <ReplyCollectionUser replies={replies} />}
+        {userContent === 'replies' && <ReplyCollectionUser replies={replies} userDetail={savedUserInfoParsed} />}
         {userContent === 'likes' && <LikeCollection likes={likes} />}
       </MiddleColumnContainer>
       <RightBanner />

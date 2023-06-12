@@ -7,9 +7,7 @@ import { AuthContext } from 'context/AuthContext.jsx';
 // API
 import { getUserReplies } from 'api/tweets'
 
-export default function ReplyCollection({ tweetReplyList }) {
-  // 使用蟲洞從 authContext.js 拿資料：tweetID 與底下回覆
-  // const { tweetReplyList } = useContext(AuthContext);
+export default function ReplyCollection({ replies }) {
 
   // const [replies, setReplies] = useState(null);
   //這邊需要去看是否有登入，並且透過currentUser去取user id
@@ -30,7 +28,7 @@ export default function ReplyCollection({ tweetReplyList }) {
 
   return (
     <div className={styles.replyCollectionContainer}>
-      {tweetReplyList.map((reply) => {
+      {replies.map((reply) => {
         const { name, account, avatar } = reply.User
         const { id, comment, createdAt } = reply
         return (
