@@ -1,5 +1,5 @@
 // React Hook
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 // 元件類
 import MainContainer from "components/MainContainer/MainContainer.jsx";
 import LeftBanner from "components/LeftBanner/LeftBanner.jsx";
@@ -13,7 +13,7 @@ import LikeCollection from 'components/LikeCollection/LikeCollection';
 // API
 import { getUserTweets, getUserReplies } from '../api/tweets';
 // 引用封裝好的 Context 資訊
-import { useAuth } from 'context/AuthContext.jsx';
+import { AuthContext } from 'context/AuthContext.jsx';
 
 
 
@@ -25,7 +25,11 @@ export default function UserSelfPage() {
   // 已回覆內容存在這
   const [replies, setReplies] = useState([]);
   // 使用蟲洞從 authContext.js 拿資料：使用者資訊
-  const { currentUser, isAuthenticated } = useAuth();
+  // const { userInfo } = useContext(AuthContext);
+  // userInfo 資料從 localStorage 拿
+  const savedUserInfo = localStorage.getItem("userInfo")
+  const savedUserInfoParsed = JSON.parse(savedUserInfo)
+  const savedUserInfoId = savedUserInfoParsed.id
 
   // 變更瀏覽區塊
   function handleChangeUserContentClick(targetValue) {
@@ -37,8 +41,7 @@ export default function UserSelfPage() {
     const getTweetsAsync = async () => {
       try {
         // 用 Context 裡的 user id 去撈他的推文
-        const tweets = await getUserTweets(currentUser.id);
-        console.log('currentUser: ', currentUser)
+        const tweets = await getUserTweets(savedUserInfoId);
         setTweets(tweets.map((tweet) => ({ ...tweet })));
       } catch (error) {
         console.error(error);
@@ -47,8 +50,7 @@ export default function UserSelfPage() {
     const getUserRepliesAsync = async () => {
       try {
         // 用 Context 裡的 user id 去撈他的回覆內容
-        const replies = await getUserReplies(currentUser.id);
-        console.log('currentUser: ', currentUser)
+        const replies = await getUserReplies(savedUserInfoId);
         setReplies(replies.map((reply) => ({ ...reply })));
       } catch (error) {
         console.error(error);
@@ -56,9 +58,7 @@ export default function UserSelfPage() {
     };
     getTweetsAsync();
     getUserRepliesAsync()
-    console.log('UserSelfPage 的 currentUser: ', currentUser)
-    console.log('UserSelfPage 的 isAuthenticated: ', isAuthenticated)
-  }, [currentUser, isAuthenticated]);
+  }, [savedUserInfoId]);
 
   return (
     <MainContainer >

@@ -1,32 +1,37 @@
 import { login } from "api/auth.js";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useRef } from "react";
 import * as jwt from "jsonwebtoken";
 import { useLocation } from "react-router-dom";
 
-const defaultAuthContext = {
-  currentUser: null,
-  isAuthenticated: false,
-  login: null,
-  logout: null,
-  tweetId: null,
-};
+// const defaultAuthContext = {
+//   currentUser: null,
+//   isAuthenticated: false,
+//   login: null,
+//   logout: null,
+//   tweetId: null,
+// };
 
-const AuthContext = createContext(defaultAuthContext);
-export const useAuth = () => useContext(AuthContext);
+const AuthContext = createContext('');
+// export const useAuth = () => useContext(AuthContext);
 
-export const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [payload, setPayload] = useState(null);
-  const { pathname } = useLocation();
   // 儲存 userInfo 物件方便運用，裡面包含 account、avatar、banner、name 等
-  const [userInfo, setUserInfo] = useState(null);
-  console.log('AuthContext 裡的 userInfo: ', userInfo)
-
-  // 儲存使用者點擊想看的 tweetId 與底下回覆
+  const [userInfo, setUserInfo] = useState({});
+  // 儲存使用者點擊想看的 tweetId
   const [tweetId, setTweetId] = useState(null);
-  const [tweetReplyList, setTweetReplyList] = useState([]);
   // 儲存使用者所有已回覆的 tweet
   const [userReplyList, setUserReplyList] = useState([]);
+
+  const { pathname } = useLocation();
+
+  // 儲存點擊的 tweetId
+  function handleSetTweetIdClick(tweetIdReceived) {
+    setTweetId(tweetIdReceived);
+    localStorage.setItem("tweetId", tweetIdReceived);
+  };
 
   // 換頁要驗證 token
   useEffect(() => {
@@ -48,6 +53,16 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(true);
         const tempPayload = jwt.decode(authToken);
         setPayload(tempPayload);
+        // 使用 localStorage 中的 userInfo 來初始化
+        const savedUserInfo = localStorage.getItem("userInfo");
+        if (savedUserInfo) {
+          setUserInfo(JSON.parse(savedUserInfo));
+        }
+        // 使用 localStorage 中的 tweetId 來初始化
+        const savedTweetId = localStorage.getItem("tweetId");
+        if (savedTweetId) {
+          setTweetId(savedTweetId);
+        }
       } else {
         // 無效
         setIsAuthenticated(false);
@@ -57,18 +72,16 @@ export const AuthProvider = ({ children }) => {
     checkTokenIsValid();
   }, [pathname]);
 
+
+  console.log('AuthProvider 重新渲染')
   return (
     <AuthContext.Provider
       value={{
         isAuthenticated,
-        currentUser: payload && {
-          id: payload.id,
-        },
-        userInfo: { userInfo },
+        currentUser,
+        userInfo,
         tweetId,
-        setTweetId,
-        tweetReplyList,
-        setTweetReplyList,
+        handleSetTweetIdClick,
         userReplyList,
         setUserReplyList,
         login: async (data) => {
@@ -83,9 +96,13 @@ export const AuthProvider = ({ children }) => {
               const temPayload = jwt.decode(authToken);
               setPayload(temPayload);
               setIsAuthenticated(true);
+              setCurrentUser({
+                id: temPayload.id,
+              })
               localStorage.setItem("authToken", authToken);
-              // 儲存使用者資訊到 state
+              // 儲存使用者資訊到 state 與 localStorage
               setUserInfo(response.data.user);
+              localStorage.setItem("userInfo", JSON.stringify(response.data.user));
             }
           }
           //若獲得的response不符合上面條件，回傳response讓LoginPage去做錯誤顯示
@@ -97,6 +114,8 @@ export const AuthProvider = ({ children }) => {
         },
         logout: () => {
           localStorage.removeItem("authToken");
+          localStorage.removeItem("userInfo");
+          localStorage.removeItem("tweetId");
           setPayload(null);
           setIsAuthenticated(false);
         },
@@ -106,3 +125,5 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+export { AuthContext, AuthProvider }

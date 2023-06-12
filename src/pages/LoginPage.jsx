@@ -4,9 +4,9 @@ import ac_logo from 'icons/ac_logo.svg'
 import styles from './LoginPage.module.scss'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from 'context/AuthContext.jsx'
+import { AuthContext } from 'context/AuthContext.jsx'
 
 
 export default function LoginPage() {
@@ -15,7 +15,7 @@ export default function LoginPage() {
   // 這邊的errorMsg是用來判斷若後端response的資料不存在或有誤，可以讓<AuthInput/>可以製造出相對的錯誤訊息
   const [errorMsg, setErrorMsg] = useState('')
   const navigate = useNavigate();
-  const { login, isAuthenticated, currentUser } = useAuth()
+  const { login, isAuthenticated, currentUser } = useContext(AuthContext);
 
   const handleClick = async () => {
     // 檢查格式是否符合需求

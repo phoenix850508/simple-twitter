@@ -7,17 +7,17 @@ import Modal from 'react-bootstrap/Modal';
 import cross from 'icons/cross.svg'
 import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTweetButton'
 import UserTweetPhoto from 'components/TopTweetSection/TopTweetComponents/UserTweetPhoto'
-import {useState} from 'react'
+import { useState, useContext } from 'react'
 import clsx from 'clsx'
 // likeActive 暫時沒用到先註解掉
 // import likeActive from 'icons/likeActive.svg'
 // 引用封裝好的 Context 資訊
-import { useAuth } from 'context/AuthContext.jsx';
+import { AuthContext } from 'context/AuthContext.jsx';
 
 export default function TweetItem({ id, name, account, description, createdAt, replyCount, likeCount }) {
   const navigate = useNavigate();
   // 使用蟲洞從 authContext.js 拿資料：setTweetID
-  const { setTweetId } = useAuth();
+  const { handleSetTweetIdClick } = useContext(AuthContext);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -38,7 +38,7 @@ export default function TweetItem({ id, name, account, description, createdAt, r
             className={styles.tweetItemInfoContentWrapper}
             onClick={() => {
               // 在 Context 用 state 管理，把該推文 ID 存起來
-              setTweetId(id)
+              handleSetTweetIdClick(id)
               console.log('TweetItem 裡的推文 id: ', id)
               navigate('/replylist')
             }}>
@@ -61,13 +61,13 @@ export default function TweetItem({ id, name, account, description, createdAt, r
   )
 }
 
-export function ReplyTweetModal({handleShow, show, handleClose}) {
+export function ReplyTweetModal({ handleShow, show, handleClose }) {
   return (
     <div className={styles.modalContainer}>
       <Modal className={clsx("fade modal show", styles.modal)} show={show} onHide={handleClose}>
-        <Modal className={clsx("modal-content", styles.modalContent)}/>
+        <Modal className={clsx("modal-content", styles.modalContent)} />
         <Modal.Header className={clsx(styles.modalHeader)}>
-        <Modal.Header/>
+          <Modal.Header />
           <Modal.Title>
             <div onClick={handleClose}>
               <img className={clsx(styles.modalClose)} src={cross} alt="cross.svg" />
@@ -80,15 +80,15 @@ export function ReplyTweetModal({handleShow, show, handleClose}) {
               <img src={avatarDefaultMini} alt="avatarDefaultMini.svg" />
             </div>
             <div className={styles.tweetItemInfoWrapper}>
-          <div className={styles.tweetItemInfoUser}>
-            <div className={styles.tweetItemInfoUserName}>John Doe</div>
-            <div className={styles.tweetItemInfoUserDetail}>@ajohndoe・3小時</div>
-          </div>
-          <div className={styles.tweetItemInfoContentWrapper}>
-            <p className={styles.tweetItemInfoContent}>Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.</p>
-            <div><span>回覆給</span><span className={styles.replyAt}> @johndoe</span></div>
-          </div>
-        </div>
+              <div className={styles.tweetItemInfoUser}>
+                <div className={styles.tweetItemInfoUserName}>John Doe</div>
+                <div className={styles.tweetItemInfoUserDetail}>@ajohndoe・3小時</div>
+              </div>
+              <div className={styles.tweetItemInfoContentWrapper}>
+                <p className={styles.tweetItemInfoContent}>Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum.</p>
+                <div><span>回覆給</span><span className={styles.replyAt}> @johndoe</span></div>
+              </div>
+            </div>
           </div>
           <div className={styles.modalPost}>
             <UserTweetPhoto />
