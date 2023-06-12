@@ -39,7 +39,7 @@ export default function SignupPage() {
   }
   return (
     <div className={styles.signupContainer}>
-      <Alert alertClassName={clsx('', {[styles.alert]: isSuccess})} />
+      <Alert alertClassName={clsx('', {[styles.alert]: isSuccess})} alertText={"註冊成功"} />
       <img src={ac_logo} alt="ac_logo.svg" />
       <h3 className={styles.authTitle}>{"建立你的帳號"}</h3>
       <AuthInput 

@@ -2,6 +2,7 @@ import { login } from "api/auth.js";
 import { createContext, useContext, useState, useEffect, useRef } from "react";
 import * as jwt from "jsonwebtoken";
 import { useLocation } from "react-router-dom";
+import {postTweets} from 'api/tweets.js'
 
 // const defaultAuthContext = {
 //   currentUser: null,
@@ -24,6 +25,8 @@ const AuthProvider = ({ children }) => {
   const [tweetId, setTweetId] = useState(null);
   // 儲存使用者所有已回覆的 tweet
   const [userReplyList, setUserReplyList] = useState([]);
+  // 若自己有Tweet更新
+  const [isTweetUpdated, setIsTweetUpdated] = useState(false)
 
   const { pathname } = useLocation();
 
@@ -84,6 +87,7 @@ const AuthProvider = ({ children }) => {
         handleSetTweetIdClick,
         userReplyList,
         setUserReplyList,
+        isTweetUpdated,
         login: async (data) => {
           const response = await login({
             account: data.account,
@@ -120,6 +124,11 @@ const AuthProvider = ({ children }) => {
           setPayload(null);
           setIsAuthenticated(false);
         },
+        postTweets: async(data) => {
+          const response = await postTweets({description: data.description})
+          if (response.data) setIsTweetUpdated(true)
+          return response
+        }
       }}
     >
       {children}

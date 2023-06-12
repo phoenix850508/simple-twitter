@@ -2,8 +2,8 @@ import TopTweetButton from './TopTweetComponents/TopTweetButton'
 import UserTweetPhoto from './TopTweetComponents/UserTweetPhoto'
 import styles from './TopTweetSection.module.scss'
 import TopTweetModal from './TopTweetComponents/TopTweetModal'
-import {useState} from 'react'
-import {postTweets} from 'api/tweets.js'
+import {useState, useContext} from 'react'
+import { AuthContext } from 'context/AuthContext.jsx'
 import clsx from 'clsx'
 
 export default function TopTweetSection() {
@@ -11,17 +11,19 @@ export default function TopTweetSection() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [tweet, setTweet] = useState('')
+  const [errorMsg, setErrorMsg] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
+  const { postTweets } = useContext(AuthContext);
   const handleSubmit = async () => {
     try { 
       if(isUpdating) return
-      if(tweet.trim().length < 1 || tweet.length > 140) return alert("推文不能為空白")
+      if(tweet.length > 140) return
+      if(tweet.trim().length < 1) return setErrorMsg(true)
       setTimeout(() => setIsUpdating(true), 1000)
       const res = await postTweets({description: tweet})
       //若新增推文成功
       if (res) {
         setShow(false)
-        console.log(res);
       }
       setIsUpdating(false);
     } catch (error) {
@@ -45,12 +47,20 @@ export default function TopTweetSection() {
           <TopTweetButton text={"推文"} />
         </div>
       </section>
-      <TopTweetModal show={show} handleClose={handleClose} onChange={(tweetInput) => setTweet(tweetInput)} value={tweet} onSubmit={handleSubmit} buttonText={clsx({'推文': !isUpdating}, {'處理中': isUpdating})} />
+      <TopTweetModal 
+      show={show} 
+      handleClose={handleClose} 
+      onChange={(tweetInput) => {
+        setErrorMsg(false)
+        setTweet(tweetInput)
+      }} 
+      value={tweet} onSubmit={handleSubmit} buttonText={clsx({'推文': !isUpdating}, {'處理中': isUpdating})} 
+      borderLine={clsx('', {[styles.wordLengthError]: tweet.length > 140}, {[styles.emptyTweetError]: errorMsg})} />
     </div>
   )
 } 
 
-export const handleTweetClick = (e) => {
-  if(!e.target.className.includes("TopTweetSection")) return 
+// export const handleTweetClick = (e) => {
+//   if(!e.target.className.includes("TopTweetSection")) return 
 
-}
+// }

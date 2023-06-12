@@ -7,7 +7,7 @@ import TopTweetButton from './TopTweetButton'
 
 
 
-export default function TopTweetModal({modal, modalHeader, modalClose, modalBody, modalInput, modalSubmit, handleClose, show, onChange, value, onSubmit, buttonText}) {
+export default function TopTweetModal({modal, modalHeader, modalClose, modalBody, modalInput, modalSubmit, handleClose, show, onChange, value, onSubmit, buttonText, borderLine}) {
 
   return (
     <div className={styles.modalContainer}>
@@ -23,6 +23,7 @@ export default function TopTweetModal({modal, modalHeader, modalClose, modalBody
         <Modal.Body className={clsx(styles.modalBody, modalBody)}>
           <div className={styles.modalPost}>
             <UserTweetPhoto />
+            <div className={styles.inputWrapper}>
             <input 
             className={clsx(styles.modalInput, modalInput)}
             type="text" 
@@ -30,6 +31,8 @@ export default function TopTweetModal({modal, modalHeader, modalClose, modalBody
             onChange={(e) => onChange?.(e.target.value)}
             value={value}
              />
+             <div className={clsx(styles.borderLine, borderLine)}></div>
+            </div>
           </div>
           <TopTweetButton btnName={clsx(styles.modalSubmit, modalSubmit)} text={clsx(buttonText)} onClick={onSubmit} />
         </Modal.Body>
