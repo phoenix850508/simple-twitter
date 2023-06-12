@@ -32,27 +32,29 @@ export default function TopUserSection() {
     handleShow();
   // 透過GET API去取得user原始的資料，包括背景圖片、大頭貼、、名稱和自我介紹
   const {data} = await getUser(currentUser.id)
-  console.log(data)
   setName(data.name)
   setIntro(data.introduction)
   setDataObject(data)
-  console.log(dataObj)
   }
     //點擊儲存按鈕
   const handleSave = async() => {
+    setDataObject({...dataObj, name, introduction: intro})
     // 若input空值，則返回
     if(dataObj.name.length < 0 || dataObj.introduction.length < 0) return
     // 若自我介紹或是名字長度超過限制，則返回
     if (dataObj.name.length > 50 || dataObj.introduction.length > 150) return
     // API的資訊傳遞(需轉換成 Form-data)
     const formData = new FormData()
-    for (let entry of dataObj) {
-      console.log(entry)
+    for ( let key in dataObj ) {
+    formData.append(key, dataObj[key]);
     }
-    console.log(formData)
-    const response = await putUserSelf(currentUser.id, {formData})
+    for (const pair of formData.entries()) {
+      console.log(`${pair[0]}, ${pair[1]}`);
+    }
+    const response = await putUserSelf(currentUser.id, formData)
     // 若成功把使用者編輯資料送出
-    if (response) {
+    if (!response.response) {
+      console.log("Successfully updated", response)
       alert('successfully updated')
       setShow(false)
     }
@@ -100,7 +102,7 @@ export default function TopUserSection() {
   )
 }
 
-export function EditUserModal({show, handleClose, onNameChange, onIntroChange, nameValue, introValue, onSave, nameInputRef, introInputRef, nameBorderLine, introBorderLine}) {
+export function EditUserModal({show, handleClose, onNameChange, onIntroChange, nameValue, introValue, onSave, nameBorderLine, introBorderLine}) {
   return (
     <div className={styles.modalContainer}>
       <Modal className={clsx("fade modal show", styles.modal)} show={show} onHide={handleClose}>
