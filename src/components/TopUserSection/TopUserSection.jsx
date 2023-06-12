@@ -1,4 +1,5 @@
 import styles from './TopUserSection.module.scss'
+import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 import dummyBackgroundImage from 'icons/dummyBackgroundImage.svg'
 import dummyUserPhoto from 'icons/dummyUserPhoto.svg'
 import editUserInfoBtn from 'icons/editUserInfoBtn.svg'
@@ -16,27 +17,33 @@ import { AuthContext } from 'context/AuthContext.jsx'
 import { useNavigate } from 'react-router-dom'
 
 
-export default function TopUserSection() {
+export default function TopUserSection({ userDetail }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [name, setName] = useState('')
   const [intro, setIntro] = useState('')
   const [dataObj, setDataObject] = useState(null)
-  const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate()
+
+  // 回 main 頁面
   const handlePrevPageClick = () => {
     navigate('/main')
   }
+
+  console.log('TopUserSection 裡的 name: ', name)
 
   // userInfo 資料從 localStorage 拿
   const savedUserInfo = localStorage.getItem("userInfo")
   const savedUserInfoParsed = JSON.parse(savedUserInfo)
   const savedUserInfoId = savedUserInfoParsed.id
 
+  // 其他沒從 API 撈的直接用 localStorage 拿，code 才不用改太多
+  const { avatar, account, followingCount, followerCount } = savedUserInfoParsed;
+
   const handleShowModal = async () => {
     handleShow();
-    // 透過GET API去取得user原始的資料，包括背景圖片、大頭貼、、名稱和自我介紹
+    // 透過GET API去取得user原始的資料，包括背景圖片、大頭貼、名稱和自我介紹
     const { data } = await getUser(savedUserInfoId)
     setName(data.name)
     setIntro(data.introduction)
@@ -77,20 +84,20 @@ export default function TopUserSection() {
       <PrePageBtn onClick={handlePrevPageClick} />
       <div className={styles.topUserInfoWrapper}>
         <img src={dummyBackgroundImage} alt="dummyBackgroundImage.svg" />
-        <img className={styles.topUserPhoto} src={dummyUserPhoto} alt="dummyUserPhoto.svg" />
+        <img className={styles.topUserPhoto} src={avatar} alt={avatarDefaultMini} />
         <button className={styles.topUserEditBtn} onClick={handleShowModal} >
           <img src={editUserInfoBtn} alt="editUserInfoBtn.svg" />
         </button>
         <div className={styles.topUserWordsWrapper}>
-          <div className={styles.topUserName}>name</div>
-          <div className={styles.topUserAccount}>@account</div>
-          <div className={styles.topUserIntro}>introduction</div>
+          <div className={styles.topUserName}>{name}</div>
+          <div className={styles.topUserAccount}>@{account}</div>
+          <div className={styles.topUserIntro}>{intro}</div>
           <div className={styles.topUserFollowWrapper}>
             <div>
-              <span className={styles.topUserFollowCount}>followingCount</span><span className={styles.topUserFollowWord}>跟隨中</span>
+              <span className={styles.topUserFollowCount}>{followingCount}</span><span className={styles.topUserFollowWord}>跟隨中</span>
             </div>
             <div className={styles.topUserFollowerWrapper}>
-              <span className={styles.topUserFollowCount}>followerCount</span><span className={styles.topUserFollowWord}>跟隨者</span>
+              <span className={styles.topUserFollowCount}>{followerCount}</span><span className={styles.topUserFollowWord}>跟隨者</span>
             </div>
           </div>
         </div>

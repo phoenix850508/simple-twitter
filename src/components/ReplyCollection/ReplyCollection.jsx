@@ -3,15 +3,13 @@ import { useState, useEffect, useContext } from 'react';
 import ReplyItem from "components/ReplyItem/ReplyItem.jsx";
 // import dummyReplies from "./dummyReplies"; 假資料，目前不會用到
 // 引用封裝好的 Context 資訊
-import { AuthContext } from 'context/AuthContext.jsx';
+// import { AuthContext } from 'context/AuthContext.jsx';
 // API
-import { getUserReplies } from 'api/tweets'
+// import { getUserReplies } from 'api/tweets'
 
-export default function ReplyCollection({ replies }) {
+export default function ReplyCollection({ tweetReplyList, replyTo }) {
 
-  // const [replies, setReplies] = useState(null);
-  //這邊需要去看是否有登入，並且透過currentUser去取user id
-  // const { currentUser, isAuthenticated } = useAuth()
+  console.log('ReplyCollection 裡的 tweetReplyList: ', tweetReplyList)
 
   // useEffect(() => {
   //   const getUserRepliesAsync = async () => {
@@ -28,16 +26,20 @@ export default function ReplyCollection({ replies }) {
 
   return (
     <div className={styles.replyCollectionContainer}>
-      {replies.map((reply) => {
+      {tweetReplyList.map((reply) => {
         const { name, account, avatar } = reply.User
         const { id, comment, createdAt } = reply
+        // 回覆對象即該推文發文者，從父元件另外撈
+
         return (
           <ReplyItem
             key={id}
             name={name}
             account={account}
+            avatar={avatar}
             comment={comment}
             createdAt={createdAt}
+            replyTo={replyTo}
           />
         );
       })}
