@@ -1,15 +1,15 @@
 import styles from "./ReplyCollection.module.scss";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import ReplyItem from "components/ReplyItem/ReplyItem.jsx";
 // import dummyReplies from "./dummyReplies"; 假資料，目前不會用到
 // 引用封裝好的 Context 資訊
-import { useAuth } from 'context/AuthContext.jsx';
+import { AuthContext } from 'context/AuthContext.jsx';
 // API
 import { getUserReplies } from 'api/tweets'
 
-export default function ReplyCollection() {
+export default function ReplyCollection({ tweetReplyList }) {
   // 使用蟲洞從 authContext.js 拿資料：tweetID 與底下回覆
-  const { tweetReplyList } = useAuth();
+  // const { tweetReplyList } = useContext(AuthContext);
 
   // const [replies, setReplies] = useState(null);
   //這邊需要去看是否有登入，並且透過currentUser去取user id

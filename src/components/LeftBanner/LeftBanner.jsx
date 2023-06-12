@@ -5,9 +5,9 @@ import homeActive from 'icons/homeActive.svg'
 import userInfo from 'icons/userInfo.svg'
 import settings from 'icons/settings.svg'
 import TopTweetModal from 'components/TopTweetSection/TopTweetComponents/TopTweetModal'
-import {useState} from 'react'
-import {postTweets} from 'api/tweets.js'
-import {useAuth} from 'context/AuthContext.jsx'
+import { useState, useContext } from 'react'
+import { postTweets } from 'api/tweets.js'
+import { AuthContext } from 'context/AuthContext.jsx'
 import { useNavigate } from 'react-router-dom';
 
 export default function LeftBanner() {
@@ -16,7 +16,7 @@ export default function LeftBanner() {
   const handleShow = () => setShow(true);
   const [tweet, setTweet] = useState('')
   const [isUpdating, setIsUpdating] = useState(false)
-  const {logout} = useAuth()
+  const { logout } = useContext(AuthContext);
   const navigate = useNavigate()
   const handleLogout = () => {
     logout();
@@ -33,11 +33,11 @@ export default function LeftBanner() {
   }
   //在左邊欄也增加新增推文的API請求
   const handleSubmit = async () => {
-    try { 
-      if(isUpdating) return
-      if(tweet.trim().length < 1 || tweet.length > 140) return alert("推文不能為空白")
+    try {
+      if (isUpdating) return
+      if (tweet.trim().length < 1 || tweet.length > 140) return alert("推文不能為空白")
       setIsUpdating(true)
-      const res = await postTweets({description: tweet})
+      const res = await postTweets({ description: tweet })
       //若新增推文成功
       if (res) {
         setShow(false)
@@ -66,7 +66,7 @@ export default function LeftBanner() {
 }
 
 // 左欄項目，不含 logo
-function LeftBannerItems({onTweetClick, onHomePageClick, onUserSelfClick, onSettingClick}) {
+function LeftBannerItems({ onTweetClick, onHomePageClick, onUserSelfClick, onSettingClick }) {
   return (
     <div>
       <div className={styles.leftBannerItem} onClick={onHomePageClick}>
@@ -84,7 +84,7 @@ function LeftBannerItems({onTweetClick, onHomePageClick, onUserSelfClick, onSett
 }
 
 // 左欄推文按鈕
-function LeftBannerTweet({onClick}) {
+function LeftBannerTweet({ onClick }) {
   return (
     <div>
       <button className={styles.leftBannerTweetBtn} onClick={onClick}><p className={styles.leftBannerTweetText}>推文</p></button>

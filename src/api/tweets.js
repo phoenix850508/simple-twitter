@@ -25,8 +25,6 @@ axiosInstance.interceptors.request.use(
 export const getAllTweets = async () => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/tweets`);
-    console.log("tweets.js 裡的 getAllTweets: ", res);
-
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
@@ -52,8 +50,6 @@ export const getUserTweets = async (id) => {
 export const getTweetReplyList = async (tweetId) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/tweets/${tweetId}/replies`);
-    console.log("tweets.js 裡的該則推文回覆: ", res);
-    console.log("tweets.js 裡 getTweetReplyList 的 tweetId : ", tweetId);
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
@@ -68,7 +64,6 @@ export const getUserReplies = async (id) => {
     const response = await axiosInstance.get(
       `${baseUrl}/users/${id}/replied_tweets`
     );
-    console.log("tweets.js 裡撈到的使用者所有已回覆內容", response);
     return response.data;
   } catch (error) {
     console.error("[Get User Replies failed]: ", error);
