@@ -33,9 +33,9 @@ export default function TopUserSection() {
   // 透過GET API去取得user原始的資料，包括背景圖片、大頭貼、、名稱和自我介紹
   const {data} = await getUser(currentUser.id)
   console.log(data)
-  setDataObject(data)
   setName(data.name)
   setIntro(data.introduction)
+  setDataObject(data)
   console.log(dataObj)
   }
     //點擊儲存按鈕
@@ -45,7 +45,11 @@ export default function TopUserSection() {
     // 若自我介紹或是名字長度超過限制，則返回
     if (dataObj.name.length > 50 || dataObj.introduction.length > 150) return
     // API的資訊傳遞(需轉換成 Form-data)
-    const formData = new FormData(Object.entries(dataObj))
+    const formData = new FormData()
+    for (let entry of dataObj) {
+      console.log(entry)
+    }
+    console.log(formData)
     const response = await putUserSelf(currentUser.id, {formData})
     // 若成功把使用者編輯資料送出
     if (response) {
