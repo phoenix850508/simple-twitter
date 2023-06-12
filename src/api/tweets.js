@@ -111,9 +111,19 @@ export const putUserSelf = async (id, { formData }) => {
 export const postTweets = async ({ description }) => {
   try {
     const res = axiosInstance.post(`${baseUrl}/tweets`, { description });
-    console.log(res);
     return res;
   } catch (error) {
     console.error("[Post Tweets failed]", error);
+  }
+};
+
+//瀏覽某一使用者喜歡過的貼文
+export const getUserLikes = async (id) => {
+  try {
+    const res = axiosInstance.get(`${baseUrl}/users/${id}/likes`);
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.error("[Get user like failed]: ", error);
   }
 };

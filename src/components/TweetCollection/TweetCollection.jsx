@@ -22,6 +22,7 @@ export default function TweetCollection({ tweets }) {
             createdAt={createdAt}
             replyCount={replyCount}
             likeCount={likeCount}
+            avatar={avatar}
           />
         );
       })}

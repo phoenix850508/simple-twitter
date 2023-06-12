@@ -1,7 +1,7 @@
 .tweetItemContainer {
   width: 641px;
   height: 168px;
-  border-bottom: 1px solid #E6ECF0;
+  border-bottom: 1px solid #e6ecf0;
   padding: 16px 24px;
 
   .tweetItemWrapper {
@@ -11,6 +11,12 @@
     gap: 8px;
     width: 634px;
     height: 136px;
+
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
 
     .tweetItemInfo {
       &Wrapper {
@@ -47,7 +53,7 @@
           /* identical to box height, or 157% */
           line-height: 22px;
           /* color/secondary */
-          color: #6C757D;
+          color: #6c757d;
         }
       }
 
@@ -91,13 +97,13 @@
           height: 16px;
 
           .tweetDiscussionNum {
-            font-family: 'Montserrat';
+            font-family: "Montserrat";
             font-weight: 600;
             font-size: 14px;
             /* identical to box height, or 100% */
             line-height: 14px;
             /* color/secondary */
-            color: #6C757D;
+            color: #6c757d;
           }
         }
 
@@ -112,13 +118,13 @@
           height: 16px;
 
           .tweetLikeNum {
-            font-family: 'Montserrat';
+            font-family: "Montserrat";
             font-weight: 600;
             font-size: 14px;
             /* identical to box height, or 100% */
             line-height: 14px;
             /* color/secondary */
-            color: #6C757D;
+            color: #6c757d;
           }
         }
       }

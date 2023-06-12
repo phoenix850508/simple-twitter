@@ -11,7 +11,7 @@ import TweetCollection from "components/TweetCollection/TweetCollection.jsx";
 import ReplyCollectionUser from 'components/ReplyCollectionUser/ReplyCollectionUser';
 import LikeCollection from 'components/LikeCollection/LikeCollection';
 // API
-import { getUserTweets, getUserReplies } from '../api/tweets';
+import { getUserTweets, getUserReplies, getUserLikes } from '../api/tweets';
 // 引用封裝好的 Context 資訊
 import { useAuth } from 'context/AuthContext.jsx';
 
@@ -24,6 +24,8 @@ export default function UserSelfPage() {
   const [tweets, setTweets] = useState([]);
   // 已回覆內容存在這
   const [replies, setReplies] = useState([]);
+  // 喜歡過的推特存在這
+  const [likes, setLikes] = useState([]);
   // 使用蟲洞從 authContext.js 拿資料：使用者資訊
   const { currentUser, isAuthenticated } = useAuth();
 
@@ -54,10 +56,21 @@ export default function UserSelfPage() {
         console.error(error);
       }
     };
-    getTweetsAsync();
-    getUserRepliesAsync()
-    console.log('UserSelfPage 的 currentUser: ', currentUser)
-    console.log('UserSelfPage 的 isAuthenticated: ', isAuthenticated)
+    const getUserLikesAsync = async() => {
+      try {
+        const {data} = await getUserLikes(currentUser.id)
+        setLikes(data.map((like) => ({ ...like })))
+      } catch(error) {
+        console.error(error);
+      }
+    }
+    if(currentUser) {
+      getTweetsAsync();
+      getUserRepliesAsync();
+      getUserLikesAsync();
+      console.log('UserSelfPage 的 currentUser: ', currentUser)
+      console.log('UserSelfPage 的 isAuthenticated: ', isAuthenticated)
+    }
   }, [currentUser, isAuthenticated]);
 
   return (
@@ -68,7 +81,7 @@ export default function UserSelfPage() {
         <ChangeUserContent userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
         {userContent === 'tweets' && <TweetCollection tweets={tweets} />}
         {userContent === 'replies' && <ReplyCollectionUser replies={replies} />}
-        {userContent === 'likes' && <LikeCollection />}
+        {userContent === 'likes' && <LikeCollection likes={likes} />}
       </MiddleColumnContainer>
       <RightBanner />
     </MainContainer >
