@@ -18,7 +18,7 @@ export default function LeftBanner() {
   const [tweet, setTweet] = useState('')
   const [isUpdating, setIsUpdating] = useState(false)
   const [errorMsg, setErrorMsg]= useState(false)
-  const { logout } = useContext(AuthContext);
+  const { postTweets, logout } = useContext(AuthContext);
   const navigate = useNavigate()
   const handleLogout = () => {
     logout();

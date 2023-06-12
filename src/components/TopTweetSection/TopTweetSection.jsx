@@ -2,9 +2,8 @@ import TopTweetButton from './TopTweetComponents/TopTweetButton'
 import UserTweetPhoto from './TopTweetComponents/UserTweetPhoto'
 import styles from './TopTweetSection.module.scss'
 import TopTweetModal from './TopTweetComponents/TopTweetModal'
-import Alert from 'components/Form/Alert.jsx'
-import {useState} from 'react'
-import {postTweets} from 'api/tweets.js'
+import {useState, useContext} from 'react'
+import { AuthContext } from 'context/AuthContext.jsx'
 import clsx from 'clsx'
 
 export default function TopTweetSection() {
@@ -14,6 +13,7 @@ export default function TopTweetSection() {
   const [tweet, setTweet] = useState('')
   const [errorMsg, setErrorMsg] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
+  const { postTweets } = useContext(AuthContext);
   const handleSubmit = async () => {
     try { 
       if(isUpdating) return
@@ -24,7 +24,6 @@ export default function TopTweetSection() {
       //若新增推文成功
       if (res) {
         setShow(false)
-        console.log(res);
       }
       setIsUpdating(false);
     } catch (error) {
