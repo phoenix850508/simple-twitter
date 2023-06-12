@@ -12,16 +12,13 @@ export default function TopTweetSection() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [tweet, setTweet] = useState('')
-  const [isUpdating, setIsUpdating] = useState(false)
   const [errorMsg, setErrorMsg] = useState(false)
-  if(tweet.length > 140) return 
+  const [isUpdating, setIsUpdating] = useState(false)
   const handleSubmit = async () => {
     try { 
       if(isUpdating) return
-      if(tweet.trim().length < 1) {
-        setErrorMsg(true)
-        return setTimeout(() => setErrorMsg(false), 1000)
-      }
+      if(tweet.length > 140) return
+      if(tweet.trim().length < 1) return setErrorMsg(true)
       setTimeout(() => setIsUpdating(true), 1000)
       const res = await postTweets({description: tweet})
       //若新增推文成功
@@ -39,7 +36,6 @@ export default function TopTweetSection() {
   }
   return (
     <div className={styles.topTweetContainer}>
-      <Alert alertClassName={clsx(styles.overLimitedHide, {[styles.overLimitedLengthAlert]: errorMsg})} alertText={"推文不得為空白"} />
       <section className={styles.homepageHeaderSec}>
         <h4>首頁</h4>
       </section>
@@ -52,7 +48,15 @@ export default function TopTweetSection() {
           <TopTweetButton text={"推文"} />
         </div>
       </section>
-      <TopTweetModal show={show} handleClose={handleClose} onChange={(tweetInput) => setTweet(tweetInput)} value={tweet} onSubmit={handleSubmit} buttonText={clsx({'推文': !isUpdating}, {'處理中': isUpdating})} />
+      <TopTweetModal 
+      show={show} 
+      handleClose={handleClose} 
+      onChange={(tweetInput) => {
+        setErrorMsg(false)
+        setTweet(tweetInput)
+      }} 
+      value={tweet} onSubmit={handleSubmit} buttonText={clsx({'推文': !isUpdating}, {'處理中': isUpdating})} 
+      borderLine={clsx('', {[styles.wordLengthError]: tweet.length > 140}, {[styles.emptyTweetError]: errorMsg})} />
     </div>
   )
 } 

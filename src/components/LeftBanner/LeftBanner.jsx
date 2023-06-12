@@ -9,6 +9,7 @@ import { useState, useContext } from 'react'
 import { postTweets } from 'api/tweets.js'
 import { AuthContext } from 'context/AuthContext.jsx'
 import { useNavigate } from 'react-router-dom';
+import clsx from 'clsx'
 
 export default function LeftBanner() {
   const [show, setShow] = useState(false);
@@ -16,6 +17,7 @@ export default function LeftBanner() {
   const handleShow = () => setShow(true);
   const [tweet, setTweet] = useState('')
   const [isUpdating, setIsUpdating] = useState(false)
+  const [errorMsg, setErrorMsg]= useState(false)
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate()
   const handleLogout = () => {
@@ -35,7 +37,8 @@ export default function LeftBanner() {
   const handleSubmit = async () => {
     try {
       if (isUpdating) return
-      if (tweet.trim().length < 1 || tweet.length > 140) return alert("推文不能為空白")
+      if(tweet.length > 140) return
+      if(tweet.trim().length < 1) return setErrorMsg(true)
       setIsUpdating(true)
       const res = await postTweets({ description: tweet })
       //若新增推文成功
@@ -60,7 +63,16 @@ export default function LeftBanner() {
       <div className={styles.leftBannerLogout}>
         <Logout onClick={handleLogout} />
       </div>
-      <TopTweetModal show={show} handleClose={handleClose} buttonText={"推文"} onSubmit={handleSubmit} onChange={(tweetInput) => setTweet(tweetInput)} />
+      <TopTweetModal 
+      show={show} 
+      handleClose={handleClose} 
+      buttonText={"推文"} 
+      onSubmit={handleSubmit} 
+      onChange={(tweetInput) => {
+        setErrorMsg(false)
+        setTweet(tweetInput)
+      }}
+      borderLine={clsx('', {[styles.wordLengthError]: tweet.length > 140}, {[styles.emptyTweetError]: errorMsg})} />
     </div>
   )
 }
