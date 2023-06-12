@@ -64,11 +64,13 @@ export default function UserSelfPage() {
         console.error(error);
       }
     }
-    getTweetsAsync();
-    getUserRepliesAsync();
-    getUserLikesAsync();
-    console.log('UserSelfPage 的 currentUser: ', currentUser)
-    console.log('UserSelfPage 的 isAuthenticated: ', isAuthenticated)
+    if(currentUser) {
+      getTweetsAsync();
+      getUserRepliesAsync();
+      getUserLikesAsync();
+      console.log('UserSelfPage 的 currentUser: ', currentUser)
+      console.log('UserSelfPage 的 isAuthenticated: ', isAuthenticated)
+    }
   }, [currentUser, isAuthenticated]);
 
   return (
