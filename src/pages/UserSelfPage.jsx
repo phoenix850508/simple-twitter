@@ -43,8 +43,6 @@ export default function UserSelfPage() {
       }
     };
     getTweetsAsync();
-    console.log('UserSelfPage 的 currentUser: ', currentUser)
-    console.log('UserSelfPage 的 isAuthenticated: ', isAuthenticated)
   }, [currentUser, isAuthenticated]);
 
   return (

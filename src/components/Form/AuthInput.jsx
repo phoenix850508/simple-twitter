@@ -6,7 +6,7 @@ export default function AuthInput({type, label, placeholder, className, borderLi
   return (
     <div className={clsx(styles.inputContainer, className)}>
       <label className={styles.label} htmlFor="input">{label}</label>
-      <input className={styles.input} type={type || "text"} placeholder={placeholder} onChange={e => onChange?.(e.target.value)} value={value} ref={inputRef} />
+      <input className={styles.input} type={type || "text"} placeholder={placeholder} onChange={e => onChange?.(e.target.value)} defaultValue={value} ref={inputRef} />
       <div className={clsx(styles.borderLine, borderLine)}></div>
     </div>
   )

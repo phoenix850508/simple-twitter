@@ -11,7 +11,7 @@ import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTwe
 import AuthInput from 'components/Form/AuthInput'
 import camera from 'icons/camera.svg'
 import white_cross from 'icons/white_cross.svg'
-import {putUserSelf} from 'api/tweets.js'
+import {putUserSelf, getUser} from 'api/tweets.js'
 import {useAuth} from 'context/AuthContext.jsx'
 import {useNavigate} from 'react-router-dom'
 
@@ -20,44 +20,39 @@ export default function TopUserSection() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [newName, setNewName] = useState('');
-  const [newIntroduction, setNewIntroduction] = useState('');
+  const [name, setName]= useState('')
+  const [intro, setIntro]= useState('')
+  const [dataObj, setDataObject] = useState(null)
   const {currentUser} = useAuth()
-  const nameInputRef = useRef(null)
-  const introInputRef = useRef(null)
   const navigate = useNavigate()
   const handlePrevPageClick = () => {
     navigate('/main')
   }
-  // 這邊需要加入GET user/:id 的API去取得user原始的資料，包括背景圖片、大頭貼、、名稱和自我介紹
-  // 不過這條API可以之後再做，現在先只處理POST API的資訊傳遞(需轉換成 Form-data)
-  const updatedUserSelf = new FormData()
-  //點擊儲存按鈕
+  const handleShowModal = async() => {
+    handleShow();
+  // 透過GET API去取得user原始的資料，包括背景圖片、大頭貼、、名稱和自我介紹
+  const {data} = await getUser(currentUser.id)
+  console.log(data)
+  setName(data.name)
+  setIntro(data.introduction)
+  setDataObject(data)
+  console.log(dataObj)
+  }
+    //點擊儲存按鈕
   const handleSave = async() => {
     // 若input空值，則返回
-    if(nameInputRef.current.value.length < 0 || introInputRef.current.value.length < 0) return
+    if(dataObj.name.length < 0 || dataObj.introduction.length < 0) return
     // 若自我介紹或是名字長度超過限制，則返回
-    if (nameInputRef.current.value.length > 50 || introInputRef.current.value.length > 150) return
-    // 若FormData內無已有的欄位，新增名字欄位
-    if (!updatedUserSelf.has('name')) {
-      console.log("added new name form")
-      updatedUserSelf.append('name', newName)
+    if (dataObj.name.length > 50 || dataObj.introduction.length > 150) return
+    // API的資訊傳遞(需轉換成 Form-data)
+    const formData = new FormData()
+    for (let entry of dataObj) {
+      console.log(entry)
     }
-    else {
-      updatedUserSelf.set("name", nameInputRef.current.value)
-    }
-    // 若FormData內無已有的欄位，新增自介欄位
-    if(!updatedUserSelf.has('introduction')) {
-      console.log("added new introduction form")
-      updatedUserSelf.apend('introduction', introInputRef.current.value)
-    }
-    else {
-      updatedUserSelf.set("introduction", introInputRef.current.value)
-    }
-    const response = await putUserSelf({id: currentUser.id, formData: updatedUserSelf})
-    console.log(response)
+    console.log(formData)
+    const response = await putUserSelf(currentUser.id, {formData})
     // 若成功把使用者編輯資料送出
-    if (response.id) {
+    if (response) {
       alert('successfully updated')
       setShow(false)
     }
@@ -73,7 +68,7 @@ export default function TopUserSection() {
       <div className={styles.topUserInfoWrapper}>
         <img src={dummyBackgroundImage} alt="dummyBackgroundImage.svg" />
         <img className={styles.topUserPhoto} src={dummyUserPhoto} alt="dummyUserPhoto.svg" />
-        <button className={styles.topUserEditBtn} onClick={handleShow} >
+        <button className={styles.topUserEditBtn} onClick={handleShowModal} >
           <img src={editUserInfoBtn} alt="editUserInfoBtn.svg" />
         </button>
         <div className={styles.topUserWordsWrapper}>
@@ -93,19 +88,19 @@ export default function TopUserSection() {
       <EditUserModal 
       handleClose={handleClose} 
       show={show}
-      onNameChange={(updateNameInput) => setNewName(updateNameInput)}
-      onIntroChange={(updateIntroInput) => setNewIntroduction(updateIntroInput)}
+      onNameChange={(updateNameInput) => setName(updateNameInput)}
+      onIntroChange={(updateIntroInput) => setIntro(updateIntroInput)}
       onSave={handleSave}
-      nameInputRef={nameInputRef}
-      introInputRef={introInputRef}
-      nameBorderLine={clsx('', {[styles.wordLengthError]: newName.length > 50})}
-      introBorderLine={clsx('', {[styles.wordLengthError]: newIntroduction.length > 150})}
+      nameBorderLine={clsx('', {[styles.wordLengthError]: name.length > 50})}
+      introBorderLine={clsx('', {[styles.wordLengthError]: intro.length > 150})}
+      nameValue={name}
+      introValue={intro}
       />
     </div>
   )
 }
 
-export function EditUserModal({show, handleClose, onNameChange, onIntroChange, onSave, nameInputRef, introInputRef, nameBorderLine, introBorderLine}) {
+export function EditUserModal({show, handleClose, onNameChange, onIntroChange, nameValue, introValue, onSave, nameInputRef, introInputRef, nameBorderLine, introBorderLine}) {
   return (
     <div className={styles.modalContainer}>
       <Modal className={clsx("fade modal show", styles.modal)} show={show} onHide={handleClose}>
@@ -135,17 +130,17 @@ export function EditUserModal({show, handleClose, onNameChange, onIntroChange, o
         <AuthInput 
         className={styles.nameInput}
         borderLine={nameBorderLine}
-        placeholder={"名稱"}
+        label={"名稱"}
         onChange={onNameChange}
-        inputRef={nameInputRef}
+        value={nameValue}
         />
         {/* 使用者input的自我介紹 */}
         <AuthInput 
         className={styles.introductionInput}
         borderLine={introBorderLine}
-        placeholder={"自我介紹"}
+        label={"自我介紹"}
         onChange={onIntroChange}
-        inputRef={introInputRef}
+        value={introValue}
         />
         </Modal.Body>
       </Modal>
