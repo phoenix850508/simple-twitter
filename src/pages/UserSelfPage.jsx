@@ -58,22 +58,20 @@ export default function UserSelfPage() {
         console.error(error);
       }
     };
-    const getUserLikesAsync = async() => {
+    const getUserLikesAsync = async () => {
       try {
-        const {data} = await getUserLikes(currentUser.id)
+        const { data } = await getUserLikes(savedUserInfoId)
         setLikes(data.map((like) => ({ ...like })))
-      } catch(error) {
+      } catch (error) {
         console.error(error);
       }
     }
-    if(currentUser) {
+    if (savedUserInfoId) {
       getTweetsAsync();
       getUserRepliesAsync();
       getUserLikesAsync();
-      console.log('UserSelfPage 的 currentUser: ', currentUser)
-      console.log('UserSelfPage 的 isAuthenticated: ', isAuthenticated)
     }
-  }, [currentUser, isAuthenticated]);
+  }, [savedUserInfoId]);
 
   return (
     <MainContainer >

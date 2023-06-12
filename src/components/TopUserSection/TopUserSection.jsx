@@ -28,31 +28,37 @@ export default function TopUserSection() {
   const handlePrevPageClick = () => {
     navigate('/main')
   }
+
+  // userInfo 資料從 localStorage 拿
+  const savedUserInfo = localStorage.getItem("userInfo")
+  const savedUserInfoParsed = JSON.parse(savedUserInfo)
+  const savedUserInfoId = savedUserInfoParsed.id
+
   const handleShowModal = async () => {
     handleShow();
-  // 透過GET API去取得user原始的資料，包括背景圖片、大頭貼、、名稱和自我介紹
-  const {data} = await getUser(currentUser.id)
-  setName(data.name)
-  setIntro(data.introduction)
-  setDataObject(data)
+    // 透過GET API去取得user原始的資料，包括背景圖片、大頭貼、、名稱和自我介紹
+    const { data } = await getUser(savedUserInfoId)
+    setName(data.name)
+    setIntro(data.introduction)
+    setDataObject(data)
   }
-    //點擊儲存按鈕
-  const handleSave = async() => {
-    setDataObject({...dataObj, name, introduction: intro})
+  //點擊儲存按鈕
+  const handleSave = async () => {
+    setDataObject({ ...dataObj, name, introduction: intro })
     // 若input空值，則返回
-    if(dataObj.name.length < 1 || dataObj.introduction.length < 1) return
+    if (dataObj.name.length < 1 || dataObj.introduction.length < 1) return
     // 若自我介紹或是名字長度超過限制，則返回
     if (dataObj.name.length > 50 || dataObj.introduction.length > 150) return
     // API的資訊傳遞(需轉換成 Form-data)
     const formData = new FormData()
-    for ( let key in dataObj ) {
-    formData.append(key, dataObj[key]);
+    for (let key in dataObj) {
+      formData.append(key, dataObj[key]);
     }
 
     for (const pair of formData.entries()) {
       console.log(`${pair[0]}, ${pair[1]}`);
     }
-    const response = await putUserSelf(currentUser.id, formData)
+    const response = await putUserSelf(savedUserInfoId, formData)
 
     // 若成功把使用者編輯資料送出
     if (!response.response) {
@@ -89,23 +95,23 @@ export default function TopUserSection() {
           </div>
         </div>
       </div>
-      <EditUserModal 
-      handleClose={handleClose} 
-      show={show}
-      onNameChange={(updateNameInput) => setName(updateNameInput)}
-      onIntroChange={(updateIntroInput) => setIntro(updateIntroInput)}
-      onSave={handleSave}
-      nameBorderLine={clsx('', {[styles.wordLengthError]: name.length > 50}, {[styles.emptyError]: name.trim().length === 0})}
-      introBorderLine={clsx('', {[styles.wordLengthError]: intro.length > 150}, {[styles.emptyError]: intro.trim().length === 0})}
-      nameValue={name}
-      introValue={intro}
+      <EditUserModal
+        handleClose={handleClose}
+        show={show}
+        onNameChange={(updateNameInput) => setName(updateNameInput)}
+        onIntroChange={(updateIntroInput) => setIntro(updateIntroInput)}
+        onSave={handleSave}
+        nameBorderLine={clsx('', { [styles.wordLengthError]: name.length > 50 }, { [styles.emptyError]: name.trim().length === 0 })}
+        introBorderLine={clsx('', { [styles.wordLengthError]: intro.length > 150 }, { [styles.emptyError]: intro.trim().length === 0 })}
+        nameValue={name}
+        introValue={intro}
       />
     </div>
   )
 }
 
 
-export function EditUserModal({show, handleClose, onNameChange, onIntroChange, nameValue, introValue, onSave, nameBorderLine, introBorderLine}) {
+export function EditUserModal({ show, handleClose, onNameChange, onIntroChange, nameValue, introValue, onSave, nameBorderLine, introBorderLine }) {
   return (
     <div className={styles.modalContainer}>
       <Modal className={clsx("fade modal show", styles.modal)} show={show} onHide={handleClose}>
