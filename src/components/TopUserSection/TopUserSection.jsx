@@ -40,7 +40,7 @@ export default function TopUserSection() {
   const handleSave = async() => {
     setDataObject({...dataObj, name, introduction: intro})
     // 若input空值，則返回
-    if(dataObj.name.length < 0 || dataObj.introduction.length < 0) return
+    if(dataObj.name.length < 1 || dataObj.introduction.length < 1) return
     // 若自我介紹或是名字長度超過限制，則返回
     if (dataObj.name.length > 50 || dataObj.introduction.length > 150) return
     // API的資訊傳遞(需轉換成 Form-data)
@@ -93,8 +93,8 @@ export default function TopUserSection() {
       onNameChange={(updateNameInput) => setName(updateNameInput)}
       onIntroChange={(updateIntroInput) => setIntro(updateIntroInput)}
       onSave={handleSave}
-      nameBorderLine={clsx('', {[styles.wordLengthError]: name.length > 50})}
-      introBorderLine={clsx('', {[styles.wordLengthError]: intro.length > 150})}
+      nameBorderLine={clsx('', {[styles.wordLengthError]: name.length > 50}, {[styles.emptyError]: name.trim().length === 0})}
+      introBorderLine={clsx('', {[styles.wordLengthError]: intro.length > 150}, {[styles.emptyError]: intro.trim().length === 0})}
       nameValue={name}
       introValue={intro}
       />

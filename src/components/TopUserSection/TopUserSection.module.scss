@@ -208,3 +208,10 @@
     content: "字數超出上限";
   }
 }
+
+.emptyError {
+  @extend %authError;
+  &::after {
+    content: "內容不可空白";
+  }
+}
