@@ -17,6 +17,7 @@ export default function MainPage() {
   // tweets 存在這
   const [tweets, setTweets] = useState([]);
 
+
   // 透過 API 撈初始資料
   useEffect(() => {
     const getTweetsAsync = async () => {

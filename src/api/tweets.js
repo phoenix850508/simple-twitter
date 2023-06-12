@@ -90,10 +90,11 @@ export const putUserSelf = async (id, { formData }) => {
       },
     };
     // 這邊需要帶入使用者的id，才能讓後端知道目前的self指的是哪一位使用者
-    const res = await axiosInstance.put(`${baseUrl}/users/${id}`, config, {
-      formData,
-    });
-    console.log(res);
+    const res = await axiosInstance.put(
+      `${baseUrl}/users/${id}`,
+      config,
+      formData
+    );
     return res;
   } catch (error) {
     console.error("[Put user failed]", error);
@@ -105,9 +106,19 @@ export const putUserSelf = async (id, { formData }) => {
 export const postTweets = async ({ description }) => {
   try {
     const res = axiosInstance.post(`${baseUrl}/tweets`, { description });
-    console.log(res);
     return res;
   } catch (error) {
     console.error("[Post Tweets failed]", error);
+  }
+};
+
+//瀏覽某一使用者喜歡過的貼文
+export const getUserLikes = async (id) => {
+  try {
+    const res = axiosInstance.get(`${baseUrl}/users/${id}/likes`);
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.error("[Get user like failed]: ", error);
   }
 };

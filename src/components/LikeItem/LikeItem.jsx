@@ -5,12 +5,12 @@ import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 import discussion from 'icons/discussion.svg'
 import likeActive from 'icons/likeActive.svg'
 
-export default function LikeItem({ name, account, description, createdAt, replyCount, likeCount }) {
+export default function LikeItem({ avatar, name, account, description, createdAt, replyCount, likeCount }) {
   return (
     <div className={styles.tweetItemContainer}>
       <div className={styles.tweetItemWrapper}>
         <div>
-          <img src={avatarDefaultMini} alt="avatarDefaultMini.svg" />
+          <img className={styles.avatar} src={avatar} alt={avatarDefaultMini} />
         </div>
         <div className={styles.tweetItemInfoWrapper}>
           <div className={styles.tweetItemInfoUser}>

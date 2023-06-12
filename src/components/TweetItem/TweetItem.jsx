@@ -14,7 +14,7 @@ import clsx from 'clsx'
 // 引用封裝好的 Context 資訊
 import { AuthContext } from 'context/AuthContext.jsx';
 
-export default function TweetItem({ id, name, account, description, createdAt, replyCount, likeCount }) {
+export default function TweetItem({ id, name, account, description, createdAt, replyCount, likeCount, avatar }) {
   const navigate = useNavigate();
   // 使用蟲洞從 authContext.js 拿資料：setTweetID
   const { handleSetTweetIdClick } = useContext(AuthContext);
@@ -26,7 +26,7 @@ export default function TweetItem({ id, name, account, description, createdAt, r
     <div className={styles.tweetItemContainer}>
       <div className={styles.tweetItemWrapper}>
         <div>
-          <img src={avatarDefaultMini} alt="avatarDefaultMini.svg" />
+          <img className={styles.avatar} src={avatar} alt={avatarDefaultMini} />
         </div>
         <div className={styles.tweetItemInfoWrapper}>
           <div className={styles.tweetItemInfoUser}>
