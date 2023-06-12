@@ -23,6 +23,7 @@ export default function MainPage() {
   console.log('MainPage 裡從 Context 抓到的userInfo: ', userInfo)
   console.log('MainPage 裡從 Context 抓到的currentUser: ', currentUser)
 
+
   // 透過 API 撈初始資料
   useEffect(() => {
     const getTweetsAsync = async () => {

@@ -95,10 +95,11 @@ export const putUserSelf = async (id, { formData }) => {
       },
     };
     // 這邊需要帶入使用者的id，才能讓後端知道目前的self指的是哪一位使用者
-    const res = await axiosInstance.put(`${baseUrl}/users/${id}`, config, {
-      formData,
-    });
-    console.log(res);
+    const res = await axiosInstance.put(
+      `${baseUrl}/users/${id}`,
+      config,
+      formData
+    );
     return res;
   } catch (error) {
     console.error("[Put user failed]", error);
