@@ -59,7 +59,6 @@ export default function UserSelfPage() {
     const getUserLikesAsync = async() => {
       try {
         const {data} = await getUserLikes(currentUser.id)
-        console.log("data", data)
         setLikes(data.map((like) => ({ ...like })))
       } catch(error) {
         console.error(error);
