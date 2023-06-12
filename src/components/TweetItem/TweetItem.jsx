@@ -14,7 +14,7 @@ import clsx from 'clsx'
 // 引用封裝好的 Context 資訊
 import { AuthContext } from 'context/AuthContext.jsx';
 
-export default function TweetItem({ id, name, account, description, createdAt, replyCount, likeCount, avatar }) {
+export default function TweetItem({ id, UserId, name, account, description, createdAt, replyCount, likeCount, avatar }) {
   const navigate = useNavigate();
   // 使用蟲洞從 authContext.js 拿資料：setTweetID
   const { handleSetTweetIdClick } = useContext(AuthContext);
@@ -25,9 +25,16 @@ export default function TweetItem({ id, name, account, description, createdAt, r
   return (
     <div className={styles.tweetItemContainer}>
       <div className={styles.tweetItemWrapper}>
-        <div>
+        {/* 點擊可跳轉 UserOtherPage 頁面 */}
+        <button
+          className={styles.avatarWrapper}
+          onClick={() => {
+            // 將該推文作者的使用者 id 存在 localStorage
+            localStorage.setItem("otherUserId", UserId);
+            navigate('/user/other')
+          }}>
           <img className={styles.avatar} src={avatar} alt={avatarDefaultMini} />
-        </div>
+        </button>
         <div className={styles.tweetItemInfoWrapper}>
           <div className={styles.tweetItemInfoUser}>
             <div className={styles.tweetItemInfoUserName}>{name}</div>

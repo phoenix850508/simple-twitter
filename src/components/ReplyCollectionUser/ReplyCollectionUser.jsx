@@ -4,14 +4,12 @@ import ReplyItem from "components/ReplyItem/ReplyItem.jsx";
 // 引用封裝好的 Context 資訊
 import { AuthContext } from 'context/AuthContext.jsx';
 
-export default function ReplyCollection({ replies }) {
-  // 使用蟲洞從 authContext.js 拿資料：使用者資訊
-  const { userInfo } = useContext(AuthContext);
+export default function ReplyCollection({ replies, userDetail }) {
 
   return (
     <div className={styles.replyCollectionContainer}>
       {replies.map((reply) => {
-        const { name, account, avatar } = userInfo
+        const { name, account, avatar } = userDetail
         const { id, comment, createdAt } = reply
         const replyTo = reply.Tweet.User.account
         return (
@@ -19,6 +17,7 @@ export default function ReplyCollection({ replies }) {
             key={id}
             name={name}
             account={account}
+            avatar={avatar}
             comment={comment}
             createdAt={createdAt}
             replyTo={replyTo}
