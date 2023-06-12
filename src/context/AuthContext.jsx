@@ -20,9 +20,13 @@ export const AuthProvider = ({ children }) => {
   const { pathname } = useLocation();
   // 儲存 userInfo 物件方便運用，裡面包含 account、avatar、banner、name 等
   const [userInfo, setUserInfo] = useState(null);
+  console.log('AuthContext 裡的 userInfo: ', userInfo)
+
   // 儲存使用者點擊想看的 tweetId 與底下回覆
   const [tweetId, setTweetId] = useState(null);
   const [tweetReplyList, setTweetReplyList] = useState([]);
+  // 儲存使用者所有已回覆的 tweet
+  const [userReplyList, setUserReplyList] = useState([]);
 
   // 換頁要驗證 token
   useEffect(() => {
@@ -60,11 +64,13 @@ export const AuthProvider = ({ children }) => {
         currentUser: payload && {
           id: payload.id,
         },
-        userInfo,
+        userInfo: { userInfo },
         tweetId,
         setTweetId,
         tweetReplyList,
         setTweetReplyList,
+        userReplyList,
+        setUserReplyList,
         login: async (data) => {
           const response = await login({
             account: data.account,

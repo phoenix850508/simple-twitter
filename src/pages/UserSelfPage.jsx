@@ -8,10 +8,10 @@ import MiddleColumnContainer from "components/MiddleColumnContainer/MiddleColumn
 import TopUserSection from "components/TopUserSection/TopUserSection.jsx";
 import ChangeUserContent from "components/ChangeUserContent/ChangeUserContent.jsx";
 import TweetCollection from "components/TweetCollection/TweetCollection.jsx";
-import ReplyCollection from 'components/ReplyCollection/ReplyCollection';
+import ReplyCollectionUser from 'components/ReplyCollectionUser/ReplyCollectionUser';
 import LikeCollection from 'components/LikeCollection/LikeCollection';
 // API
-import { getUserTweets } from '../api/tweets';
+import { getUserTweets, getUserReplies } from '../api/tweets';
 // 引用封裝好的 Context 資訊
 import { useAuth } from 'context/AuthContext.jsx';
 
@@ -22,6 +22,8 @@ export default function UserSelfPage() {
   const [userContent, setUserContent] = useState('tweets')
   // tweets 存在這
   const [tweets, setTweets] = useState([]);
+  // 已回覆內容存在這
+  const [replies, setReplies] = useState([]);
   // 使用蟲洞從 authContext.js 拿資料：使用者資訊
   const { currentUser, isAuthenticated } = useAuth();
 
@@ -30,7 +32,7 @@ export default function UserSelfPage() {
     setUserContent(targetValue)
   }
 
-  // 透過 API 撈推文資料
+  // 透過 API 撈推文資料、已回覆內容
   useEffect(() => {
     const getTweetsAsync = async () => {
       try {
@@ -42,7 +44,20 @@ export default function UserSelfPage() {
         console.error(error);
       }
     };
+    const getUserRepliesAsync = async () => {
+      try {
+        // 用 Context 裡的 user id 去撈他的回覆內容
+        const replies = await getUserReplies(currentUser.id);
+        console.log('currentUser: ', currentUser)
+        setReplies(replies.map((reply) => ({ ...reply })));
+      } catch (error) {
+        console.error(error);
+      }
+    };
     getTweetsAsync();
+    getUserRepliesAsync()
+    console.log('UserSelfPage 的 currentUser: ', currentUser)
+    console.log('UserSelfPage 的 isAuthenticated: ', isAuthenticated)
   }, [currentUser, isAuthenticated]);
 
   return (
@@ -52,7 +67,7 @@ export default function UserSelfPage() {
         <TopUserSection />
         <ChangeUserContent userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
         {userContent === 'tweets' && <TweetCollection tweets={tweets} />}
-        {userContent === 'replies' && <ReplyCollection />}
+        {userContent === 'replies' && <ReplyCollectionUser replies={replies} />}
         {userContent === 'likes' && <LikeCollection />}
       </MiddleColumnContainer>
       <RightBanner />
