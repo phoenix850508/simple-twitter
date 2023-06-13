@@ -2,7 +2,7 @@ import { login } from "api/auth.js";
 import { createContext, useContext, useState, useEffect, useRef } from "react";
 import * as jwt from "jsonwebtoken";
 import { useLocation } from "react-router-dom";
-import {postTweets} from 'api/tweets.js'
+import { postTweets } from 'api/tweets.js'
 
 // const defaultAuthContext = {
 //   currentUser: null,
@@ -122,11 +122,12 @@ const AuthProvider = ({ children }) => {
           localStorage.removeItem("userInfo");
           localStorage.removeItem("tweetId");
           localStorage.removeItem("otherUserId");
+          localStorage.removeItem("followContent");
           setPayload(null);
           setIsAuthenticated(false);
         },
-        postTweets: async(data) => {
-          const response = await postTweets({description: data.description})
+        postTweets: async (data) => {
+          const response = await postTweets({ description: data.description })
           if (response.data) setIsTweetUpdated(true)
           return response
         }

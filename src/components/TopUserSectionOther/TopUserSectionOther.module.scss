@@ -77,6 +77,12 @@
   &FollowWrapper {
     display: flex;
     margin-top: 8px;
+
+    // 跟隨按鈕
+    .followBtn {
+      background-color: rgba(255, 255, 255, 0);
+      padding: 0px;
+    }
   }
 
   &FollowerWrapper {

@@ -8,7 +8,7 @@ import notifyActive from 'icons/notifyActive.svg'
 import following from 'icons/following.svg'
 import PrePageBtn from 'components/PrevPageBtn/PrevPageBtn.jsx'
 
-export default function TopUserSectionOther({ notification, handleNotiClick, userDetail }) {
+export default function TopUserSectionOther({ notification, handleNotiClick, userDetail, handleFollowDetailClick }) {
   // 拿到該使用者資料
   const { name, account, avatar, introduction, followingCount, followerCount } = userDetail
 
@@ -37,10 +37,22 @@ export default function TopUserSectionOther({ notification, handleNotiClick, use
           <div className={styles.topUserIntro}>{introduction}</div>
           <div className={styles.topUserFollowWrapper}>
             <div>
-              <span className={styles.topUserFollowCount}>{followingCount}</span><span className={styles.topUserFollowWord}>跟隨中</span>
+              <button
+                className={styles.followBtn}
+                value='followings'
+                onClick={e => { handleFollowDetailClick(e.currentTarget.value) }}
+              >
+                <span className={styles.topUserFollowCount}>{followingCount}</span><span className={styles.topUserFollowWord}>跟隨中</span>
+              </button>
             </div>
             <div className={styles.topUserFollowerWrapper}>
-              <span className={styles.topUserFollowCount}>{followerCount}</span><span className={styles.topUserFollowWord}>跟隨者</span>
+              <button
+                className={styles.followBtn}
+                value='followers'
+                onClick={e => { handleFollowDetailClick(e.currentTarget.value) }}
+              >
+                <span className={styles.topUserFollowCount}>{followerCount}</span><span className={styles.topUserFollowWord}>跟隨者</span>
+              </button>
             </div>
           </div>
         </div>
