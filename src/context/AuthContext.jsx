@@ -40,6 +40,9 @@ const AuthProvider = ({ children }) => {
   // 現在每條 API 都會驗證身份，要再測試一下被擋後的回傳值是什麼，再做對應畫面
   // 換頁要驗證 token
   useEffect(() => {
+    //如果換頁要去的目的是登入/註冊頁面的話，請不用認證token
+    if (pathname === "/login" || pathname === "/signup" || pathname === "/admin") return 
+    //更新完Tweet後，要把isTweetUpdated退回false狀態
     setIsTweetUpdated(false)
     const checkTokenIsValid = async () => {
       // 從 localStorage 拿 token
@@ -56,7 +59,6 @@ const AuthProvider = ({ children }) => {
 
       // 如果有 token（但似乎要給後端檢核是否有效）
       if (authToken) {
-        setIsAuthenticated(true);
         const tempPayload = jwt.decode(authToken);
         setPayload(tempPayload);
         //分析jwt解密的payload是否真的有此使用者
@@ -65,6 +67,7 @@ const AuthProvider = ({ children }) => {
           setPayload(null);
           return navigate('/login')
         }
+        setIsAuthenticated(true);
         // 使用 localStorage 中的 userInfo 來初始化
         const savedUserInfo = localStorage.getItem("userInfo");
         if (savedUserInfo) {
