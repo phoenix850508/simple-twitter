@@ -22,7 +22,6 @@ export default function SettingPage() {
   const [dataObject, setDataObject] = useState(null)
   // 這邊的errorMsg是用來判斷若後端response的資料不存在或有誤，可以讓<AuthInput/>可以製造出相對的錯誤訊息
   const [errorMsg, setErrorMsg] = useState('')
-  
   const handleClick = async () => {
     //檢查格式是否符合需求
     if (account.length === 0 || name.length === 0 || email.length === 0 || password.length === 0) return
@@ -34,15 +33,21 @@ export default function SettingPage() {
     for (let key in dataObject) {
       formData.append(key, dataObject[key]);
     }
-    formData.set(account, account)
+    formData.set("name", name)
+    formData.set("email", email)
+    formData.set("account", account)
+    formData.set("password", password)
+    formData.set("checkPassword", checkPassword)
     for (const pair of formData.entries()) {
       console.log(`${pair[0]}, ${pair[1]}`);
     }
-    const response = await putUserSelf(savedUserInfoId)
+    const response = await putUserSelf(savedUserInfoId, formData)
     // 若成功把使用者編輯資料送出
     if (!response.response) {
+      if (response.data) {
       console.log("Successfully updated", response)
       alert('successfully updated')
+      }
     }
     // 若使用者編輯資料失敗
     else {
@@ -93,7 +98,8 @@ export default function SettingPage() {
             setErrorMsg('')
             setEmail(emailInput)
           }}
-          borderLine={clsx('', {[styles.emailBorderLineError]: errorMsg === "Error: 信箱已存在！"})}  
+          borderLine={clsx('', {[styles.emailBorderLineError]: errorMsg === "Error: 信箱已存在！"})}
+          value={dataObject && dataObject.email}  
           />
           <AuthInput 
           className={styles.inputContainer} 
@@ -104,7 +110,9 @@ export default function SettingPage() {
             setIsPasswordEqual(true)
             setPassword(passwordInput)
           }} 
-          type="password" />
+          type="password" 
+          value={dataObject && dataObject.password}  
+          />
           <AuthInput 
           className={styles.inputContainerLast} 
           label={"確認密碼"} 
@@ -115,6 +123,7 @@ export default function SettingPage() {
             setIsPasswordEqual(true)
             setCheckPassword(passwordConfirmInput)
           }}
+          value={dataObject && dataObject.password}  
            />
           <div className={styles.buttonContainer}>
             <SaveSettingButton btn={"儲存"} onClick={handleClick}/>
