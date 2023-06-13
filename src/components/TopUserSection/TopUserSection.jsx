@@ -47,6 +47,8 @@ export default function TopUserSection({ userDetail }) {
     const { data } = await getUser(savedUserInfoId)
     setName(data.name)
     setIntro(data.introduction)
+    setUserAvatar(data.avatar)
+    setBanner(data.banner)
     setDataObject(data)
   }
   //點擊儲存按鈕
