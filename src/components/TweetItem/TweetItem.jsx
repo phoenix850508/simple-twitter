@@ -27,6 +27,7 @@ export default function TweetItem({ id, UserId, name, account, description, crea
   const handleShow = () => setShow(true);
   const [replyTweet, setReplyTweet] = useState('')
   const [replyNum, setReplyNum] = useState(replyCount)
+  const [errorMsg, setErrorMsg] = useState(false)
   const onTweetClick = () => {
     // 在 Context 用 state 管理，把該推文 ID 存起來
     handleSetTweetIdClick(id)
@@ -35,14 +36,15 @@ export default function TweetItem({ id, UserId, name, account, description, crea
   //點擊回應對話按鈕彈出視窗
   const handleSave = async () => {
     //預防空值與回覆文字限制
-    if(replyTweet.length < 1 || replyTweet.length > 140) return
+    if(replyTweet.length > 140) return
+    if(replyTweet.length < 1 ) return setErrorMsg(true)
     try {
     const response = await postReply(savedUserInfoId, {comment: replyTweet})
     //若新增推文成功
     if (response.data.comment) {
       handleClose()
       setReplyNum(replyNum + 1)
-      return alert("新增回覆成功")
+      return 
     }
     else {
       handleClose()
@@ -89,14 +91,29 @@ export default function TweetItem({ id, UserId, name, account, description, crea
           </div>
         </div>
       </div>
-      <ReplyTweetModal handleShow={handleShow} show={show} handleClose={handleClose} threadUserName={name} threadUserAccount={account} threadDescription={description} threadCreatedAt={createdAt} threadUserAvatar={avatar} 
-      onInputChange={(replyInput) => setReplyTweet(replyInput)}
-      onSave={handleSave}  />
+      <ReplyTweetModal 
+      handleShow={handleShow} 
+      show={show} 
+      handleClose={handleClose} 
+      threadUserName={name} 
+      threadUserAccount={account} 
+      threadDescription={description} 
+      threadCreatedAt={createdAt} 
+      threadUserAvatar={avatar} 
+      onInputChange={
+        (replyInput) => {
+          setReplyTweet(replyInput)
+          setErrorMsg(false)
+        }
+      }
+      onSave={handleSave}
+      borderLine={clsx('', {[styles.wordLengthError]: replyTweet.length > 140}, {[styles.emptyReplyError]: errorMsg})}
+        />
     </div>
   )
 }
 
-export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserAccount, threadDescription, threadCreatedAt, threadUserAvatar, onInputChange, onSave }) {
+export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserAccount, threadDescription, threadCreatedAt, threadUserAvatar, onInputChange, onSave, borderLine }) {
   return (
     <div className={styles.modalContainer}>
       <Modal className={clsx("fade modal show", styles.modal)} show={show} onHide={handleClose}>
@@ -128,6 +145,7 @@ export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserA
           <div className={styles.modalPost}>
             <UserTweetPhoto />
             <input className={clsx(styles.modalInput)} type="text" placeholder="推你的回覆" onChange={e => onInputChange?.(e.target.value)} />
+            <div className={borderLine}></div>
           </div>
           <TopTweetButton btnName={clsx(styles.modalSubmit)} text={"回覆"} onClick={onSave} />
         </Modal.Body>
