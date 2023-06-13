@@ -5,6 +5,7 @@ import TopTweetModal from './TopTweetComponents/TopTweetModal'
 import {useState, useContext} from 'react'
 import { AuthContext } from 'context/AuthContext.jsx'
 import clsx from 'clsx'
+import { useEffect } from 'react'
 
 export default function TopTweetSection() {
   const [show, setShow] = useState(false);
@@ -13,26 +14,31 @@ export default function TopTweetSection() {
   const [tweet, setTweet] = useState('')
   const [errorMsg, setErrorMsg] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
-  const { postTweets } = useContext(AuthContext);
+  const { postTweets, isTweetUpdated } = useContext(AuthContext);
+  const clearForm = () => {
+    setTweet('');
+  };
   const handleSubmit = async () => {
     try { 
       if(isUpdating) return
       if(tweet.length > 140) return
       if(tweet.trim().length < 1) return setErrorMsg(true)
-      setTimeout(() => setIsUpdating(true), 1000)
       const res = await postTweets({description: tweet})
+      setIsUpdating(true)
       //若新增推文成功
       if (res) {
-        setShow(false)
-      }
+      setShow(false)
       setIsUpdating(false);
+      }
     } catch (error) {
       console.error("[Post Tweeets failed 2]", error)
-      setIsUpdating(false);
       alert("發文失敗")
       setShow(false)
     }
   }
+  useEffect(() => {
+      clearForm()
+  }, [isTweetUpdated])
   return (
     <div className={styles.topTweetContainer}>
       <section className={styles.homepageHeaderSec}>

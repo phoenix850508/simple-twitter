@@ -39,6 +39,7 @@ const AuthProvider = ({ children }) => {
   // 現在每條 API 都會驗證身份，要再測試一下被擋後的回傳值是什麼，再做對應畫面
   // 換頁要驗證 token
   useEffect(() => {
+    setIsTweetUpdated(false)
     const checkTokenIsValid = async () => {
       // 從 localStorage 拿 token
       const authToken = localStorage.getItem("authToken");
@@ -74,7 +75,7 @@ const AuthProvider = ({ children }) => {
       }
     };
     checkTokenIsValid();
-  }, [pathname]);
+  }, [pathname, isTweetUpdated]);
 
 
   console.log('AuthProvider 重新渲染')
