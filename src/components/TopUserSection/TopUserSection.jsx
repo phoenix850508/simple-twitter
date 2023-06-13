@@ -23,7 +23,6 @@ export default function TopUserSection() {
   const [name, setName] = useState('')
   const [intro, setIntro] = useState('')
   const [dataObj, setDataObject] = useState(null)
-  const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate()
   const handlePrevPageClick = () => {
     navigate('/main')
@@ -44,7 +43,7 @@ export default function TopUserSection() {
   }
   //點擊儲存按鈕
   const handleSave = async () => {
-    setDataObject({ ...dataObj, name, introduction: intro })
+    setDataObject({ ...dataObj, name, introduction: intro})
     // 若input空值，則返回
     if (dataObj.name.length < 1 || dataObj.introduction.length < 1) return
     // 若自我介紹或是名字長度超過限制，則返回

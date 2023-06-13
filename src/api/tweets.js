@@ -81,7 +81,7 @@ export const getUser = async (id) => {
 };
 
 // 編輯個人資料
-export const putUserSelf = async (id, { formData }) => {
+export const putUserSelf = async (id, formData) => {
   try {
     // 先設定資料要帶入的content type + header
     const res = await axiosInstance.put(`${baseUrl}/users/${id}`, formData, {
