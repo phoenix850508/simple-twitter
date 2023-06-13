@@ -45,8 +45,20 @@ export const getUserTweets = async (id) => {
   }
 };
 
-// 點擊某一則 tweet 可以到 reply list 頁面並查看該推文細節
+// 瀏覽某一則 tweets 資訊
 // GET /api/tweets/:id
+export const getSingleTweet = async (tweetId) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/tweets/${tweetId}`);
+    // 這邊要注意回傳內容，只有一層 data
+    return res.data;
+  } catch (error) {
+    console.error("[Get TweetReplyList failed]: ", error);
+  }
+};
+
+// 點擊某一則 tweet 可以到 reply list 頁面並查看該推文細節
+// GET api/tweets/:id/replies
 export const getTweetReplyList = async (tweetId) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/tweets/${tweetId}/replies`);
