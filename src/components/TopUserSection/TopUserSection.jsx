@@ -4,7 +4,7 @@ import dummyBackgroundImage from 'icons/dummyBackgroundImage.svg'
 import dummyUserPhoto from 'icons/dummyUserPhoto.svg'
 import editUserInfoBtn from 'icons/editUserInfoBtn.svg'
 import PrePageBtn from 'components/PrevPageBtn/PrevPageBtn.jsx'
-import { useState, useRef, useContext } from 'react'
+import { useState } from 'react'
 import clsx from 'clsx'
 import Modal from 'react-bootstrap/Modal';
 import cross from 'icons/cross.svg'
@@ -13,7 +13,7 @@ import AuthInput from 'components/Form/AuthInput'
 import camera from 'icons/camera.svg'
 import white_cross from 'icons/white_cross.svg'
 import { putUserSelf, getUser } from 'api/tweets.js'
-import { AuthContext } from 'context/AuthContext.jsx'
+// import { AuthContext } from 'context/AuthContext.jsx'
 import { useNavigate } from 'react-router-dom'
 
 

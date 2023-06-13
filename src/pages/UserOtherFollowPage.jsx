@@ -9,7 +9,7 @@ import ChangeUserContentForFollow from 'components/ChangeUserContentForFollow/Ch
 import FollowerCollection from 'components/Follow/FollowerCollection/FollowerCollection';
 import FollowingCollection from 'components/Follow/FollowingCollection/FollowingCollection';
 // API
-import { getUserFollowings, getUserFollowers, getUser } from '../api/tweets';
+import { getUserFollowings, getUserFollowers } from '../api/tweets';
 
 export default function UserOtherFollowPage() {
   // 先從 localStorage 拿使用者在 UserOtherPage 存的 userContent 當作初始值

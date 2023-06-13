@@ -1,5 +1,5 @@
 // React Hook
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 // 元件類
 import MainContainer from "components/MainContainer/MainContainer.jsx";
 import LeftBanner from "components/LeftBanner/LeftBanner.jsx";
@@ -12,9 +12,6 @@ import ReplyCollectionUser from 'components/ReplyCollectionUser/ReplyCollectionU
 import LikeCollection from 'components/LikeCollection/LikeCollection';
 // API
 import { getUserTweets, getUserReplies, getUserLikes } from '../api/tweets';
-// 引用封裝好的 Context 資訊
-import { AuthContext } from 'context/AuthContext.jsx';
-
 
 
 export default function UserSelfPage() {
