@@ -38,20 +38,17 @@ export default function SettingPage() {
     formData.set("account", account)
     formData.set("password", password)
     formData.set("checkPassword", checkPassword)
-    for (const pair of formData.entries()) {
-      console.log(`${pair[0]}, ${pair[1]}`);
-    }
     const response = await putUserSelf(savedUserInfoId, formData)
+
+    // 若使用者編輯資料失敗
+    if (response.response) {
+      setErrorMsg(response.response.data.message)
+    }
     // 若成功把使用者編輯資料送出
-    if (!response.response) {
+    else if (!response.response) {
       if (response.data) {
-      console.log("Successfully updated", response)
       alert('successfully updated')
       }
-    }
-    // 若使用者編輯資料失敗
-    else {
-      alert('failed to update')
     }
   }
   useEffect(() => {
