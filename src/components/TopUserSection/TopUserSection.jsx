@@ -31,8 +31,6 @@ export default function TopUserSection({ userDetail }) {
     navigate('/main')
   }
 
-  console.log('TopUserSection 裡的 name: ', name)
-
   // userInfo 資料從 localStorage 拿
   const savedUserInfo = localStorage.getItem("userInfo")
   const savedUserInfoParsed = JSON.parse(savedUserInfo)
@@ -51,7 +49,6 @@ export default function TopUserSection({ userDetail }) {
   }
   //點擊儲存按鈕
   const handleSave = async () => {
-    setDataObject({ ...dataObj, name, introduction: intro})
     // 若input空值，則返回
     if (dataObj.name.length < 1 || dataObj.introduction.length < 1) return
     // 若自我介紹或是名字長度超過限制，則返回
@@ -61,7 +58,8 @@ export default function TopUserSection({ userDetail }) {
     for (let key in dataObj) {
       formData.append(key, dataObj[key]);
     }
-
+    formData.set("name", name)
+    formData.set("introduction", intro)
     for (const pair of formData.entries()) {
       console.log(`${pair[0]}, ${pair[1]}`);
     }

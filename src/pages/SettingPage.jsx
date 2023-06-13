@@ -22,10 +22,17 @@ export default function SettingPage() {
   const [dataObject, setDataObject] = useState(null)
   // 這邊的errorMsg是用來判斷若後端response的資料不存在或有誤，可以讓<AuthInput/>可以製造出相對的錯誤訊息
   const [errorMsg, setErrorMsg] = useState('')
+  //點擊儲存按鈕 所有欄位應該要拿到最新的data資料
   const handleClick = async () => {
     //檢查格式是否符合需求
-    if (account.length === 0 || name.length === 0 || email.length === 0 || password.length === 0) return
-    else if (name.length > 50) return
+    if (account.length === 0 || name.length === 0 || email.length === 0) {
+      setName(dataObject.name)
+      console.log(name)
+      setAccount(dataObject.account)
+      setEmail(dataObject.email)
+    }
+    if(password.length === 0 || checkPassword === 0) return alert("請輸入密碼")
+    else if (name.length > 50) return 
     else if (password !== checkPassword) {
       return setIsPasswordEqual(false)
     }
