@@ -60,8 +60,7 @@ const AuthProvider = ({ children }) => {
         const tempPayload = jwt.decode(authToken);
         setPayload(tempPayload);
         //分析jwt解密的payload是否真的有此使用者
-        if(!payload) {
-          console.log(payload)
+        if(!tempPayload) {
           setIsAuthenticated(false);
           setPayload(null);
           return navigate('/login')
@@ -84,7 +83,7 @@ const AuthProvider = ({ children }) => {
       }
     };
     checkTokenIsValid();
-  }, [pathname, navigate, isTweetUpdated, payload]);
+  }, [pathname, navigate, isTweetUpdated]);
 
 
   console.log('AuthProvider 重新渲染')
