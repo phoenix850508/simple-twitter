@@ -25,6 +25,7 @@ axiosInstance.interceptors.request.use(
 export const getAllTweets = async () => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/tweets`);
+    console.log("get all tweets", res);
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
@@ -37,7 +38,7 @@ export const getAllTweets = async () => {
 export const getUserTweets = async (id) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/users/${id}/tweets`);
-    // console.log(res);
+    console.log("get all user tweets", res);
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
@@ -50,6 +51,7 @@ export const getUserTweets = async (id) => {
 export const getSingleTweet = async (tweetId) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/tweets/${tweetId}`);
+    console.log("get single tweet", res);
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
@@ -62,6 +64,7 @@ export const getSingleTweet = async (tweetId) => {
 export const getTweetReplyList = async (tweetId) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/tweets/${tweetId}/replies`);
+    console.log("get all tweet replies", res);
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {

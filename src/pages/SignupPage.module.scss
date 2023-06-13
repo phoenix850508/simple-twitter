@@ -58,6 +58,13 @@
   }
 }
 
+.emailBorderLineError {
+  @extend %authError;
+  &::after {
+    content: "此信箱已存在";
+  }
+}
+
 .cancel {
   color: var(--primary);
   text-decoration: underline;
