@@ -116,6 +116,32 @@ export const getUserFollowers = async (id) => {
   }
 };
 
+// 跟隨
+export const postUserFollow = async (authToken, id) => {
+  try {
+    const { data } = await axios.post(
+      `${baseUrl}/followships`,
+      { id },
+      { headers: { Authorization: "Bearer " + authToken } }
+    );
+    return data;
+  } catch (error) {
+    console.error("[postUserFollow failed]", error);
+  }
+};
+
+// 取消跟隨
+export const deleteUserFollow = async (authToken, id) => {
+  try {
+    const { data } = await axios.delete(`${baseUrl}/followships/${id}`, {
+      headers: { Authorization: "Bearer " + authToken },
+    });
+    return data;
+  } catch (error) {
+    console.error("[deleteUserFollow failed]", error);
+  }
+};
+
 // 編輯個人資料
 export const putUserSelf = async (id, formData) => {
   try {

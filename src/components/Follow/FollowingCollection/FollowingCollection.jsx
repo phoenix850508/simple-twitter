@@ -7,7 +7,7 @@ export default function FollowingCollection({ followings }) {
   return (
     <div>
       {followings.map((following) => {
-        const { avatar, name, introduction } = following.Followings
+        const { avatar, name, introduction } = following.Followers
         const { id, isFollowed } = following
         return (
           <FollowingItem
