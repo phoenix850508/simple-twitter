@@ -26,12 +26,12 @@ export default function SettingPage() {
   const handleClick = async () => {
     //檢查格式是否符合需求
     if (account.length === 0 || name.length === 0 || email.length === 0) {
+      // 防止使用者輸入空值，若input欄位感應不到則會帶入原本的資料
       setName(dataObject.name)
-      console.log(name)
       setAccount(dataObject.account)
       setEmail(dataObject.email)
     }
-    if(password.length === 0 || checkPassword === 0) return alert("請輸入密碼")
+    if(password.length === 0 || checkPassword.length === 0) return alert("請輸入密碼")
     else if (name.length > 50) return 
     else if (password !== checkPassword) {
       return setIsPasswordEqual(false)

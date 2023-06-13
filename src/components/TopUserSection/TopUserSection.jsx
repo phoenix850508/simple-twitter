@@ -23,6 +23,8 @@ export default function TopUserSection({ userDetail }) {
   const handleShow = () => setShow(true);
   const [name, setName] = useState('')
   const [intro, setIntro] = useState('')
+  const [userAvatar, setUserAvatar] = useState('')
+  const [banner, setBanner] = useState('')
   const [dataObj, setDataObject] = useState(null)
   const navigate = useNavigate()
 
