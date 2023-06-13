@@ -15,7 +15,7 @@ export default function LoginPage() {
   // 這邊的errorMsg是用來判斷若後端response的資料不存在或有誤，可以讓<AuthInput/>可以製造出相對的錯誤訊息
   const [errorMsg, setErrorMsg] = useState('')
   const navigate = useNavigate();
-  const { login, isAuthenticated, currentUser } = useContext(AuthContext);
+  const { login, isAuthenticated } = useContext(AuthContext);
 
   const handleClick = async () => {
     // 檢查格式是否符合需求
@@ -31,7 +31,7 @@ export default function LoginPage() {
     if (isAuthenticated) {
       navigate('/main');
     }
-  }, [navigate, isAuthenticated, currentUser])
+  }, [navigate, isAuthenticated])
   return (
     <div className={styles.loginContainer}>
       <img src={ac_logo} alt="ac_logo.svg" />

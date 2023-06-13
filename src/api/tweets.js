@@ -25,6 +25,7 @@ axiosInstance.interceptors.request.use(
 export const getAllTweets = async () => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/tweets`);
+    console.log("get all tweets", res);
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
@@ -37,7 +38,7 @@ export const getAllTweets = async () => {
 export const getUserTweets = async (id) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/users/${id}/tweets`);
-    // console.log(res);
+    console.log("get all user tweets", res);
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
@@ -50,6 +51,7 @@ export const getUserTweets = async (id) => {
 export const getSingleTweet = async (tweetId) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/tweets/${tweetId}`);
+    console.log("get single tweet", res);
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
@@ -62,6 +64,7 @@ export const getSingleTweet = async (tweetId) => {
 export const getTweetReplyList = async (tweetId) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/tweets/${tweetId}/replies`);
+    console.log("get all tweet replies", res);
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
@@ -76,6 +79,7 @@ export const getUserReplies = async (id) => {
     const response = await axiosInstance.get(
       `${baseUrl}/users/${id}/replied_tweets`
     );
+    console.log("get all self replies", response);
     return response.data;
   } catch (error) {
     console.error("[Get User Replies failed]: ", error);
@@ -86,6 +90,7 @@ export const getUserReplies = async (id) => {
 export const getUser = async (id) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/users/${id}`);
+    console.log("get user data", res);
     return res;
   } catch (error) {
     console.error("[Get user failed]", error);
@@ -101,6 +106,7 @@ export const putUserSelf = async (id, formData) => {
         "Content-Type": "multipart/form-data",
       },
     });
+    console.log("edit self data", res);
     return res;
   } catch (error) {
     console.error("[Put user failed]", error);
@@ -112,6 +118,7 @@ export const putUserSelf = async (id, formData) => {
 export const postTweets = async ({ description }) => {
   try {
     const res = axiosInstance.post(`${baseUrl}/tweets`, { description });
+    console.log("post tweet", res);
     return res;
   } catch (error) {
     console.error("[Post Tweets failed]", error);
@@ -122,7 +129,7 @@ export const postTweets = async ({ description }) => {
 export const getUserLikes = async (id) => {
   try {
     const res = axiosInstance.get(`${baseUrl}/users/${id}/likes`);
-    console.log(res);
+    console.log("get all user like tweets", res);
     return res;
   } catch (error) {
     console.error("[Get user like failed]: ", error);
