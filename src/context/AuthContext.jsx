@@ -3,6 +3,7 @@ import { createContext, useContext, useState, useEffect, useRef } from "react";
 import * as jwt from "jsonwebtoken";
 import { useLocation } from "react-router-dom";
 import {postTweets} from 'api/tweets.js'
+import { useNavigate } from "react-router-dom";
 
 // const defaultAuthContext = {
 //   currentUser: null,
@@ -27,8 +28,8 @@ const AuthProvider = ({ children }) => {
   const [userReplyList, setUserReplyList] = useState([]);
   // 若自己有Tweet更新
   const [isTweetUpdated, setIsTweetUpdated] = useState(false)
-
   const { pathname } = useLocation();
+  const navigate = useNavigate()
 
   // 儲存點擊的 tweetId
   function handleSetTweetIdClick(tweetIdReceived) {
@@ -47,7 +48,7 @@ const AuthProvider = ({ children }) => {
       if (!authToken) {
         setIsAuthenticated(false);
         setPayload(null);
-        return;
+        return navigate('/login')
       }
       // 若 token 存在則驗證其有效性
       // 這邊似乎交給後端驗證？
@@ -58,6 +59,13 @@ const AuthProvider = ({ children }) => {
         setIsAuthenticated(true);
         const tempPayload = jwt.decode(authToken);
         setPayload(tempPayload);
+        //分析jwt解密的payload是否真的有此使用者
+        if(!payload) {
+          console.log(payload)
+          setIsAuthenticated(false);
+          setPayload(null);
+          return navigate('/login')
+        }
         // 使用 localStorage 中的 userInfo 來初始化
         const savedUserInfo = localStorage.getItem("userInfo");
         if (savedUserInfo) {
@@ -72,10 +80,11 @@ const AuthProvider = ({ children }) => {
         // 無效
         setIsAuthenticated(false);
         setPayload(null);
+        navigate('/login')
       }
     };
     checkTokenIsValid();
-  }, [pathname, isTweetUpdated]);
+  }, [pathname, navigate, isTweetUpdated, payload]);
 
 
   console.log('AuthProvider 重新渲染')
