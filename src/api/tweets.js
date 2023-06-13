@@ -147,3 +147,23 @@ export const postReply = async (id, { comment }) => {
     console.error("[Post reply tweet failed]: ", error);
   }
 };
+
+//新增愛心
+export const postLike = async (id) => {
+  try {
+    const res = axiosInstance.post(`/tweets/${id}/like`);
+    return res;
+  } catch (error) {
+    console.error("[Post like tweet failed]: ", error);
+  }
+};
+
+//新增愛心
+export const postUnlike = async (id) => {
+  try {
+    const res = axiosInstance.post(`/tweets/${id}/unlike`);
+    return res;
+  } catch (error) {
+    console.error("[Post unlike tweet failed]: ", error);
+  }
+};
