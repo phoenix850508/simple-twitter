@@ -36,6 +36,7 @@ const AuthProvider = ({ children }) => {
     localStorage.setItem("tweetId", tweetIdReceived);
   };
 
+  // 現在每條 API 都會驗證身份，要再測試一下被擋後的回傳值是什麼，再做對應畫面
   // 換頁要驗證 token
   useEffect(() => {
     const checkTokenIsValid = async () => {
