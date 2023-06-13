@@ -7,7 +7,8 @@ import Modal from 'react-bootstrap/Modal';
 import cross from 'icons/cross.svg'
 import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTweetButton'
 import UserTweetPhoto from 'components/TopTweetSection/TopTweetComponents/UserTweetPhoto'
-import { useState, useContext } from 'react'
+import {getSingleTweet} from 'api/tweets'
+import { useState, useContext, useRef } from 'react'
 import clsx from 'clsx'
 // likeActive 暫時沒用到先註解掉
 // import likeActive from 'icons/likeActive.svg'
@@ -21,6 +22,16 @@ export default function TweetItem({ id, UserId, name, account, description, crea
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const commentRef = useRef(null)
+  const onTweetClick = () => {
+    // 在 Context 用 state 管理，把該推文 ID 存起來
+    handleSetTweetIdClick(id)
+    console.log('TweetItem 裡的推文 id: ', id)
+    navigate('/replylist')
+  }
+  const handleCommentClick = async (commentRef) => {
+    console.log(commentRef)
+  }
 
   return (
     <div className={styles.tweetItemContainer}>
@@ -43,16 +54,11 @@ export default function TweetItem({ id, UserId, name, account, description, crea
           {/* 點擊可跳轉 replylist 頁面 */}
           <button
             className={styles.tweetItemInfoContentWrapper}
-            onClick={() => {
-              // 在 Context 用 state 管理，把該推文 ID 存起來
-              handleSetTweetIdClick(id)
-              console.log('TweetItem 裡的推文 id: ', id)
-              navigate('/replylist')
-            }}>
+            onClick={onTweetClick}>
             <p className={styles.tweetItemInfoContent}>{description}</p>
           </button>
           <div className={styles.tweetItemInfoBottom}>
-            <div className={styles.tweetItemInfoBottomDiscussion} onClick={handleShow} >
+            <div className={styles.tweetItemInfoBottomDiscussion} ref={commentRef} onClick={e => handleCommentClick?.({commentRef})} >
               <img src={discussion} alt="discussion.svg" />
               <div className={styles.tweetDiscussionNum}>{replyCount}</div>
             </div>
