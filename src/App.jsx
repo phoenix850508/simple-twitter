@@ -3,7 +3,7 @@ import "styles/reset.scss";
 import "styles/base.scss";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from 'context/AuthContext.jsx'
-import { HomePage, LoginPage, SignupPage, MainPage, AdminPage, AdminUsersPage, UserSelfPage, ReplyListPage, UserSelfFollowPage, UserOtherPage, AdminMainPage, SettingPage } from 'pages'
+import { HomePage, LoginPage, SignupPage, MainPage, AdminPage, AdminUsersPage, UserSelfPage, ReplyListPage, UserSelfFollowPage, UserOtherPage, AdminMainPage, SettingPage, UserOtherFollowPage } from 'pages'
 
 function App() {
   const basename = process.env.PUBLIC_URL
@@ -23,6 +23,7 @@ function App() {
             <Route path="replylist" element={<ReplyListPage />} />
             <Route path="user/self/follow" element={<UserSelfFollowPage />} />
             <Route path="user/other" element={<UserOtherPage />} />
+            <Route path="user/other/follow" element={<UserOtherFollowPage />} />
             <Route path="admin_main" element={<AdminMainPage />} />
           </Routes>
         </AuthProvider >

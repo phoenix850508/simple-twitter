@@ -1,5 +1,6 @@
 // React Hook
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 // 元件類
 import MainContainer from "components/MainContainer/MainContainer.jsx";
 import LeftBanner from "components/LeftBanner/LeftBanner.jsx";
@@ -11,10 +12,11 @@ import TweetCollection from "components/TweetCollection/TweetCollection.jsx";
 import ReplyCollectionUser from 'components/ReplyCollectionUser/ReplyCollectionUser';
 import LikeCollection from 'components/LikeCollection/LikeCollection';
 // API
-import { getUserTweets, getUserReplies, getUserLikes, getUser } from '../api/tweets';
+import { getUserTweets, getUserReplies, getUserLikes, getUser, getUserFollowings } from '../api/tweets';
 
 
 export default function UserOtherPage() {
+  const navigate = useNavigate();
   // 使用者點擊瀏覽項目最新狀態
   const [userContent, setUserContent] = useState('tweets')
   // tweets 存在這
@@ -39,6 +41,12 @@ export default function UserOtherPage() {
   // 變更訂閱通知
   function handleNotiClick() {
     setNotification(!notification)
+  }
+
+  // 將 UserOtherFollowPage 要用的瀏覽項目先存起來並跳轉頁面
+  function handleFollowDetailClick(followContent) {
+    localStorage.setItem("followContent", followContent);
+    navigate('/user/other/follow')
   }
 
   // 透過 API 撈資料
@@ -95,7 +103,7 @@ export default function UserOtherPage() {
     <MainContainer>
       <LeftBanner />
       <MiddleColumnContainer>
-        <TopUserSectionOther notification={notification} handleNotiClick={handleNotiClick} userDetail={otherUserDetail} />
+        <TopUserSectionOther notification={notification} handleNotiClick={handleNotiClick} userDetail={otherUserDetail} handleFollowDetailClick={handleFollowDetailClick} />
         <ChangeUserContent userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
         {userContent === 'tweets' && <TweetCollection tweets={tweets} />}
         {userContent === 'replies' && <ReplyCollectionUser replies={replies} userDetail={otherUserDetail} />}

@@ -134,11 +134,12 @@ const AuthProvider = ({ children }) => {
           localStorage.removeItem("userInfo");
           localStorage.removeItem("tweetId");
           localStorage.removeItem("otherUserId");
+          localStorage.removeItem("followContent");
           setPayload(null);
           setIsAuthenticated(false);
         },
-        postTweets: async(data) => {
-          const response = await postTweets({description: data.description})
+        postTweets: async (data) => {
+          const response = await postTweets({ description: data.description })
           if (response.data) setIsTweetUpdated(true)
           return response
         }
