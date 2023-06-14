@@ -8,36 +8,41 @@ import ReplyItem from "components/ReplyItem/ReplyItem.jsx";
 // import { getUserReplies } from 'api/tweets'
 
 export default function ReplyCollection({ tweetReplyList, singleTweetInfo }) {
-
   console.log('ReplyCollection 裡的 tweetReplyList: ', tweetReplyList)
-
-  // useEffect(() => {
-  //   const getUserRepliesAsync = async () => {
-  //     try {
-  //       const response = await getUserReplies()
-  //       console.log(response)
-  //       setReplies(response.data)
-  //     } catch (error) {
-  //       console.error("[Get User Replies failed]: ", error)
-  //     }
-  //   }
-  //   getUserRepliesAsync()
-  // }, [currentUser])
 
   return (
     <div className={styles.replyCollectionContainer}>
       {tweetReplyList.map((reply) => {
-        const { name, account, avatar } = reply.User
         const { id, comment, createdAt } = reply
-        const replyTo = singleTweetInfo.User.account
+
+        let userAvatar = ''
+        let userName = ''
+        let userAccount = ''
+        let replyTo = ''
+
+        // 不太確定為什麼會需要繞一圈才取得到 User 內的值？？？
+        if (reply && reply.User) {
+          const { avatar, name, account } = reply.User;
+          // 其他操作
+          userAvatar = avatar
+          userName = name
+          userAccount = account
+        }
+
+        // const replyTo = singleTweetInfo.User.account
         // 回覆對象即該推文發文者，從父元件另外撈
+        if (singleTweetInfo && singleTweetInfo.User) {
+          const { account } = singleTweetInfo.User;
+          // 其他操作
+          replyTo = account
+        }
 
         return (
           <ReplyItem
             key={id}
-            name={name}
-            account={account}
-            avatar={avatar}
+            name={userName}
+            account={userAccount}
+            avatar={userAvatar}
             comment={comment}
             createdAt={createdAt}
             replyTo={replyTo}

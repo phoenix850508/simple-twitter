@@ -1,6 +1,8 @@
 .tweetItemContainer {
   width: 641px;
-  height: 351px;
+  // height: 351px;
+  // 改成以下寫法以適應推文內容高度
+  height: minmax(min-content, 351px);
   border-right: 1px solid #E6ECF0;
   border-bottom: 1px solid #E6ECF0;
   border-left: 1px solid #E6ECF0;
