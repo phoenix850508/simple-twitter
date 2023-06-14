@@ -7,15 +7,15 @@ import Modal from 'react-bootstrap/Modal';
 import cross from 'icons/cross.svg'
 import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTweetButton'
 import UserTweetPhoto from 'components/TopTweetSection/TopTweetComponents/UserTweetPhoto'
-import {postReply} from 'api/tweets'
-import { useState, useContext, useRef } from 'react'
+import {postReply, postLike, postUnlike} from 'api/tweets'
+import { useState, useContext } from 'react'
 import clsx from 'clsx'
 // likeActive 暫時沒用到先註解掉
-// import likeActive from 'icons/likeActive.svg'
+import likeActive from 'icons/likeActive.svg'
 // 引用封裝好的 Context 資訊
 import { AuthContext } from 'context/AuthContext.jsx';
 
-export default function TweetItem({ id, UserId, name, account, description, createdAt, replyCount, likeCount, avatar }) {
+export default function TweetItem({ id, UserId, name, account, description, createdAt, replyCount, likeCount, avatar, isLiked }) {
   const navigate = useNavigate();
   // 使用蟲洞從 authContext.js 拿資料：savedUserInfoId
   const savedUserInfo = localStorage.getItem("userInfo")
@@ -28,6 +28,8 @@ export default function TweetItem({ id, UserId, name, account, description, crea
   const [replyTweet, setReplyTweet] = useState('')
   const [replyNum, setReplyNum] = useState(replyCount)
   const [errorMsg, setErrorMsg] = useState(false)
+  const [isLikedBoolean, setIsLikedBoolean] = useState(isLiked)
+  const [likeNum, setLikeNum] = useState(likeCount)
   const onTweetClick = () => {
     // 在 Context 用 state 管理，把該推文 ID 存起來
     handleSetTweetIdClick(id)
@@ -38,7 +40,6 @@ export default function TweetItem({ id, UserId, name, account, description, crea
     //預防空值與回覆文字限制
     if(replyTweet.length > 140) return
     if(replyTweet.length < 1 ) return setErrorMsg(true)
-    try {
     const response = await postReply(savedUserInfoId, {comment: replyTweet})
     //若新增推文成功
     if (response.data.comment) {
@@ -50,9 +51,43 @@ export default function TweetItem({ id, UserId, name, account, description, crea
       handleClose()
       return alert("新增回覆失敗")
     }
-    } catch (error) {
-      console.error(error)
+  }
+
+  const handleLike = async() => {
+    console.log(isLikedBoolean)
+    if (isLikedBoolean === true) {
+     const response = await postUnlike(id)
+     //若取消喜歡成功
+     if(response.data) {
+      if(response.data.message === "Like 取消成功") {
+        alert("Like 取消成功")
+        setIsLikedBoolean(false)
+        //防止資料庫錯誤，若likeNum > 0則讓likeNum - 1
+        setLikeNum(() => {
+          if(likeNum) {
+            return likeNum - 1
+          }
+          else return likeNum
+        })
+      }
+     }
+     else {
+      return alert("取消喜歡失敗")
+     }
     }
+    if (isLikedBoolean === false) {
+      const response = await postLike(id)
+      if(response.data) {
+      //若喜歡喜歡成功
+      if(response.data.status === "已加入喜歡！") {
+        setIsLikedBoolean(true)
+        setLikeNum(likeNum + 1)
+      }
+      else {
+        return alert("新增喜歡失敗")
+      }
+    }
+  }
   }
 
   return (
@@ -80,13 +115,13 @@ export default function TweetItem({ id, UserId, name, account, description, crea
             <p className={styles.tweetItemInfoContent}>{description}</p>
           </button>
           <div className={styles.tweetItemInfoBottom}>
-            <div className={styles.tweetItemInfoBottomDiscussion} onClick={() => handleShow()} >
+            <div className={styles.tweetItemInfoBottomDiscussion} onClick={() => {handleShow()}} >
               <img className="discussion" src={discussion} alt="discussion.svg" />
               <div className={styles.tweetDiscussionNum}>{replyNum}</div>
             </div>
             <div className={styles.tweetItemInfoBottomLike}>
-              <img src={like} alt="like.svg" />
-              <div className={styles.tweetLikeNum}>{likeCount}</div>
+              <img className={styles.like} src={isLikedBoolean? likeActive : like} alt="like.svg" onClick={handleLike} />
+              <div className={styles.tweetLikeNum}>{likeNum}</div>
             </div>
           </div>
         </div>
