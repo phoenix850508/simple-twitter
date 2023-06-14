@@ -40,9 +40,9 @@ export default function TweetItem({ id, UserId, name, account, description, crea
   // 送出回覆文字
   const handleSave = async () => {
     //預防空值與回覆文字限制
-    if(replyTweet.length > 140) return
-    if(replyTweet.length < 1 ) return setErrorMsg(true)
-    const response = await postReply(id, {comment: replyTweet})
+    if (replyTweet.length > 140) return
+    if (replyTweet.length < 1) return setErrorMsg(true)
+    const response = await postReply(id, { comment: replyTweet })
     //若新增推文成功
     if (response.data.comment) {
       handleClose()
@@ -104,7 +104,7 @@ export default function TweetItem({ id, UserId, name, account, description, crea
             localStorage.setItem("otherUserId", UserId);
             navigate('/user/other')
           }}>
-          <img className={styles.avatar} src={avatar} alt={avatarDefaultMini} />
+          <img className={styles.avatar} src={avatar ? avatar : avatarDefaultMini} alt='avatar' />
         </button>
         <div className={styles.tweetItemInfoWrapper}>
           <div className={styles.tweetItemInfoUser}>
