@@ -17,6 +17,7 @@ export default function UserOtherFollowPage() {
   // userInfo 資料從 localStorage 拿
   const savedOtherUserId = localStorage.getItem("otherUserId")
   // 使用者點擊瀏覽項目最新狀態，奇怪的是，如果 useState 內 savedFollowContent 未用 {} 包起來 useEffect 就會出錯
+  // 但不知為何現在是正常的
   const [userContent, setUserContent] = useState(savedFollowContent)
   // 儲存 user other 的 followings
   const [otherUserFollowings, setOtherUserFollowings] = useState([])
