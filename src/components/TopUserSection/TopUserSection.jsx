@@ -53,6 +53,7 @@ export default function TopUserSection({ userDetail }) {
   }
   //點擊儲存按鈕
   const handleSave = async () => {
+    console.log(banner)
     // 若input空值，則返回
     if (name.trim().length === 0 || intro.trim().length === 0) return
     // 若自我介紹或是名字長度超過限制，則返回
