@@ -2,7 +2,7 @@ import { login } from "api/auth.js";
 import { createContext, useState, useEffect } from "react";
 import * as jwt from "jsonwebtoken";
 import { useLocation } from "react-router-dom";
-import {postTweets, putUserSelf} from 'api/tweets.js'
+import {postTweets, putUserSelf, getUser, getUserReplies, getUserLikes} from 'api/tweets.js'
 import { useNavigate } from "react-router-dom";
 
 
@@ -23,6 +23,10 @@ const AuthProvider = ({ children }) => {
   const [isTweetUpdated, setIsTweetUpdated] = useState(false)
   // 若有更動過個人資料
   const [isUserEdited, setIsUserEdited] = useState(false)
+  // 若有更新過喜歡推文
+  const [isUpdatedLike, setIsUpdatedLikes] = useState(false)
+  // 若有更新過回覆推文
+  const [isUpdatedReplies, setIsUpdatedReplies] = useState(false)
   const { pathname } = useLocation();
   const navigate = useNavigate()
 
@@ -41,6 +45,10 @@ const AuthProvider = ({ children }) => {
     setIsTweetUpdated(false)
     //更新完個人編輯資料後，要把isUserEdited退回false
     setIsUserEdited(false)
+    //更新過回覆推文後，要把isUpdatedReplies退回false
+    setIsUpdatedReplies(false)
+    //更新更新過喜歡推文後，要把isUpdatedLikes退回false
+    setIsUpdatedLikes(false)
     const checkTokenIsValid = async () => {
       // 從 localStorage 拿 token
       const authToken = localStorage.getItem("authToken");
@@ -99,6 +107,8 @@ const AuthProvider = ({ children }) => {
         setUserReplyList,
         isTweetUpdated,
         isUserEdited, 
+        isUpdatedLike,
+        isUpdatedReplies,
         login: async (data) => {
           const response = await login({
             account: data.account,
@@ -140,11 +150,27 @@ const AuthProvider = ({ children }) => {
           const response = await postTweets({ description: data.description })
           if (response.data) setIsTweetUpdated(true)
           return response
-        }
-        , putUserSelf: async(id, formData) => {
+        }, 
+        putUserSelf: async(id, formData) => {
           const response = await putUserSelf(id, formData)
-          console.log("im here", response)
           if (!response.response) setIsUserEdited(true)
+          return response
+        }, 
+        getUser: async(id) => {
+          const response = await getUser(id)
+          console.log("get all user data", response)
+          return response
+        }, 
+        getUserReplies: async(id) => {
+          const response = await getUserReplies(id)
+          console.log("get all user replies", response)
+          if(response.data) setIsUpdatedReplies(true)
+          return response
+        },
+        getUserLikes: async(id) => {
+          const response = await getUserLikes(id)
+          console.log("get all user likes", response)
+          if(response.data) setIsUpdatedLikes(true)
           return response
         }
       }}
