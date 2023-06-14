@@ -153,8 +153,8 @@ const AuthProvider = ({ children }) => {
               })
               localStorage.setItem("authToken", authToken);
               // 儲存使用者資訊到 state 與 localStorage
-              setUserInfo(response.data.user);
-              localStorage.setItem("userInfo", JSON.stringify(response.data.user));
+              setUserInfo(response.data.admin);
+              localStorage.setItem("userInfo", JSON.stringify(response.data.admin));
             }
           }
           //若獲得的response不符合上面條件，回傳response讓LoginPage去做錯誤顯示

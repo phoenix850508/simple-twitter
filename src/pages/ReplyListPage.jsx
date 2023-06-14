@@ -53,7 +53,7 @@ export default function ReplyListPage() {
     <MainContainer>
       <LeftBanner />
       <MiddleColumnContainer>
-        <TopReplyListSection singleTweetInfo={singleTweetInfo} />
+        <TopReplyListSection singleTweetInfo={singleTweetInfo} tweetId={savedTweetId} />
         <ReplyCollection tweetReplyList={tweetReplyList} singleTweetInfo={singleTweetInfo} />
       </MiddleColumnContainer>
       <RightBanner />

@@ -10,7 +10,6 @@ import UserTweetPhoto from 'components/TopTweetSection/TopTweetComponents/UserTw
 import { postReply, postLike, postUnlike } from 'api/tweets'
 import { useState, useContext } from 'react'
 import clsx from 'clsx'
-// likeActive 暫時沒用到先註解掉
 import likeActive from 'icons/likeActive.svg'
 // 引用封裝好的 Context 資訊
 import { AuthContext } from 'context/AuthContext.jsx';
@@ -18,9 +17,9 @@ import { AuthContext } from 'context/AuthContext.jsx';
 export default function TweetItem({ id, UserId, name, account, description, createdAt, replyCount, likeCount, avatar, isLiked }) {
   const navigate = useNavigate();
   // 使用蟲洞從 authContext.js 拿資料：savedUserInfoId
-  const savedUserInfo = localStorage.getItem("userInfo")
-  const savedUserInfoParsed = JSON.parse(savedUserInfo)
-  const savedUserInfoId = savedUserInfoParsed.id
+  // const savedUserInfo = localStorage.getItem("userInfo")
+  // const savedUserInfoParsed = JSON.parse(savedUserInfo)
+  // const savedUserInfoId = savedUserInfoParsed.id
   const { handleSetTweetIdClick } = useContext(AuthContext);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);

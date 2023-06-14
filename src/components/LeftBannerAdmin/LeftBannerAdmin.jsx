@@ -11,6 +11,7 @@ export default function LeftBannerAdmin() {
   const {logout} = useContext(AuthContext)
   const navigate = useNavigate()
   const handleLogout = () => {
+    console.log("clicked")
     logout();
     navigate('/admin')
   }
