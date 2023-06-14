@@ -3,6 +3,7 @@ import { createContext, useContext, useState, useEffect, useRef } from "react";
 import * as jwt from "jsonwebtoken";
 import { useLocation } from "react-router-dom";
 import {postTweets} from 'api/tweets.js'
+import { useNavigate } from "react-router-dom";
 
 // const defaultAuthContext = {
 //   currentUser: null,
@@ -27,8 +28,8 @@ const AuthProvider = ({ children }) => {
   const [userReplyList, setUserReplyList] = useState([]);
   // 若自己有Tweet更新
   const [isTweetUpdated, setIsTweetUpdated] = useState(false)
-
   const { pathname } = useLocation();
+  const navigate = useNavigate()
 
   // 儲存點擊的 tweetId
   function handleSetTweetIdClick(tweetIdReceived) {
@@ -39,6 +40,10 @@ const AuthProvider = ({ children }) => {
   // 現在每條 API 都會驗證身份，要再測試一下被擋後的回傳值是什麼，再做對應畫面
   // 換頁要驗證 token
   useEffect(() => {
+    //如果換頁要去的目的是登入/註冊頁面的話，請不用認證token
+    if (pathname === "/login" || pathname === "/signup" || pathname === "/admin") return 
+    //更新完Tweet後，要把isTweetUpdated退回false狀態
+    setIsTweetUpdated(false)
     const checkTokenIsValid = async () => {
       // 從 localStorage 拿 token
       const authToken = localStorage.getItem("authToken");
@@ -46,7 +51,7 @@ const AuthProvider = ({ children }) => {
       if (!authToken) {
         setIsAuthenticated(false);
         setPayload(null);
-        return;
+        return navigate('/login')
       }
       // 若 token 存在則驗證其有效性
       // 這邊似乎交給後端驗證？
@@ -54,9 +59,15 @@ const AuthProvider = ({ children }) => {
 
       // 如果有 token（但似乎要給後端檢核是否有效）
       if (authToken) {
-        setIsAuthenticated(true);
         const tempPayload = jwt.decode(authToken);
         setPayload(tempPayload);
+        //分析jwt解密的payload是否真的有此使用者
+        if(!tempPayload) {
+          setIsAuthenticated(false);
+          setPayload(null);
+          return navigate('/login')
+        }
+        setIsAuthenticated(true);
         // 使用 localStorage 中的 userInfo 來初始化
         const savedUserInfo = localStorage.getItem("userInfo");
         if (savedUserInfo) {
@@ -71,10 +82,11 @@ const AuthProvider = ({ children }) => {
         // 無效
         setIsAuthenticated(false);
         setPayload(null);
+        navigate('/login')
       }
     };
     checkTokenIsValid();
-  }, [pathname]);
+  }, [pathname, navigate, isTweetUpdated]);
 
 
   console.log('AuthProvider 重新渲染')
@@ -122,11 +134,12 @@ const AuthProvider = ({ children }) => {
           localStorage.removeItem("userInfo");
           localStorage.removeItem("tweetId");
           localStorage.removeItem("otherUserId");
+          localStorage.removeItem("followContent");
           setPayload(null);
           setIsAuthenticated(false);
         },
-        postTweets: async(data) => {
-          const response = await postTweets({description: data.description})
+        postTweets: async (data) => {
+          const response = await postTweets({ description: data.description })
           if (response.data) setIsTweetUpdated(true)
           return response
         }

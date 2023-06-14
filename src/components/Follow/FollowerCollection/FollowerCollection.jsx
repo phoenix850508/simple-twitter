@@ -2,12 +2,23 @@
 
 import FollowerItem from "components/Follow/FollowerItem/FollowerItem.jsx"
 
-export default function FollowerCollection() {
+export default function FollowerCollection({ followers }) {
+  console.log('FollowerCollection 裡面的 followers: ', followers)
   return (
-    <>
-      <FollowerItem />
-      <FollowerItem />
-      <FollowerItem />
-    </>
+    <div>
+      {followers.map((follower) => {
+        const { avatar, name, introduction } = follower.Followings
+        const { id, isFollowed } = follower
+        return (
+          <FollowerItem
+            key={id}
+            avatar={avatar}
+            name={name}
+            introduction={introduction}
+            isFollowed={isFollowed}
+          />
+        )
+      })}
+    </div>
   )
 }

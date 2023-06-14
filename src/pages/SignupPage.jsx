@@ -61,7 +61,12 @@ export default function SignupPage() {
       className={styles.email} 
       label={"Email"} 
       placeholder={"請輸入 Email"} 
-      onChange={(emailInput) => setEmail(emailInput)} />
+      onChange={(emailInput) => {
+        setErrorMsg('')
+        setEmail(emailInput)
+      }}
+      borderLine={clsx('', {[styles.emailBorderLineError]: errorMsg === "Error: 信箱已存在！"})}   
+       />
       <AuthInput 
       className={styles.password} 
       borderLine={clsx('', {[styles.passwordUnequal]: !isPasswordEqual})}
@@ -71,7 +76,8 @@ export default function SignupPage() {
       onChange={(passwordInput) => {
         setIsPasswordEqual(true)
         setPassword(passwordInput)
-        }} />
+        }} 
+      />
       <AuthInput 
       className={styles.checkPassword} 
       borderLine={clsx('', {[styles.passwordUnequal]: !isPasswordEqual})}
