@@ -64,7 +64,6 @@ export const getSingleTweet = async (tweetId) => {
 export const getTweetReplyList = async (tweetId) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/tweets/${tweetId}/replies`);
-    console.log("get all tweet replies", res);
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
@@ -79,7 +78,6 @@ export const getUserReplies = async (id) => {
     const response = await axiosInstance.get(
       `${baseUrl}/users/${id}/replied_tweets`
     );
-    console.log("tweets.js 裡的 getUserReplies 回傳值: ", response);
     return response.data;
   } catch (error) {
     console.error("[Get User Replies failed]: ", error);
@@ -90,7 +88,6 @@ export const getUserReplies = async (id) => {
 export const getUser = async (id) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/users/${id}`);
-    console.log("tweets.js 裡的 getUser 回傳值: ", res);
     return res;
   } catch (error) {
     console.error("[Get user failed]", error);
@@ -154,7 +151,6 @@ export const putUserSelf = async (id, formData) => {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log("tweets.js 裡的 putUserSelf 回傳值: ", res);
     return res;
   } catch (error) {
     console.error("[Put user failed]", error);
@@ -166,7 +162,6 @@ export const putUserSelf = async (id, formData) => {
 export const postTweets = async ({ description }) => {
   try {
     const res = axiosInstance.post(`${baseUrl}/tweets`, { description });
-    console.log("tweets.js 裡的 postTweets 回傳值: ", res);
     return res;
   } catch (error) {
     console.error("[Post Tweets failed]", error);
@@ -177,9 +172,20 @@ export const postTweets = async ({ description }) => {
 export const getUserLikes = async (id) => {
   try {
     const res = axiosInstance.get(`${baseUrl}/users/${id}/likes`);
-    console.log("tweets.js 裡的 getUserLikes 回傳值: ", res);
     return res;
   } catch (error) {
     console.error("[Get user like failed]: ", error);
+  }
+};
+
+//新增回覆推文
+export const postReply = async (id, { comment }) => {
+  try {
+    const res = axiosInstance.post(`${baseUrl}/tweets/${id}/replies`, {
+      comment,
+    });
+    return res;
+  } catch (error) {
+    console.error("[Post reply tweet failed]: ", error);
   }
 };

@@ -56,7 +56,7 @@ export default function TopUserSection({ userDetail }) {
     // 若input空值，則返回
     if (dataObj.name.length < 1 || dataObj.introduction.length < 1) return
     // 若自我介紹或是名字長度超過限制，則返回
-    if (dataObj.name.length > 50 || dataObj.introduction.length > 150) return
+    if (dataObj.name.length > 50 || dataObj.introduction.length > 160) return
     // API的資訊傳遞(需轉換成 Form-data)
     const formData = new FormData()
     for (let key in dataObj) {
@@ -111,7 +111,7 @@ export default function TopUserSection({ userDetail }) {
         onIntroChange={(updateIntroInput) => setIntro(updateIntroInput)}
         onSave={handleSave}
         nameBorderLine={clsx('', { [styles.wordLengthError]: name.length > 50 }, { [styles.emptyError]: name.trim().length === 0 })}
-        introBorderLine={clsx('', { [styles.wordLengthError]: intro.length > 150 }, { [styles.emptyError]: intro.trim().length === 0 })}
+        introBorderLine={clsx('', { [styles.wordLengthError]: intro.length > 160 }, { [styles.emptyError]: intro.trim().length === 0 })}
         nameValue={name}
         introValue={intro}
       />
