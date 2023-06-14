@@ -3,8 +3,17 @@ import Logout from "components/Logout/Logout.jsx";
 import ac_logo from 'icons/ac_logo.svg'
 import adminTweetsListActive from 'icons/adminTweetsListActive.svg'
 import adminUsersList from 'icons/adminUsersList.svg'
+import { AuthContext } from "context/AuthContext";
+import {useContext} from 'react'
+import {useNavigate} from 'react-router-dom'
 
 export default function LeftBannerAdmin() {
+  const {logout} = useContext(AuthContext)
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    logout();
+    navigate('/admin')
+  }
   return (
     <div className={styles.leftBannerContainer}>
       <div className={styles.leftBannerLogo}>
@@ -12,7 +21,7 @@ export default function LeftBannerAdmin() {
       </div>
       <LeftBannerItems />
       <div className={styles.leftBannerLogout}>
-        <Logout />
+        <Logout onClick={handleLogout} />
       </div>
     </div>
   )

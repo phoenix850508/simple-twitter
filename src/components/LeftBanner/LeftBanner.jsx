@@ -1,12 +1,14 @@
 import styles from "./LeftBanner.module.scss";
 import Logout from "components/Logout/Logout.jsx";
 import ac_logo from 'icons/ac_logo.svg'
+import home from 'icons/home.svg'
 import homeActive from 'icons/homeActive.svg'
 import userInfo from 'icons/userInfo.svg'
+import userInfoActive from 'icons/userInfoActive.svg'
 import settings from 'icons/settings.svg'
+import settingsActive from 'icons/settingsActive.svg'
 import TopTweetModal from 'components/TopTweetSection/TopTweetComponents/TopTweetModal'
 import { useState, useContext, useEffect } from 'react'
-import { postTweets } from 'api/tweets.js'
 import { AuthContext } from 'context/AuthContext.jsx'
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx'
@@ -18,6 +20,7 @@ export default function LeftBanner() {
   const [tweet, setTweet] = useState('')
   const [isUpdating, setIsUpdating] = useState(false)
   const [errorMsg, setErrorMsg]= useState(false)
+  const [onPage, setOnPage] = useState('home')
   const { postTweets, isTweetUpdated, logout } = useContext(AuthContext);
   const navigate = useNavigate()
   const handleLogout = () => {
@@ -26,12 +29,15 @@ export default function LeftBanner() {
   }
   const handleHomePageClick = () => {
     navigate('/main')
+    setOnPage('home')
   }
   const handleUserSelfPageClick = () => {
     navigate('/user/self')
+    setOnPage('userSelf')
   }
   const handleSettingPageClick = () => {
     navigate('/setting')
+    setOnPage('setting')
   }
   const clearForm = () => {
     setTweet('');
@@ -63,7 +69,15 @@ export default function LeftBanner() {
       <div className={styles.leftBannerLogo}>
         <img src={ac_logo} alt="ac_logo.svg" />
       </div>
-      <LeftBannerItems onTweetClick={handleShow} onHomePageClick={handleHomePageClick} onUserSelfClick={handleUserSelfPageClick} onSettingClick={handleSettingPageClick} />
+      <LeftBannerItems 
+      onTweetClick={handleShow} 
+      onHomePageClick={handleHomePageClick} 
+      onUserSelfClick={handleUserSelfPageClick} 
+      onSettingClick={handleSettingPageClick}
+      homeStatus={onPage === 'home'? homeActive : home}
+      userInfoStatus={onPage === 'userSelf'? userInfoActive : userInfo}
+      settingStatus={onPage === 'setting'? settingsActive : settings}
+       />
       <div className={styles.leftBannerLogout}>
         <Logout onClick={handleLogout} />
       </div>
@@ -82,17 +96,17 @@ export default function LeftBanner() {
 }
 
 // 左欄項目，不含 logo
-function LeftBannerItems({ onTweetClick, onHomePageClick, onUserSelfClick, onSettingClick }) {
+function LeftBannerItems({ onTweetClick, onHomePageClick, onUserSelfClick, onSettingClick, homeStatus, userInfoStatus, settingStatus }) {
   return (
     <div>
       <div className={styles.leftBannerItem} onClick={onHomePageClick}>
-        <img className={styles.leftBannerIcon} src={homeActive} alt="homeActive.svg" />
+        <img className={styles.leftBannerIcon} src={homeStatus} alt="homeActive.svg" />
       </div>
       <div className={styles.leftBannerItem} onClick={onUserSelfClick}>
-        <img className={styles.leftBannerIcon} src={userInfo} alt="userInfo.svg" />
+        <img className={styles.leftBannerIcon} src={userInfoStatus} alt="userInfo.svg" />
       </div>
       <div className={styles.leftBannerItem} onClick={onSettingClick}>
-        <img className={styles.leftBannerIcon} src={settings} alt="settings.svg" />
+        <img className={styles.leftBannerIcon} src={settingStatus} alt="settings.svg" />
       </div>
       <LeftBannerTweet onClick={onTweetClick} />
     </div>

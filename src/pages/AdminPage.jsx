@@ -4,9 +4,9 @@ import AuthInput from 'components/Form/AuthInput.jsx'
 import ac_logo from 'icons/ac_logo.svg'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom';
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { adminLogin } from 'api/auth.js'
+import { AuthContext } from 'context/AuthContext.jsx'
 
 
 export default function AdminPage() {
@@ -15,6 +15,7 @@ export default function AdminPage() {
   // 這邊的errorMsg是用來判斷若後端response的資料不存在或有誤，可以讓<AuthInput/>可以製造出相對的錯誤訊息
   const [errorMsg, setErrorMsg] = useState('')
   const navigate = useNavigate();
+  const {adminLogin} = useContext(AuthContext)
   const handleClick = async () => {
     // 檢查格式是否符合需求
     if (account.length === 0 || password.length === 0) return

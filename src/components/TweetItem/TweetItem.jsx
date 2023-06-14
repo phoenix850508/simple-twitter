@@ -63,7 +63,6 @@ export default function TweetItem({ id, UserId, name, account, description, crea
       //若取消喜歡成功
       if (response.data) {
         if (response.data.message === "Like 取消成功") {
-          alert("Like 取消成功")
           setIsLikedBoolean(false)
           //防止資料庫錯誤，若likeNum > 0則讓likeNum - 1
           setLikeNum(() => {
