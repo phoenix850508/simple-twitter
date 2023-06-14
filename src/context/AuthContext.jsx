@@ -1,17 +1,10 @@
 import { login } from "api/auth.js";
-import { createContext, useContext, useState, useEffect, useRef } from "react";
+import { createContext, useState, useEffect } from "react";
 import * as jwt from "jsonwebtoken";
 import { useLocation } from "react-router-dom";
 import {postTweets, putUserSelf} from 'api/tweets.js'
 import { useNavigate } from "react-router-dom";
 
-// const defaultAuthContext = {
-//   currentUser: null,
-//   isAuthenticated: false,
-//   login: null,
-//   logout: null,
-//   tweetId: null,
-// };
 
 const AuthContext = createContext('');
 // export const useAuth = () => useContext(AuthContext);
@@ -43,7 +36,7 @@ const AuthProvider = ({ children }) => {
   // 換頁要驗證 token
   useEffect(() => {
     //如果換頁要去的目的是登入/註冊頁面的話，請不用認證token
-    if (pathname === "/login" || pathname === "/signup" || pathname === "/admin") return 
+    if (pathname === "/login" || pathname === "/signup" || pathname === "/admin") return
     //更新完Tweet後，要把isTweetUpdated退回false狀態
     setIsTweetUpdated(false)
     //更新完個人編輯資料後，要把isUserEdited退回false
@@ -66,7 +59,7 @@ const AuthProvider = ({ children }) => {
         const tempPayload = jwt.decode(authToken);
         setPayload(tempPayload);
         //分析jwt解密的payload是否真的有此使用者
-        if(!tempPayload) {
+        if (!tempPayload) {
           setIsAuthenticated(false);
           setPayload(null);
           return navigate('/login')

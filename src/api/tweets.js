@@ -21,11 +21,36 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// 瀏覽所有 tweets
+// （管理員）瀏覽所有 tweets
+// api/admin/getAdminTweets
+export const getAllTweetsAdmin = async () => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/admin/getAdminTweets`);
+    console.log("tweets.js 裡的 getAllTweetsAdmin 回傳值: ", res);
+    // 這邊要注意回傳內容，只有一層 data
+    return res.data;
+  } catch (error) {
+    console.error("[Get AllTweets failed]: ", error);
+  }
+};
+
+// （管理員）刪除特定推文
+export const deleteTweetAdmin = async (authToken, id) => {
+  try {
+    const { data } = await axios.delete(`${baseUrl}/admin/tweets/${id}`, {
+      headers: { Authorization: "Bearer " + authToken },
+    });
+    return data;
+  } catch (error) {
+    console.error("[deleteTweetAdmin failed]", error);
+  }
+};
+
+// 瀏覽所有 tweets（一般使用者）
 export const getAllTweets = async () => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/tweets`);
-    console.log("get all tweets", res);
+    console.log("tweets.js 裡的 getAllTweets 回傳值: ", res);
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
@@ -38,7 +63,7 @@ export const getAllTweets = async () => {
 export const getUserTweets = async (id) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/users/${id}/tweets`);
-    console.log("get all user tweets", res);
+    console.log("tweets.js 裡的 getUserTweets 回傳值: ", res);
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
@@ -51,7 +76,7 @@ export const getUserTweets = async (id) => {
 export const getSingleTweet = async (tweetId) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/tweets/${tweetId}`);
-    console.log("get single tweet", res);
+    console.log("tweets.js 裡的 getSingleTweet 回傳值: ", res);
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
@@ -64,6 +89,7 @@ export const getSingleTweet = async (tweetId) => {
 export const getTweetReplyList = async (tweetId) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/tweets/${tweetId}/replies`);
+    console.log("tweets.js 裡的 getTweetReplyList 回傳值: ", res);
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
@@ -110,6 +136,17 @@ export const getUserFollowers = async (id) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/users/${id}/followers`);
     console.log("tweets.js 裡的 getUserFollowers 回傳值: ", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("[Get user followers failed]", error);
+  }
+};
+
+// get 追蹤數前 10 名的使用者資料
+export const getTopUsers = async () => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/users/topUsers`);
+    console.log("tweets.js 裡的 getTopUsers 回傳值: ", res.data);
     return res.data;
   } catch (error) {
     console.error("[Get user followers failed]", error);

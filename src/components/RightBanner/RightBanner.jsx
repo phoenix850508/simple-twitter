@@ -1,49 +1,119 @@
+// React Hook
+import { useState, useEffect } from 'react'
 import styles from "./RightBanner.module.scss";
 import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 import following from 'icons/following.svg'
-// follow 暫時沒用到先註解掉
-// import follow from 'icons/follow.svg'
+import follow from 'icons/follow.svg'
+// API
+import { getTopUsers, postUserFollow, deleteUserFollow } from "api/tweets";
 
 
 export default function RightBanner() {
+  // 拿 authToken
+  const authToken = localStorage.getItem("authToken");
+  // tweets 存在這
+  const [topUsers, setTopUsers] = useState([]);
+  // 本來想設置 flag，讓點擊跟隨時畫面能重新渲染，但無效，故轉採子元件設 state 方式
+  // const [flagForRendering, setFlagForRendering] = useState(false);
+
+  // 去撈跟隨 API
+  const postUserFollowAsync = async (authToken, id) => {
+    try {
+      const res = await postUserFollow(authToken, id)
+      console.log(res)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  // 去撈取消跟隨 API
+  const deleteUserFollowAsync = async (authToken, id) => {
+    try {
+      const res = await deleteUserFollow(authToken, id)
+      console.log(res)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  // 追蹤按鈕邏輯
+  function handleFollowClick(idTopUserReceived, isFollowed) {
+    if (isFollowed) {
+      deleteUserFollowAsync(authToken, idTopUserReceived)
+    } else {
+      postUserFollowAsync(authToken, idTopUserReceived)
+    }
+  }
+
+  // 透過 API 撈 topUsers 資料
+  useEffect(() => {
+    // 所有 topUsers
+    const getTopUsersAsync = async () => {
+      try {
+        const topUsers = await getTopUsers();
+        setTopUsers(topUsers.map((topUser) => ({ ...topUser })));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getTopUsersAsync()
+  }, []);
+
   return (
-    <div className={styles.RightBannerContainer}>
-      <div className={styles.RightBannerTitle}>
+    <div className={styles.rightBannerContainer}>
+      <div className={styles.rightBannerTitle}>
         推薦跟隨
       </div>
-      <RecommendCollection />
+      <RecommendCollection topUsers={topUsers} handleFollowClick={handleFollowClick} />
     </div>
   )
 }
 
-function RecommendCollection() {
+function RecommendCollection({ topUsers, handleFollowClick }) {
   return (
-    <div className={styles.RecommendCollectionContainer}>
-      <RecommendItem />
-      <RecommendItem />
-      <RecommendItem />
-      <RecommendItem />
-      <RecommendItem />
-      <RecommendItem />
-      <RecommendItem />
-      <RecommendItem />
+    <div className={styles.recommendCollectionContainer}>
+      {topUsers.map((topUser) => {
+        const { id, name, account, avatar, isFollowed } = topUser
+        return (
+          <RecommendItem
+            key={id}
+            id={id}
+            name={name}
+            account={account}
+            avatar={avatar}
+            isFollowed={isFollowed}
+            handleFollowClick={handleFollowClick}
+          />
+        );
+      })}
     </div>
   )
 }
 
-function RecommendItem() {
+function RecommendItem({ id, name, account, avatar, isFollowed, handleFollowClick }) {
+  // 暫存 isFollowed，讓點擊跟隨時畫面能即時回饋給使用者，同時往後端送資料
+  const [isFollowedTemp, setIsFollowedTemp] = useState(isFollowed);
+
   return (
-    <div className={styles.RecommendItemContainer}>
-      <div>
-        <img src={avatarDefaultMini} alt="avatarDefaultMini.svg" />
+    <div className={styles.recommendItemContainer}>
+      <div className={styles.recommendItemContainerLeft}>
+        <div>
+          <img className={styles.avatar} src={avatar} alt={avatarDefaultMini} />
+        </div>
+        <div className={styles.recommendItemInfo}>
+          <div className={styles.recommendItemInfoName}>{name}</div>
+          <div className={styles.recommendItemInfoAccount}>@{account}</div>
+        </div>
       </div>
-      <div className={styles.RecommendItemInfo}>
-        <div className={styles.RecommendItemInfoName}>name</div>
-        <div className={styles.RecommendItemInfoAccount}>@account</div>
-      </div>
-      <div>
-        <img src={following} alt="following.svg" />
-      </div>
+      <button
+        className={styles.followBtn}
+        onClick={() => {
+          setIsFollowedTemp(!isFollowedTemp)
+          handleFollowClick(id, isFollowed)
+        }}
+      >
+        {isFollowedTemp ? <img src={following} alt="following.svg" /> : <img src={follow} alt="follow.svg" />}
+      </button>
     </div>
   )
 }

@@ -2,15 +2,20 @@ import styles from "./AdminTweetItem.module.scss";
 import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 import crossDark from 'icons/crossDark.svg'
 
-export default function AdminTweetItem({ name, account, description, createdAt }) {
+export default function AdminTweetItem({ id, name, account, description, createdAt, avatar, handleDeleteClick }) {
+  // 拿 authToken
+  const authToken = localStorage.getItem("authToken");
   return (
     <div className={styles.tweetItemContainer}>
       <div className={styles.tweetItemWrapper}>
-        <button className={styles.tweetItemCrossBtn} >
+        <button
+          className={styles.tweetItemCrossBtn}
+          onClick={() => { handleDeleteClick(authToken, id) }}
+        >
           <img src={crossDark} alt="crossDark.svg" />
         </button>
         <div>
-          <img src={avatarDefaultMini} alt="avatarDefaultMini.svg" />
+          <img className={styles.avatar} src={avatar} alt={avatarDefaultMini} />
         </div>
         <div className={styles.tweetItemInfoWrapper}>
           <div className={styles.tweetItemInfoUser}>

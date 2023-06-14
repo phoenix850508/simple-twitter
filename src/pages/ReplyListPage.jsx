@@ -1,5 +1,5 @@
 // React Hook
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 // 元件類
 import MainContainer from "components/MainContainer/MainContainer.jsx";
 import LeftBanner from "components/LeftBanner/LeftBanner.jsx";
@@ -9,8 +9,6 @@ import TopReplyListSection from "components/TopReplyListSection/TopReplyListSect
 import ReplyCollection from "components/ReplyCollection/ReplyCollection";
 // API
 import { getTweetReplyList, getSingleTweet } from '../api/tweets';
-// 引用封裝好的 Context 資訊
-import { AuthContext } from 'context/AuthContext.jsx';
 
 export default function ReplyListPage() {
   // 儲存使用者點擊想看的 tweetId 的底下回覆

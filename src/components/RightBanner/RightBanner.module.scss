@@ -1,4 +1,4 @@
-.RightBanner {
+.rightBanner {
   &Container {
     width: 273px;
     height: 731px;
@@ -21,7 +21,7 @@
   }
 }
 
-.Recommend {
+.recommend {
   &CollectionContainer {
     width: 100%;
     /* 上方分隔線 */
@@ -30,16 +30,40 @@
 
   &Item {
     &Container {
+      // border: 1px solid red;
       width: 100%;
+      // 設計稿原高度
       height: 82px;
+      // 調整後，為了讓畫面能塞下所有 topUsers
+      height: 66px;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
+      padding-left: 16px;
+      padding-right: 16px;
+
+      &Left {
+        display: flex;
+
+        // 頭像
+        .avatar {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+        }
+      }
+
+      // 跟隨按鈕
+      .followBtn {
+        // 這樣才不會跑版
+        padding-right: 0px;
+        background-color: rgba(255, 255, 255, 0);
+      }
     }
 
     &Info {
       margin-left: 8px;
-      margin-right: 13px;
+      // margin-right: 13px;
 
       &Name {
         font-weight: 700;

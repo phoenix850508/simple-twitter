@@ -3,7 +3,7 @@ import { useState } from 'react'
 import styles from './TopUserSectionOther.module.scss'
 import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 import dummyBackgroundImage2 from 'icons/dummyBackgroundImage2.svg'
-import dummyUserPhoto2 from 'icons/dummyUserPhoto2.svg'
+// import dummyUserPhoto2 from 'icons/dummyUserPhoto2.svg'
 import emailMessage from 'icons/emailMessage.svg'
 import notify from 'icons/notify.svg'
 import notifyActive from 'icons/notifyActive.svg'
@@ -74,7 +74,7 @@ export default function TopUserSectionOther({ notification, handleNotiClick, use
           {/* 跟隨按鈕，按了馬上更新畫面同時送資料到後端 */}
           <button
             className={styles.topUserEditBtn}
-            onClick={handleFollowClick}
+            onClick={() => { handleFollowClick() }}
           >
             {isFollowedStatus ? <img src={following} alt="following.svg" /> : <img src={follow} alt="follow.svg" />}
           </button>

@@ -16,7 +16,7 @@ import { AuthContext } from 'context/AuthContext.jsx';
 export default function MainPage() {
   // tweets 存在這
   const [tweets, setTweets] = useState([]);
-  const {isTweetUpdated } = useContext(AuthContext);
+  const { isTweetUpdated } = useContext(AuthContext);
 
   // 透過 API 撈初始資料
   useEffect(() => {
