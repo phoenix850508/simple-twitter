@@ -5,7 +5,7 @@ import homeActive from 'icons/homeActive.svg'
 import userInfo from 'icons/userInfo.svg'
 import settings from 'icons/settings.svg'
 import TopTweetModal from 'components/TopTweetSection/TopTweetComponents/TopTweetModal'
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { postTweets } from 'api/tweets.js'
 import { AuthContext } from 'context/AuthContext.jsx'
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +18,7 @@ export default function LeftBanner() {
   const [tweet, setTweet] = useState('')
   const [isUpdating, setIsUpdating] = useState(false)
   const [errorMsg, setErrorMsg]= useState(false)
-  const { postTweets, logout } = useContext(AuthContext);
+  const { postTweets, isTweetUpdated, logout } = useContext(AuthContext);
   const navigate = useNavigate()
   const handleLogout = () => {
     logout();
@@ -33,27 +33,31 @@ export default function LeftBanner() {
   const handleSettingPageClick = () => {
     navigate('/setting')
   }
+  const clearForm = () => {
+    setTweet('');
+  };
   //在左邊欄也增加新增推文的API請求
   const handleSubmit = async () => {
-    try {
-      if (isUpdating) return
+    try { 
+      if(isUpdating) return
       if(tweet.length > 140) return
       if(tweet.trim().length < 1) return setErrorMsg(true)
+      const res = await postTweets({description: tweet})
       setIsUpdating(true)
-      const res = await postTweets({ description: tweet })
       //若新增推文成功
       if (res) {
-        setShow(false)
-        console.log(res);
-      }
+      setShow(false)
       setIsUpdating(false);
+      }
     } catch (error) {
       console.error("[Post Tweeets failed 2]", error)
-      setIsUpdating(false);
       alert("發文失敗")
       setShow(false)
     }
   }
+  useEffect(() => {
+      clearForm()
+  }, [isTweetUpdated])
   return (
     <div className={styles.leftBannerContainer}>
       <div className={styles.leftBannerLogo}>

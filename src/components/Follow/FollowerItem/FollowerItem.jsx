@@ -4,21 +4,21 @@ import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 import following from 'icons/following.svg'
 import follow from 'icons/follow.svg'
 
-export default function FollowerItem() {
+export default function FollowerItem({ avatar, name, introduction, isFollowed }) {
   return (
     <div className={styles.followerItemContainer}>
       <div className={styles.followerItemWrapper}>
         <div>
-          <img src={avatarDefaultMini} alt="avatarDefaultMini.svg" />
+          <img className={styles.avatar} src={avatar} alt={avatarDefaultMini} />
         </div>
         <div className={styles.followerItemInfoWrapper}>
           <div className={styles.followerItemNameFollowWrapper}>
-            <div className={styles.followerItemName}>Apple</div>
+            <div className={styles.followerItemName}>{name}</div>
             <button className={styles.followerItemFollowBtn}>
-              <img src={follow} alt="follow.svg" />
+              {isFollowed ? <img src={following} alt="following.svg" /> : <img src={follow} alt="follow.svg" />}
             </button>
           </div>
-          <div className={styles.followerItemIntro}>Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco cillum dolor. Voluptate exercitation incididunt aliquip deserunt reprehenderit elit laborum. </div>
+          <div className={styles.followerItemIntro}>{introduction}</div>
         </div>
       </div>
     </div>
