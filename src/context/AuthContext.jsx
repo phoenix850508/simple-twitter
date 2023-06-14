@@ -2,7 +2,7 @@ import { login } from "api/auth.js";
 import { createContext, useContext, useState, useEffect, useRef } from "react";
 import * as jwt from "jsonwebtoken";
 import { useLocation } from "react-router-dom";
-import {postTweets} from 'api/tweets.js'
+import {postTweets, putUserSelf} from 'api/tweets.js'
 import { useNavigate } from "react-router-dom";
 
 // const defaultAuthContext = {
@@ -28,6 +28,8 @@ const AuthProvider = ({ children }) => {
   const [userReplyList, setUserReplyList] = useState([]);
   // 若自己有Tweet更新
   const [isTweetUpdated, setIsTweetUpdated] = useState(false)
+  // 若有更動過個人資料
+  const [isUserEdited, setIsUserEdited] = useState(false)
   const { pathname } = useLocation();
   const navigate = useNavigate()
 
@@ -44,6 +46,8 @@ const AuthProvider = ({ children }) => {
     if (pathname === "/login" || pathname === "/signup" || pathname === "/admin") return 
     //更新完Tweet後，要把isTweetUpdated退回false狀態
     setIsTweetUpdated(false)
+    //更新完個人編輯資料後，要把isUserEdited退回false
+    setIsUserEdited(false)
     const checkTokenIsValid = async () => {
       // 從 localStorage 拿 token
       const authToken = localStorage.getItem("authToken");
@@ -86,7 +90,7 @@ const AuthProvider = ({ children }) => {
       }
     };
     checkTokenIsValid();
-  }, [pathname, navigate, isTweetUpdated]);
+  }, [pathname, navigate, isTweetUpdated, isUserEdited]);
 
 
   console.log('AuthProvider 重新渲染')
@@ -101,6 +105,7 @@ const AuthProvider = ({ children }) => {
         userReplyList,
         setUserReplyList,
         isTweetUpdated,
+        isUserEdited, 
         login: async (data) => {
           const response = await login({
             account: data.account,
@@ -141,6 +146,12 @@ const AuthProvider = ({ children }) => {
         postTweets: async (data) => {
           const response = await postTweets({ description: data.description })
           if (response.data) setIsTweetUpdated(true)
+          return response
+        }
+        , putUserSelf: async(id, formData) => {
+          const response = await putUserSelf(id, formData)
+          console.log("im here", response)
+          if (!response.response) setIsUserEdited(true)
           return response
         }
       }}

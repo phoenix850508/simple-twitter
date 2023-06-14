@@ -4,7 +4,7 @@ import dummyBackgroundImage from 'icons/dummyBackgroundImage.svg'
 import dummyUserPhoto from 'icons/dummyUserPhoto.svg'
 import editUserInfoBtn from 'icons/editUserInfoBtn.svg'
 import PrePageBtn from 'components/PrevPageBtn/PrevPageBtn.jsx'
-import { useState, useRef, useContext } from 'react'
+import { useState, useContext } from 'react'
 import clsx from 'clsx'
 import Modal from 'react-bootstrap/Modal';
 import cross from 'icons/cross.svg'
@@ -12,9 +12,10 @@ import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTwe
 import AuthInput from 'components/Form/AuthInput'
 import camera from 'icons/camera.svg'
 import white_cross from 'icons/white_cross.svg'
-import { putUserSelf, getUser } from 'api/tweets.js'
+import { getUser } from 'api/tweets.js'
 import { AuthContext } from 'context/AuthContext.jsx'
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 
 export default function TopUserSection({ userDetail }) {
@@ -26,6 +27,7 @@ export default function TopUserSection({ userDetail }) {
   const [userAvatar, setUserAvatar] = useState('')
   const [banner, setBanner] = useState('')
   const [dataObj, setDataObject] = useState(null)
+  const {putUserSelf, isUserEdited} = useContext(AuthContext)
   const navigate = useNavigate()
 
   // 回 main 頁面
@@ -71,6 +73,7 @@ export default function TopUserSection({ userDetail }) {
 
     // 若成功把使用者編輯資料送出
     if (!response.response) {
+      if(!response.data) return
       console.log("Successfully updated", response)
       alert('successfully updated')
       setShow(false)
@@ -81,6 +84,18 @@ export default function TopUserSection({ userDetail }) {
       setShow(false)
     }
   }
+
+  // useEffect(() => {
+  //   const getUserAsync = async(userId) => {
+  //     try {
+  //       const response = getUser(userId)
+  //       console.log("get all user data", response)
+  //     } catch(error) {
+  //       console.error(error)
+  //     }
+  //   }
+  //   getUserAsync(savedUserInfoId)
+  // }, [savedUserInfoId, isUserEdited])
   return (
     <div>
       <PrePageBtn onClick={handlePrevPageClick} />
