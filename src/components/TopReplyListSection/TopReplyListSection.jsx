@@ -23,7 +23,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
   const [replyTweet, setReplyTweet] = useState('')
   const [replyNum, setReplyNum] = useState(replyCount)
   const [isLikedBoolean, setIsLikedBoolean] = useState(null)
-  const [likeNum, setLikeNum] = useState(likeCount)
+  const [likeNum, setLikeNum] = useState(0)
   const [errorMsg, setErrorMsg] = useState(false)
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -58,14 +58,11 @@ export default function TopReplyListSection({ singleTweetInfo }) {
   // 喜歡功能
   const handleLike = async () => {
     if (isLikedBoolean? isLikedBoolean === "true" : isLiked === true) {
-      console.log("Before handling", isLikedBoolean)
-      setIsLikedBoolean("false")
       const response = await postUnlike(id)
+      setIsLikedBoolean("false")
       //若取消喜歡成功
       if (response.data) {
         if (response.data.message === "Like 取消成功") {
-          alert("canceled like")
-          // setIsLikedBoolean(false)
           //防止資料庫錯誤，若likeNum > 0則讓likeNum - 1
           setLikeNum(() => {
             if (likeNum) {
@@ -82,11 +79,9 @@ export default function TopReplyListSection({ singleTweetInfo }) {
     if (isLikedBoolean? isLikedBoolean === "false" : isLiked === false) {
       const response = await postLike(id)
       setIsLikedBoolean("true")
-      alert("liked")
       if (response.data) {
         //若喜歡喜歡成功
         if (response.data.status === "已加入喜歡！") {
-          // setIsLikedBoolean(true)
           setLikeNum(likeNum + 1)
         }
         else {
@@ -95,7 +90,6 @@ export default function TopReplyListSection({ singleTweetInfo }) {
       }
     }
   }
-  console.log(isLikedBoolean)
   return (
     <>
       <PrevPageBtnToTweets />
@@ -123,7 +117,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
           <div className={styles.tweetItemIconWrapper}>
             <img className={styles.tweetItemIcon} src={discussion} alt="discussion.svg" onClick={handleShow} />
             {/* 因為無法提前抓到isLiked的值，所以這邊邏輯稍微複雜 */}
-          <img className={styles.tweetItemIcon} src={(isLikedBoolean? (isLikedBoolean? isLikedBoolean === "true" : isLikedBoolean ==="true") : isLiked)? likeActive : like} alt="likeActive.svg" onClick={handleLike} />
+          <img className={styles.tweetItemIcon} src={(isLikedBoolean? (isLikedBoolean? isLikedBoolean === "true" : isLikedBoolean === "false") : isLiked)? likeActive : like} alt="likeActive.svg" onClick={handleLike} />
           </div>
         </div>
       </div>
@@ -150,6 +144,8 @@ export default function TopReplyListSection({ singleTweetInfo }) {
 }
 
 export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserAccount, threadDescription, threadCreatedAt, threadUserAvatar, onInputChange, onSave, borderLine }) {
+  const savedUserInfo = localStorage.getItem("userInfo")
+  const savedUserInfoParsed = JSON.parse(savedUserInfo)
   return (
     <div className={styles.modalContainer}>
       <Modal className={clsx("fade modal show", styles.modal)} show={show} onHide={handleClose}>
@@ -179,7 +175,7 @@ export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserA
             </div>
           </div>
           <div className={styles.modalPost}>
-            <UserTweetPhoto />
+            <img className={styles.threadUserAvatar} src={savedUserInfoParsed.avatar} alt="avatar" />
             <input className={clsx(styles.modalInput)} type="text" placeholder="推你的回覆" onChange={e => onInputChange?.(e.target.value)} />
             <div className={borderLine}></div>
           </div>
