@@ -7,7 +7,7 @@ import ReplyItem from "components/ReplyItem/ReplyItem.jsx";
 // API
 // import { getUserReplies } from 'api/tweets'
 
-export default function ReplyCollection({ tweetReplyList, replyTo }) {
+export default function ReplyCollection({ tweetReplyList, singleTweetInfo }) {
 
   console.log('ReplyCollection 裡的 tweetReplyList: ', tweetReplyList)
 
@@ -29,6 +29,7 @@ export default function ReplyCollection({ tweetReplyList, replyTo }) {
       {tweetReplyList.map((reply) => {
         const { name, account, avatar } = reply.User
         const { id, comment, createdAt } = reply
+        const replyTo = singleTweetInfo.User.account
         // 回覆對象即該推文發文者，從父元件另外撈
 
         return (
