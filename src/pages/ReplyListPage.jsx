@@ -14,8 +14,7 @@ export default function ReplyListPage() {
   // 儲存使用者點擊想看的 tweetId 的底下回覆
   const [tweetReplyList, setTweetReplyList] = useState([]);
   // 儲存該推文發文者資訊
-  const [singleTweetUserAccount, setSingleTweetUserAccount] = useState([]);
-  // 使用蟲洞從 authContext.js 拿資料：tweetId 與底下回覆
+  const [singleTweetInfo, setSingleTweetInfo] = useState({});
   // const { tweetId } = useContext(AuthContext); 這個寫法 useEffect 裡 id 是 null==
   // tweetId 資料從 localStorage 拿
   const savedTweetId = localStorage.getItem("tweetId");
@@ -27,6 +26,7 @@ export default function ReplyListPage() {
       try {
         // 用 Context 裡的 tweetId 去撈
         const tweetReplyList = await getTweetReplyList(savedTweetId);
+        console.log('ReplyListPage 裡的 tweetReplyList: ', tweetReplyList)
         setTweetReplyList(tweetReplyList.map((reply) => ({ ...reply })));
       } catch (error) {
         console.error(error);
@@ -38,7 +38,9 @@ export default function ReplyListPage() {
         // 用 localStorage 裡的 tweetId 去撈
         const singleTweet = await getSingleTweet(savedTweetId);
         console.log('ReplyListPage 裡的 singleTweet: ', singleTweet)
-        setSingleTweetUserAccount(singleTweet.User.account);
+        // 只在渲染時 set 一次似乎不用拷貝？
+        // setSingleTweetInfo({ ...singleTweet, User: { ...singleTweet.User } });
+        setSingleTweetInfo(singleTweet);
       } catch (error) {
         console.error(error);
       }
@@ -51,8 +53,8 @@ export default function ReplyListPage() {
     <MainContainer>
       <LeftBanner />
       <MiddleColumnContainer>
-        <TopReplyListSection />
-        <ReplyCollection tweetReplyList={tweetReplyList} replyTo={singleTweetUserAccount} />
+        <TopReplyListSection singleTweetInfo={singleTweetInfo} />
+        <ReplyCollection tweetReplyList={tweetReplyList} singleTweetInfo={singleTweetInfo} />
       </MiddleColumnContainer>
       <RightBanner />
     </MainContainer>

@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import cross from 'icons/cross.svg'
 import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTweetButton'
 import UserTweetPhoto from 'components/TopTweetSection/TopTweetComponents/UserTweetPhoto'
-import {postReply, postLike, postUnlike} from 'api/tweets'
+import { postReply, postLike, postUnlike } from 'api/tweets'
 import { useState, useContext } from 'react'
 import clsx from 'clsx'
 // likeActive 暫時沒用到先註解掉
@@ -30,12 +30,14 @@ export default function TweetItem({ id, UserId, name, account, description, crea
   const [errorMsg, setErrorMsg] = useState(false)
   const [isLikedBoolean, setIsLikedBoolean] = useState(isLiked)
   const [likeNum, setLikeNum] = useState(likeCount)
-  const onTweetClick = () => {
+
+  const onTweetClick = (tweetIdReceived) => {
     // 在 Context 用 state 管理，把該推文 ID 存起來
-    handleSetTweetIdClick(id)
+    handleSetTweetIdClick(tweetIdReceived)
     navigate('/replylist')
   }
 
+  // 送出回覆文字
   const handleSave = async () => {
     //預防空值與回覆文字限制
     if(replyTweet.length > 140) return
@@ -45,7 +47,7 @@ export default function TweetItem({ id, UserId, name, account, description, crea
     if (response.data.comment) {
       handleClose()
       setReplyNum(replyNum + 1)
-      return 
+      return
     }
     else {
       handleClose()
@@ -53,41 +55,42 @@ export default function TweetItem({ id, UserId, name, account, description, crea
     }
   }
 
-  const handleLike = async() => {
+  // 喜歡功能
+  const handleLike = async () => {
     console.log(isLikedBoolean)
     if (isLikedBoolean === true) {
-     const response = await postUnlike(id)
-     //若取消喜歡成功
-     if(response.data) {
-      if(response.data.message === "Like 取消成功") {
-        alert("Like 取消成功")
-        setIsLikedBoolean(false)
-        //防止資料庫錯誤，若likeNum > 0則讓likeNum - 1
-        setLikeNum(() => {
-          if(likeNum) {
-            return likeNum - 1
-          }
-          else return likeNum
-        })
+      const response = await postUnlike(id)
+      //若取消喜歡成功
+      if (response.data) {
+        if (response.data.message === "Like 取消成功") {
+          alert("Like 取消成功")
+          setIsLikedBoolean(false)
+          //防止資料庫錯誤，若likeNum > 0則讓likeNum - 1
+          setLikeNum(() => {
+            if (likeNum) {
+              return likeNum - 1
+            }
+            else return likeNum
+          })
+        }
       }
-     }
-     else {
-      return alert("取消喜歡失敗")
-     }
+      else {
+        return alert("取消喜歡失敗")
+      }
     }
     if (isLikedBoolean === false) {
       const response = await postLike(id)
-      if(response.data) {
-      //若喜歡喜歡成功
-      if(response.data.status === "已加入喜歡！") {
-        setIsLikedBoolean(true)
-        setLikeNum(likeNum + 1)
-      }
-      else {
-        return alert("新增喜歡失敗")
+      if (response.data) {
+        //若喜歡喜歡成功
+        if (response.data.status === "已加入喜歡！") {
+          setIsLikedBoolean(true)
+          setLikeNum(likeNum + 1)
+        }
+        else {
+          return alert("新增喜歡失敗")
+        }
       }
     }
-  }
   }
 
   return (
@@ -111,39 +114,39 @@ export default function TweetItem({ id, UserId, name, account, description, crea
           {/* 點擊可跳轉 replylist 頁面 */}
           <button
             className={styles.tweetItemInfoContentWrapper}
-            onClick={onTweetClick}>
+            onClick={() => { onTweetClick(id) }}>
             <p className={styles.tweetItemInfoContent}>{description}</p>
           </button>
           <div className={styles.tweetItemInfoBottom}>
-            <div className={styles.tweetItemInfoBottomDiscussion} onClick={() => {handleShow()}} >
+            <div className={styles.tweetItemInfoBottomDiscussion} onClick={() => { handleShow() }} >
               <img className="discussion" src={discussion} alt="discussion.svg" />
               <div className={styles.tweetDiscussionNum}>{replyNum}</div>
             </div>
             <div className={styles.tweetItemInfoBottomLike}>
-              <img className={styles.like} src={isLikedBoolean? likeActive : like} alt="like.svg" onClick={handleLike} />
+              <img className={styles.like} src={isLikedBoolean ? likeActive : like} alt="like.svg" onClick={handleLike} />
               <div className={styles.tweetLikeNum}>{likeNum}</div>
             </div>
           </div>
         </div>
       </div>
-      <ReplyTweetModal 
-      handleShow={handleShow} 
-      show={show} 
-      handleClose={handleClose} 
-      threadUserName={name} 
-      threadUserAccount={account} 
-      threadDescription={description} 
-      threadCreatedAt={createdAt} 
-      threadUserAvatar={avatar} 
-      onInputChange={
-        (replyInput) => {
-          setReplyTweet(replyInput)
-          setErrorMsg(false)
+      <ReplyTweetModal
+        handleShow={handleShow}
+        show={show}
+        handleClose={handleClose}
+        threadUserName={name}
+        threadUserAccount={account}
+        threadDescription={description}
+        threadCreatedAt={createdAt}
+        threadUserAvatar={avatar}
+        onInputChange={
+          (replyInput) => {
+            setReplyTweet(replyInput)
+            setErrorMsg(false)
+          }
         }
-      }
-      onSave={handleSave}
-      borderLine={clsx('', {[styles.wordLengthError]: replyTweet.length > 140}, {[styles.emptyReplyError]: errorMsg})}
-        />
+        onSave={handleSave}
+        borderLine={clsx('', { [styles.wordLengthError]: replyTweet.length > 140 }, { [styles.emptyReplyError]: errorMsg })}
+      />
     </div>
   )
 }
