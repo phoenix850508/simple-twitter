@@ -2,7 +2,7 @@ import { login } from "api/auth.js";
 import { createContext, useState, useEffect } from "react";
 import * as jwt from "jsonwebtoken";
 import { useLocation } from "react-router-dom";
-import {postTweets, putUserSelf} from 'api/tweets.js'
+import {postTweets, putUserSelf, getUser} from 'api/tweets.js'
 import { useNavigate } from "react-router-dom";
 
 
@@ -143,8 +143,12 @@ const AuthProvider = ({ children }) => {
         }
         , putUserSelf: async(id, formData) => {
           const response = await putUserSelf(id, formData)
-          console.log("im here", response)
           if (!response.response) setIsUserEdited(true)
+          return response
+        }
+        , getUser: async(id) => {
+          const response = await getUser(id)
+          console.log("get all user data", response)
           return response
         }
       }}

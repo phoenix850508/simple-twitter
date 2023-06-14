@@ -12,7 +12,6 @@ import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTwe
 import AuthInput from 'components/Form/AuthInput'
 import camera from 'icons/camera.svg'
 import white_cross from 'icons/white_cross.svg'
-import { getUser } from 'api/tweets.js'
 import { AuthContext } from 'context/AuthContext.jsx'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
@@ -26,8 +25,8 @@ export default function TopUserSection({ userDetail }) {
   const [intro, setIntro] = useState('')
   const [userAvatar, setUserAvatar] = useState('')
   const [banner, setBanner] = useState('')
-  const [dataObj, setDataObject] = useState(null)
-  const {putUserSelf, isUserEdited} = useContext(AuthContext)
+  const [tempDataObject, setTempDataObject] = useState(null)
+  const {putUserSelf, isUserEdited, getUser} = useContext(AuthContext)
   const navigate = useNavigate()
 
   // 回 main 頁面
@@ -43,26 +42,20 @@ export default function TopUserSection({ userDetail }) {
   // 其他沒從 API 撈的直接用 localStorage 拿，code 才不用改太多
   const { avatar, account, followingCount, followerCount } = savedUserInfoParsed;
 
-  const handleShowModal = async () => {
+  const handleShowModal = () => {
     handleShow();
-    // 透過GET API去取得user原始的資料，包括背景圖片、大頭貼、名稱和自我介紹
-    const { data } = await getUser(savedUserInfoId)
-    setName(data.name)
-    setIntro(data.introduction)
-    setUserAvatar(data.avatar)
-    setBanner(data.banner)
-    setDataObject(data)
   }
   //點擊儲存按鈕
   const handleSave = async () => {
     // 若input空值，則返回
-    if (dataObj.name.length < 1 || dataObj.introduction.length < 1) return
+    if (name.trim().length === 0 || intro.trim().length === 0) return
     // 若自我介紹或是名字長度超過限制，則返回
-    if (dataObj.name.length > 50 || dataObj.introduction.length > 160) return
+    if (name.length > 50 || intro.length > 160) return
     // API的資訊傳遞(需轉換成 Form-data)
     const formData = new FormData()
-    for (let key in dataObj) {
-      formData.append(key, dataObj[key]);
+    //先帶入暫時儲存在tempDataObject的資料，若有任何改變內容，會用formData.set的方式去改變
+    for (let key in tempDataObject) {
+      formData.append(key, tempDataObject[key]);
     }
     formData.set("name", name)
     formData.set("introduction", intro)
@@ -70,6 +63,7 @@ export default function TopUserSection({ userDetail }) {
       console.log(`${pair[0]}, ${pair[1]}`);
     }
     const response = await putUserSelf(savedUserInfoId, formData)
+    console.log(response)
 
     // 若成功把使用者編輯資料送出
     if (!response.response) {
@@ -85,36 +79,37 @@ export default function TopUserSection({ userDetail }) {
     }
   }
 
-  // useEffect(() => {
-  //   const getUserAsync = async(userId) => {
-  //     try {
-  //       const response = getUser(userId)
-  //       console.log("get all user data", response)
-  //     } catch(error) {
-  //       console.error(error)
-  //     }
-  //   }
-  //   getUserAsync(savedUserInfoId)
-  // }, [savedUserInfoId, isUserEdited])
+  useEffect(() => {
+    const getUserAsync = async() => {
+      const response = await getUser(savedUserInfoId)
+      console.log("Get all user data successfully", response)
+      setTempDataObject(response.data)
+      setName(response.data.name)
+      setIntro(response.data.introduction)
+      setUserAvatar(response.data.avatar)
+      setBanner(response.data.banner)
+    }
+    getUserAsync()
+  }, [savedUserInfoId, isUserEdited, getUser])
   return (
     <div>
       <PrePageBtn onClick={handlePrevPageClick} />
       <div className={styles.topUserInfoWrapper}>
-        <img src={dummyBackgroundImage} alt="dummyBackgroundImage.svg" />
-        <img className={styles.topUserPhoto} src={avatar} alt={avatarDefaultMini} />
+        <img src={tempDataObject? (tempDataObject.banner? tempDataObject.banner : dummyBackgroundImage)  : dummyBackgroundImage} alt="dummyBackgroundImage.svg" />
+        <img className={styles.topUserPhoto} src={tempDataObject? tempDataObject.avatar : avatar} alt={avatarDefaultMini} />
         <button className={styles.topUserEditBtn} onClick={handleShowModal} >
           <img src={editUserInfoBtn} alt="editUserInfoBtn.svg" />
         </button>
         <div className={styles.topUserWordsWrapper}>
-          <div className={styles.topUserName}>{name}</div>
-          <div className={styles.topUserAccount}>@{account}</div>
+          <div className={styles.topUserName}>{tempDataObject? tempDataObject.name : name}</div>
+          <div className={styles.topUserAccount}>@{tempDataObject? tempDataObject.account : account}</div>
           <div className={styles.topUserIntro}>{intro}</div>
           <div className={styles.topUserFollowWrapper}>
             <div>
-              <span className={styles.topUserFollowCount}>{followingCount}</span><span className={styles.topUserFollowWord}>跟隨中</span>
+              <span className={styles.topUserFollowCount}>{tempDataObject? tempDataObject.followingCount : followingCount}</span><span className={styles.topUserFollowWord}>跟隨中</span>
             </div>
             <div className={styles.topUserFollowerWrapper}>
-              <span className={styles.topUserFollowCount}>{followerCount}</span><span className={styles.topUserFollowWord}>跟隨者</span>
+              <span className={styles.topUserFollowCount}>{tempDataObject? tempDataObject.followerCount : followerCount}</span><span className={styles.topUserFollowWord}>跟隨者</span>
             </div>
           </div>
         </div>
@@ -122,8 +117,8 @@ export default function TopUserSection({ userDetail }) {
       <EditUserModal
         handleClose={handleClose}
         show={show}
-        onNameChange={(updateNameInput) => setName(updateNameInput)}
-        onIntroChange={(updateIntroInput) => setIntro(updateIntroInput)}
+        onNameChange={(updateNameInput) => updateNameInput? setName(updateNameInput) : setName('')}
+        onIntroChange={(updateIntroInput) => updateIntroInput? setIntro(updateIntroInput) : setIntro('')}
         onSave={handleSave}
         nameBorderLine={clsx('', { [styles.wordLengthError]: name.length > 50 }, { [styles.emptyError]: name.trim().length === 0 })}
         introBorderLine={clsx('', { [styles.wordLengthError]: intro.length > 160 }, { [styles.emptyError]: intro.trim().length === 0 })}
