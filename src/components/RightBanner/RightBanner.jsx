@@ -98,7 +98,7 @@ function RecommendItem({ id, name, account, avatar, isFollowed, handleFollowClic
     <div className={styles.recommendItemContainer}>
       <div className={styles.recommendItemContainerLeft}>
         <div>
-          <img className={styles.avatar} src={avatar} alt={avatarDefaultMini} />
+          <img className={styles.avatar} src={avatar ? avatar : avatarDefaultMini} alt='avatar' />
         </div>
         <div className={styles.recommendItemInfo}>
           <div className={styles.recommendItemInfoName}>{name}</div>

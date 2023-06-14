@@ -15,7 +15,7 @@ import likeActive from 'icons/likeActive.svg'
 // 引用封裝好的 Context 資訊
 import { AuthContext } from 'context/AuthContext.jsx';
 
-export default function TweetItem({ id, UserId, name, account, description, createdAt, replyCount, likeCount, avatar, isLiked }) {
+export default function TweetItem({ id, UserId, name, account, description, createdAt, replyCount, likeCount, avatar, isLiked, fromPage }) {
   const navigate = useNavigate();
   // 使用蟲洞從 authContext.js 拿資料：savedUserInfoId
   const savedUserInfo = localStorage.getItem("userInfo")
@@ -34,6 +34,8 @@ export default function TweetItem({ id, UserId, name, account, description, crea
   const onTweetClick = (tweetIdReceived) => {
     // 在 Context 用 state 管理，把該推文 ID 存起來
     handleSetTweetIdClick(tweetIdReceived)
+    // 把 fromPage 存起來方便 ReplyListPage 做上一頁導向判斷
+    localStorage.setItem("fromPage", fromPage);
     navigate('/replylist')
   }
 

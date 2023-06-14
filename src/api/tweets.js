@@ -30,7 +30,7 @@ export const getAllTweetsAdmin = async () => {
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
-    console.error("[Get AllTweets failed]: ", error);
+    console.error("[Get AllTweets failed]: ", error.response.data.message);
   }
 };
 
@@ -42,7 +42,7 @@ export const deleteTweetAdmin = async (authToken, id) => {
     });
     return data;
   } catch (error) {
-    console.error("[deleteTweetAdmin failed]", error);
+    console.error("[deleteTweetAdmin failed]", error.response.data.message);
   }
 };
 
@@ -54,7 +54,7 @@ export const getAllTweets = async () => {
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
-    console.error("[Get AllTweets failed]: ", error);
+    console.error("[Get AllTweets failed]: ", error.response.data.message);
   }
 };
 
@@ -67,7 +67,7 @@ export const getUserTweets = async (id) => {
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
-    console.error("[Get AllTweets failed]: ", error);
+    console.error("[Get AllTweets failed]: ", error.response.data.message);
   }
 };
 
@@ -80,7 +80,7 @@ export const getSingleTweet = async (tweetId) => {
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
-    console.error("[Get TweetReplyList failed]: ", error);
+    console.error("[Get TweetReplyList failed]: ", error.response.data.message);
   }
 };
 
@@ -93,7 +93,7 @@ export const getTweetReplyList = async (tweetId) => {
     // 這邊要注意回傳內容，只有一層 data
     return res.data;
   } catch (error) {
-    console.error("[Get TweetReplyList failed]: ", error);
+    console.error("[Get TweetReplyList failed]: ", error.response.data.message);
   }
 };
 
@@ -106,7 +106,7 @@ export const getUserReplies = async (id) => {
     );
     return response.data;
   } catch (error) {
-    console.error("[Get User Replies failed]: ", error);
+    console.error("[Get User Replies failed]: ", error.response.data.message);
   }
 };
 
@@ -116,7 +116,7 @@ export const getUser = async (id) => {
     const res = await axiosInstance.get(`${baseUrl}/users/${id}`);
     return res;
   } catch (error) {
-    console.error("[Get user failed]", error);
+    console.error("[Get user failed]", error.response.data.message);
   }
 };
 
@@ -127,7 +127,7 @@ export const getUserFollowings = async (id) => {
     console.log("tweets.js 裡的 getUserFollowings 回傳值: ", res.data);
     return res.data;
   } catch (error) {
-    console.error("[Get user followings failed]", error);
+    console.error("[Get user followings failed]", error.response.data.message);
   }
 };
 
@@ -138,7 +138,7 @@ export const getUserFollowers = async (id) => {
     console.log("tweets.js 裡的 getUserFollowers 回傳值: ", res.data);
     return res.data;
   } catch (error) {
-    console.error("[Get user followers failed]", error);
+    console.error("[Get user followers failed]", error.response.data.message);
   }
 };
 
@@ -149,7 +149,7 @@ export const getTopUsers = async () => {
     console.log("tweets.js 裡的 getTopUsers 回傳值: ", res.data);
     return res.data;
   } catch (error) {
-    console.error("[Get user followers failed]", error);
+    console.error("[Get user followers failed]", error.response.data.message);
   }
 };
 
@@ -163,7 +163,7 @@ export const postUserFollow = async (authToken, id) => {
     );
     return data;
   } catch (error) {
-    console.error("[postUserFollow failed]", error);
+    console.error("[postUserFollow failed]", error.response.data.message);
   }
 };
 
@@ -175,7 +175,7 @@ export const deleteUserFollow = async (authToken, id) => {
     });
     return data;
   } catch (error) {
-    console.error("[deleteUserFollow failed]", error);
+    console.error("[deleteUserFollow failed]", error.response.data.message);
   }
 };
 
@@ -190,7 +190,7 @@ export const putUserSelf = async (id, formData) => {
     });
     return res;
   } catch (error) {
-    console.error("[Put user failed]", error);
+    console.error("[Put user failed]", error.response.data.message);
     return error;
   }
 };
@@ -201,7 +201,7 @@ export const postTweets = async ({ description }) => {
     const res = axiosInstance.post(`${baseUrl}/tweets`, { description });
     return res;
   } catch (error) {
-    console.error("[Post Tweets failed]", error);
+    console.error("[Post Tweets failed]", error.response.data.message);
   }
 };
 
@@ -211,7 +211,7 @@ export const getUserLikes = async (id) => {
     const res = axiosInstance.get(`${baseUrl}/users/${id}/likes`);
     return res;
   } catch (error) {
-    console.error("[Get user like failed]: ", error);
+    console.error("[Get user like failed]: ", error.response.data.message);
   }
 };
 
@@ -223,7 +223,7 @@ export const postReply = async (id, { comment }) => {
     });
     return res;
   } catch (error) {
-    console.error("[Post reply tweet failed]: ", error);
+    console.error("[Post reply tweet failed]: ", error.response.data.message);
   }
 };
 
@@ -233,7 +233,7 @@ export const postLike = async (id) => {
     const res = axiosInstance.post(`/tweets/${id}/like`);
     return res;
   } catch (error) {
-    console.error("[Post like tweet failed]: ", error);
+    console.error("[Post like tweet failed]: ", error.response.data.message);
   }
 };
 
@@ -243,6 +243,6 @@ export const postUnlike = async (id) => {
     const res = axiosInstance.post(`/tweets/${id}/unlike`);
     return res;
   } catch (error) {
-    console.error("[Post unlike tweet failed]: ", error);
+    console.error("[Post unlike tweet failed]: ", error.response.data.message);
   }
 };
