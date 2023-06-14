@@ -200,7 +200,7 @@ export const postLike = async (id) => {
   }
 };
 
-//新增愛心
+//取消愛心
 export const postUnlike = async (id) => {
   try {
     const res = axiosInstance.post(`/tweets/${id}/unlike`);
