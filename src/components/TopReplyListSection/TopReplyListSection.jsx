@@ -22,7 +22,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
   let userAccount = ''
   const [replyTweet, setReplyTweet] = useState('')
   const [replyNum, setReplyNum] = useState(replyCount)
-  const [isLikedBoolean, setIsLikedBoolean] = useState(false)
+  const [isLikedBoolean, setIsLikedBoolean] = useState(null)
   const [likeNum, setLikeNum] = useState(likeCount)
   const [errorMsg, setErrorMsg] = useState(false)
   const [show, setShow] = useState(false);
@@ -57,9 +57,9 @@ export default function TopReplyListSection({ singleTweetInfo }) {
 
   // 喜歡功能
   const handleLike = async () => {
-    setIsLikedBoolean(isLiked)
-    console.log("Before handling", isLikedBoolean)
-    if (isLiked === true) {
+    if (isLikedBoolean? isLikedBoolean === "true" : isLiked === true) {
+      console.log("Before handling", isLikedBoolean)
+      setIsLikedBoolean("false")
       const response = await postUnlike(id)
       //若取消喜歡成功
       if (response.data) {
@@ -79,8 +79,9 @@ export default function TopReplyListSection({ singleTweetInfo }) {
         return alert("取消喜歡失敗")
       }
     }
-    if (isLiked === false) {
+    if (isLikedBoolean? isLikedBoolean === "false" : isLiked === false) {
       const response = await postLike(id)
+      setIsLikedBoolean("true")
       alert("liked")
       if (response.data) {
         //若喜歡喜歡成功
@@ -94,13 +95,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
       }
     }
   }
-
-  useContext(() => {
-    if(singleTweetInfo) {
-      setIsLikedBoolean(isLiked)
-      console.log(isLiked)
-    }
-  })
+  console.log(isLikedBoolean)
   return (
     <>
       <PrevPageBtnToTweets />
@@ -127,7 +122,8 @@ export default function TopReplyListSection({ singleTweetInfo }) {
           </div>
           <div className={styles.tweetItemIconWrapper}>
             <img className={styles.tweetItemIcon} src={discussion} alt="discussion.svg" onClick={handleShow} />
-            {isLiked ? <img className={styles.tweetItemIcon} src={likeActive} alt="likeActive.svg" onClick={handleLike} /> : <img className={styles.tweetItemIcon} src={like} alt="like.svg" onClick={handleLike} />}
+            {/* 因為無法提前抓到isLiked的值，所以這邊邏輯稍微複雜 */}
+          <img className={styles.tweetItemIcon} src={(isLikedBoolean? (isLikedBoolean? isLikedBoolean === "true" : isLikedBoolean ==="true") : isLiked)? likeActive : like} alt="likeActive.svg" onClick={handleLike} />
           </div>
         </div>
       </div>
