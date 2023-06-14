@@ -8,12 +8,13 @@ import Modal from 'react-bootstrap/Modal';
 import cross from 'icons/cross.svg'
 import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTweetButton'
 import UserTweetPhoto from 'components/TopTweetSection/TopTweetComponents/UserTweetPhoto'
-import {useState} from 'react'
+import {useState, useContext} from 'react'
+import {postReply, postLike, postUnlike} from 'api/tweets'
 import clsx from 'clsx'
 
 export default function TopReplyListSection({ singleTweetInfo }) {
   // 該篇推文資訊，可直接解析
-  const { description, updatedAt, replyCount, likeCount, isLiked, tweetId } = singleTweetInfo
+  const { description, createdAt, updatedAt, replyCount, likeCount, isLiked, id } = singleTweetInfo
   // 原以為是 useEffect 出錯結果問題出在下面這行，若直接寫則整個 API 完全不會動
   // const { avatar, name, account } = singleTweetInfo.User
   let userAvatar = ''
@@ -21,7 +22,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
   let userAccount = ''
   const [replyTweet, setReplyTweet] = useState('')
   const [replyNum, setReplyNum] = useState(replyCount)
-  const [isLikedBoolean, setIsLikedBoolean] = useState(isLiked)
+  const [isLikedBoolean, setIsLikedBoolean] = useState(false)
   const [likeNum, setLikeNum] = useState(likeCount)
   const [errorMsg, setErrorMsg] = useState(false)
   const [show, setShow] = useState(false);
@@ -35,8 +36,71 @@ export default function TopReplyListSection({ singleTweetInfo }) {
     userName = name
     userAccount = account
   }
-  
 
+    // 送出回覆文字
+  const handleSave = async () => {
+    //預防空值與回覆文字限制
+    if (replyTweet.length > 140) return
+    if (replyTweet.length < 1) return setErrorMsg(true)
+    const response = await postReply(id, { comment: replyTweet })
+    //若新增推文成功
+    if (response.data.comment) {
+      handleClose()
+      setReplyNum(replyNum + 1)
+      return
+    }
+    else {
+      handleClose()
+      return alert("新增回覆失敗")
+    }
+  }
+
+  // 喜歡功能
+  const handleLike = async () => {
+    setIsLikedBoolean(isLiked)
+    console.log("Before handling", isLikedBoolean)
+    if (isLiked === true) {
+      const response = await postUnlike(id)
+      //若取消喜歡成功
+      if (response.data) {
+        if (response.data.message === "Like 取消成功") {
+          alert("canceled like")
+          // setIsLikedBoolean(false)
+          //防止資料庫錯誤，若likeNum > 0則讓likeNum - 1
+          setLikeNum(() => {
+            if (likeNum) {
+              return likeNum - 1
+            }
+            else return likeNum
+          })
+        }
+      }
+      else {
+        return alert("取消喜歡失敗")
+      }
+    }
+    if (isLiked === false) {
+      const response = await postLike(id)
+      alert("liked")
+      if (response.data) {
+        //若喜歡喜歡成功
+        if (response.data.status === "已加入喜歡！") {
+          // setIsLikedBoolean(true)
+          setLikeNum(likeNum + 1)
+        }
+        else {
+          return alert("新增喜歡失敗")
+        }
+      }
+    }
+  }
+
+  useContext(() => {
+    if(singleTweetInfo) {
+      setIsLikedBoolean(isLiked)
+      console.log(isLiked)
+    }
+  })
   return (
     <>
       <PrevPageBtnToTweets />
@@ -44,7 +108,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
         <div className={styles.tweetItemWrapper}>
           <div className={styles.tweetItemInfoWrapper}>
             <div>
-              <img className={styles.avatar} src={userAvatar} alt={avatarDefaultMini} />
+              <img className={styles.avatar} src={userAvatar? userAvatar : avatarDefaultMini} alt="avatarDefaultMini" />
             </div>
             <div className={styles.tweetItemInfoUser}>
               <div className={styles.tweetItemInfoUserName}>{userName}</div>
@@ -62,20 +126,20 @@ export default function TopReplyListSection({ singleTweetInfo }) {
             </div>
           </div>
           <div className={styles.tweetItemIconWrapper}>
-            <img className={styles.tweetItemIcon} src={discussion} alt="discussion.svg" />
-            {isLiked ? <img className={styles.tweetItemIcon} src={likeActive} alt="likeActive.svg" /> : <img className={styles.tweetItemIcon} src={like} alt="like.svg" />}
+            <img className={styles.tweetItemIcon} src={discussion} alt="discussion.svg" onClick={handleShow} />
+            {isLiked ? <img className={styles.tweetItemIcon} src={likeActive} alt="likeActive.svg" onClick={handleLike} /> : <img className={styles.tweetItemIcon} src={like} alt="like.svg" onClick={handleLike} />}
           </div>
         </div>
       </div>
-      {/* <ReplyTweetModal
+      <ReplyTweetModal
         handleShow={handleShow}
         show={show}
         handleClose={handleClose}
-        threadUserName={name}
-        threadUserAccount={account}
+        threadUserName={userName}
+        threadUserAccount={userAccount}
         threadDescription={description}
         threadCreatedAt={createdAt}
-        threadUserAvatar={avatar}
+        threadUserAvatar={userAvatar}
         onInputChange={
           (replyInput) => {
             setReplyTweet(replyInput)
@@ -84,7 +148,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
         }
         onSave={handleSave}
         borderLine={clsx('', { [styles.wordLengthError]: replyTweet.length > 140 }, { [styles.emptyReplyError]: errorMsg })}
-      /> */}
+      />
     </>
   )
 }
