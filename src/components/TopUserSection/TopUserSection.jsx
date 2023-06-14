@@ -4,7 +4,7 @@ import dummyBackgroundImage from 'icons/dummyBackgroundImage.svg'
 import dummyUserPhoto from 'icons/dummyUserPhoto.svg'
 import editUserInfoBtn from 'icons/editUserInfoBtn.svg'
 import PrePageBtn from 'components/PrevPageBtn/PrevPageBtn.jsx'
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect, useRef } from 'react'
 import clsx from 'clsx'
 import Modal from 'react-bootstrap/Modal';
 import cross from 'icons/cross.svg'
@@ -12,10 +12,8 @@ import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTwe
 import AuthInput from 'components/Form/AuthInput'
 import camera from 'icons/camera.svg'
 import white_cross from 'icons/white_cross.svg'
-import { getUser } from 'api/tweets.js'
 import { AuthContext } from 'context/AuthContext.jsx'
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
 
 
 export default function TopUserSection({ userDetail }) {
@@ -24,10 +22,10 @@ export default function TopUserSection({ userDetail }) {
   const handleShow = () => setShow(true);
   const [name, setName] = useState('')
   const [intro, setIntro] = useState('')
-  const [userAvatar, setUserAvatar] = useState('')
-  const [banner, setBanner] = useState('')
-  const [dataObj, setDataObject] = useState(null)
-  const {putUserSelf, isUserEdited} = useContext(AuthContext)
+  const [userAvatar, setUserAvatar] = useState(null)
+  const [banner, setBanner] = useState(null)
+  const [tempDataObject, setTempDataObject] = useState(null)
+  const {putUserSelf, isUserEdited, getUser} = useContext(AuthContext)
   const navigate = useNavigate()
 
   // 回 main 頁面
@@ -43,33 +41,38 @@ export default function TopUserSection({ userDetail }) {
   // 其他沒從 API 撈的直接用 localStorage 拿，code 才不用改太多
   const { avatar, account, followingCount, followerCount } = savedUserInfoParsed;
 
-  const handleShowModal = async () => {
+  const handleShowModal = () => {
     handleShow();
-    // 透過GET API去取得user原始的資料，包括背景圖片、大頭貼、名稱和自我介紹
-    const { data } = await getUser(savedUserInfoId)
-    setName(data.name)
-    setIntro(data.introduction)
-    setUserAvatar(data.avatar)
-    setBanner(data.banner)
-    setDataObject(data)
+  }
+  //點擊上傳圖片按鈕
+  const handleAvatarFile = (event) => {
+    setUserAvatar(event.target.files[0]);
+  }
+  const handleBannerFile = (event) => {
+    setBanner(event.target.files[0]);
   }
   //點擊儲存按鈕
   const handleSave = async () => {
+    console.log(banner)
     // 若input空值，則返回
-    if (dataObj.name.length < 1 || dataObj.introduction.length < 1) return
+    if (name.trim().length === 0 || intro.trim().length === 0) return
     // 若自我介紹或是名字長度超過限制，則返回
-    if (dataObj.name.length > 50 || dataObj.introduction.length > 160) return
+    if (name.length > 50 || intro.length > 160) return
     // API的資訊傳遞(需轉換成 Form-data)
     const formData = new FormData()
-    for (let key in dataObj) {
-      formData.append(key, dataObj[key]);
+    //先帶入暫時儲存在tempDataObject的資料，若有任何改變內容，會用formData.set的方式去改變
+    for (let key in tempDataObject) {
+      formData.append(key, tempDataObject[key]);
     }
     formData.set("name", name)
     formData.set("introduction", intro)
+    formData.set("avatar", userAvatar)
+    formData.set("banner", banner)
     for (const pair of formData.entries()) {
       console.log(`${pair[0]}, ${pair[1]}`);
     }
     const response = await putUserSelf(savedUserInfoId, formData)
+    console.log(response)
 
     // 若成功把使用者編輯資料送出
     if (!response.response) {
@@ -85,36 +88,36 @@ export default function TopUserSection({ userDetail }) {
     }
   }
 
-  // useEffect(() => {
-  //   const getUserAsync = async(userId) => {
-  //     try {
-  //       const response = getUser(userId)
-  //       console.log("get all user data", response)
-  //     } catch(error) {
-  //       console.error(error)
-  //     }
-  //   }
-  //   getUserAsync(savedUserInfoId)
-  // }, [savedUserInfoId, isUserEdited])
+  useEffect(() => {
+    const getUserAsync = async() => {
+      const response = await getUser(savedUserInfoId)
+      setTempDataObject(response.data)
+      setName(response.data.name)
+      setIntro(response.data.introduction)
+      setUserAvatar(response.data.avatar)
+      setBanner(response.data.banner)
+    }
+    getUserAsync()
+  }, [savedUserInfoId, isUserEdited, getUser])
   return (
     <div>
       <PrePageBtn onClick={handlePrevPageClick} />
       <div className={styles.topUserInfoWrapper}>
-        <img src={dummyBackgroundImage} alt="dummyBackgroundImage.svg" />
-        <img className={styles.topUserPhoto} src={avatar} alt={avatarDefaultMini} />
+        <img className={styles.topUserBanner} src={tempDataObject? (tempDataObject.banner? tempDataObject.banner : dummyBackgroundImage)  : dummyBackgroundImage} alt="dummyBackgroundImage.svg" />
+        <img className={styles.topUserPhoto} src={tempDataObject? tempDataObject.avatar : avatar} alt={avatarDefaultMini} />
         <button className={styles.topUserEditBtn} onClick={handleShowModal} >
           <img src={editUserInfoBtn} alt="editUserInfoBtn.svg" />
         </button>
         <div className={styles.topUserWordsWrapper}>
-          <div className={styles.topUserName}>{name}</div>
-          <div className={styles.topUserAccount}>@{account}</div>
+          <div className={styles.topUserName}>{tempDataObject? tempDataObject.name : name}</div>
+          <div className={styles.topUserAccount}>@{tempDataObject? tempDataObject.account : account}</div>
           <div className={styles.topUserIntro}>{intro}</div>
           <div className={styles.topUserFollowWrapper}>
             <div>
-              <span className={styles.topUserFollowCount}>{followingCount}</span><span className={styles.topUserFollowWord}>跟隨中</span>
+              <span className={styles.topUserFollowCount}>{tempDataObject? tempDataObject.followingCount : followingCount}</span><span className={styles.topUserFollowWord}>跟隨中</span>
             </div>
             <div className={styles.topUserFollowerWrapper}>
-              <span className={styles.topUserFollowCount}>{followerCount}</span><span className={styles.topUserFollowWord}>跟隨者</span>
+              <span className={styles.topUserFollowCount}>{tempDataObject? tempDataObject.followerCount : followerCount}</span><span className={styles.topUserFollowWord}>跟隨者</span>
             </div>
           </div>
         </div>
@@ -122,20 +125,27 @@ export default function TopUserSection({ userDetail }) {
       <EditUserModal
         handleClose={handleClose}
         show={show}
-        onNameChange={(updateNameInput) => setName(updateNameInput)}
-        onIntroChange={(updateIntroInput) => setIntro(updateIntroInput)}
+        onNameChange={(updateNameInput) => updateNameInput? setName(updateNameInput) : setName('')}
+        onIntroChange={(updateIntroInput) => updateIntroInput? setIntro(updateIntroInput) : setIntro('')}
         onSave={handleSave}
         nameBorderLine={clsx('', { [styles.wordLengthError]: name.length > 50 }, { [styles.emptyError]: name.trim().length === 0 })}
         introBorderLine={clsx('', { [styles.wordLengthError]: intro.length > 160 }, { [styles.emptyError]: intro.trim().length === 0 })}
         nameValue={name}
         introValue={intro}
+        handleAvatarFile={handleAvatarFile}
+        handleBannerFile={handleBannerFile}
+        modalAvatar={tempDataObject? tempDataObject.avatar : savedUserInfoParsed.avatar}
+        modalBanner={tempDataObject? (tempDataObject.banner? tempDataObject.banner : dummyBackgroundImage)  : dummyBackgroundImage}
+        handleBannerDelete={() => setBanner(null)}
       />
     </div>
   )
 }
 
 
-export function EditUserModal({ show, handleClose, onNameChange, onIntroChange, nameValue, introValue, onSave, nameBorderLine, introBorderLine }) {
+export function EditUserModal({ show, handleClose, onNameChange, onIntroChange, nameValue, introValue, onSave, nameBorderLine, introBorderLine, handleAvatarFile, handleBannerFile, modalAvatar, modalBanner, handleBannerDelete }) {
+  const avatarRefInput = useRef(null)
+  const bannerRefInput = useRef(null)
   return (
     <div className={styles.modalContainer}>
       <Modal className={clsx("fade modal show", styles.modal)} show={show} onHide={handleClose}>
@@ -151,13 +161,26 @@ export function EditUserModal({ show, handleClose, onNameChange, onIntroChange, 
         </Modal.Header>
         <Modal.Body className={clsx(styles.modalBody)}>
           <div className={styles.modalImageContainer}>
-            {/* 背景的照片的會隨著TopUserSection的背景照片改變，這邊先放入假資料 */}
-            <img className={styles.modalBackgroundImage} src={dummyBackgroundImage} alt="dummyBackgroundImage.svg" />
-            {/* 照片的src會隨著TopUserSection的照片改變，這邊先放入假資料 */}
-            <img className={clsx(styles.topUserPhoto, styles.modalUserPhoto)} src={dummyUserPhoto} alt="dummyUserPhoto.svg" />
-            <img className={styles.iconCameraUserPhoto} src={camera} alt="camera.svg" />
-            <img className={styles.iconCamera} src={camera} alt="camera.svg" />
-            <img className={styles.iconWhiteCross} src={white_cross} alt="white_cross.svg" />
+            <img className={clsx(styles.topUserBanner, styles.modalBackgroundImage)} src={modalBanner} alt="backgroundImage.svg" />
+            <img className={clsx(styles.topUserPhoto, styles.modalUserPhoto)} src={modalAvatar} alt="userPhoto.svg" />
+            <input id="avatarInput" className={styles.avatarInput} type="file" onChange={e => {
+            handleAvatarFile?.(e)
+            }} ref={avatarRefInput} />
+            {/* 點擊大頭貼相機按鈕，同等點擊input file*/}
+            <img className={styles.iconCameraUserPhoto} src={camera} alt="camera.svg" onClick={() => {
+              console.log(avatarRefInput.current)
+              }} />
+            <input id="bannerInput" className={styles.bannerInput} type="file" onChange={e => {
+            handleBannerFile?.(e)
+            }} ref={bannerRefInput} />
+            {/* 點擊背景相機按鈕，同等點擊input file */}
+            <img className={styles.iconCamera} src={camera} alt="camera.svg" onClick={() => {
+              console.log(bannerRefInput.current)
+              }} />
+            <img className={styles.iconWhiteCross} src={white_cross} alt="white_cross.svg" onClick={() => {
+              alert("Banner deleted")
+              handleBannerDelete()
+              }} />
           </div>
           <div className={styles.topUserWordsWrapper}>
           </div>

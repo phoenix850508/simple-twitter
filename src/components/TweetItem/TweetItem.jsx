@@ -37,12 +37,12 @@ export default function TweetItem({ id, UserId, name, account, description, crea
     navigate('/replylist')
   }
 
-  // 點擊回應對話按鈕彈出視窗
+  // 送出回覆文字
   const handleSave = async () => {
     //預防空值與回覆文字限制
-    if (replyTweet.length > 140) return
-    if (replyTweet.length < 1) return setErrorMsg(true)
-    const response = await postReply(savedUserInfoId, { comment: replyTweet })
+    if(replyTweet.length > 140) return
+    if(replyTweet.length < 1 ) return setErrorMsg(true)
+    const response = await postReply(id, {comment: replyTweet})
     //若新增推文成功
     if (response.data.comment) {
       handleClose()
