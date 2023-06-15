@@ -16,7 +16,7 @@ import { AuthContext } from 'context/AuthContext.jsx'
 import { useNavigate } from 'react-router-dom'
 
 
-export default function TopUserSection({ userDetail }) {
+export default function TopUserSection({ handleFollowDetailClick }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -24,14 +24,9 @@ export default function TopUserSection({ userDetail }) {
   const [intro, setIntro] = useState('')
   const [userAvatar, setUserAvatar] = useState(null)
   const [banner, setBanner] = useState(null)
+  const [tweetCount, setTweetCount] = useState(null)
   const [tempDataObject, setTempDataObject] = useState(null)
   const { putUserSelf, isUserEdited, getUser } = useContext(AuthContext)
-  const navigate = useNavigate()
-
-  // 回 main 頁面
-  const handlePrevPageClick = () => {
-    navigate('/main')
-  }
 
   // userInfo 資料從 localStorage 拿
   const savedUserInfo = localStorage.getItem("userInfo")
@@ -96,12 +91,13 @@ export default function TopUserSection({ userDetail }) {
       setIntro(response.data.introduction)
       setUserAvatar(response.data.avatar)
       setBanner(response.data.banner)
+      setTweetCount(response.data.tweetCount)
     }
     getUserAsync()
   }, [savedUserInfoId, isUserEdited, getUser])
   return (
     <div>
-      <PrePageBtn onClick={handlePrevPageClick} />
+      <PrePageBtn toPage='/main' name={name} tweetCount={tweetCount} />
       <div className={styles.topUserInfoWrapper}>
         <img className={styles.topUserBanner} src={tempDataObject ? (tempDataObject.banner ? tempDataObject.banner : dummyBackgroundImage) : dummyBackgroundImage} alt="dummyBackgroundImage.svg" />
         <img className={styles.topUserPhoto} src={tempDataObject ? (tempDataObject.avatar ? tempDataObject.avatar : avatarDefaultMini) : savedUserInfoParsed.avatar} alt='avatar' />
@@ -114,10 +110,22 @@ export default function TopUserSection({ userDetail }) {
           <div className={styles.topUserIntro}>{intro}</div>
           <div className={styles.topUserFollowWrapper}>
             <div>
-              <span className={styles.topUserFollowCount}>{tempDataObject ? tempDataObject.followingCount : followingCount}</span><span className={styles.topUserFollowWord}>跟隨中</span>
+              <button
+                className={styles.followBtn}
+                value='followings'
+                onClick={e => { handleFollowDetailClick(e.currentTarget.value) }}
+              >
+                <span className={styles.topUserFollowCount}>{tempDataObject ? tempDataObject.followingCount : followingCount}</span><span className={styles.topUserFollowWord}>跟隨中</span>
+              </button>
             </div>
             <div className={styles.topUserFollowerWrapper}>
-              <span className={styles.topUserFollowCount}>{tempDataObject ? tempDataObject.followerCount : followerCount}</span><span className={styles.topUserFollowWord}>跟隨者</span>
+              <button
+                className={styles.followBtn}
+                value='followers'
+                onClick={e => { handleFollowDetailClick(e.currentTarget.value) }}
+              >
+                <span className={styles.topUserFollowCount}>{tempDataObject ? tempDataObject.followerCount : followerCount}</span><span className={styles.topUserFollowWord}>跟隨者</span>
+              </button>
             </div>
           </div>
         </div>

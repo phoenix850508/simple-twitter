@@ -9,7 +9,7 @@ export default function FollowingItem({ avatar, name, introduction, isFollowed }
     <div className={styles.followerItemContainer}>
       <div className={styles.followerItemWrapper}>
         <div>
-          <img className={styles.avatar} src={avatar} alt={avatarDefaultMini} />
+          <img className={styles.avatar} src={avatar ? avatar : avatarDefaultMini} alt='avatar' />
         </div>
         <div className={styles.followerItemInfoWrapper}>
           <div className={styles.followerItemNameFollowWrapper}>
