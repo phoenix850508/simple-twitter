@@ -1,4 +1,4 @@
-import LeftBanner from 'components/LeftBanner/LeftBanner.jsx'
+import LeftBannerAdmin from 'components/LeftBannerAdmin/LeftBannerAdmin.jsx'
 import UserCard from 'components/Admin/UserCard.jsx'
 import AdminContainer from 'components/Admin/AdminContainer.jsx'
 import AdminRightContainer from 'components/Admin/AdminRightContainer.jsx'
@@ -10,7 +10,7 @@ export default function AdminUsersPage() {
   return (
     <div>
       <AdminContainer>
-       <LeftBanner />
+       <LeftBannerAdmin />
        <AdminRightContainer title={"使用者列表"}>
         {users.map((user) => {
           return <UserCard key={user.id} avatar={user.avatar} background={user.background} />

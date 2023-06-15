@@ -137,7 +137,7 @@ export default function TopUserSection({ handleFollowDetailClick }) {
         onIntroChange={(updateIntroInput) => updateIntroInput ? setIntro(updateIntroInput) : setIntro('')}
         onSave={handleSave}
         nameBorderLine={clsx('', { [styles.wordLengthError]: name.length > 50 }, { [styles.emptyError]: name.trim().length === 0 })}
-        // introBorderLine={clsx('', { [styles.wordLengthError]: intro.length > 160 }, { [styles.emptyError]: intro.trim().length === 0 })}
+        introBorderLine={clsx('', { [styles.wordLengthError]: (intro? intro.length > 160 : false)}, { [styles.emptyError]: !intro})}
         nameValue={name}
         introValue={intro}
         handleAvatarFile={handleAvatarFile}

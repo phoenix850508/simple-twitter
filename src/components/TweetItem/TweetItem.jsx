@@ -11,6 +11,7 @@ import UserTweetPhoto from 'components/TopTweetSection/TopTweetComponents/UserTw
 import { postReply, postLike, postUnlike } from 'api/tweets'
 import { useState, useContext } from 'react'
 import clsx from 'clsx'
+import likeActive from 'icons/likeActive.svg'
 // 引用封裝好的 Context 資訊
 import { AuthContext } from 'context/AuthContext.jsx';
 
@@ -63,7 +64,6 @@ export default function TweetItem({ id, UserId, name, account, description, crea
       //若取消喜歡成功
       if (response.data) {
         if (response.data.message === "Like 取消成功") {
-          alert("Like 取消成功")
           setIsLikedBoolean(false)
           //防止資料庫錯誤，若likeNum > 0則讓likeNum - 1
           setLikeNum(() => {

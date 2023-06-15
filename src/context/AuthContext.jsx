@@ -1,4 +1,4 @@
-import { login } from "api/auth.js";
+import { login, adminLogin } from "api/auth.js";
 import { createContext, useState, useEffect } from "react";
 import * as jwt from "jsonwebtoken";
 import { useLocation } from "react-router-dom";
@@ -91,7 +91,7 @@ const AuthProvider = ({ children }) => {
       }
     };
     checkTokenIsValid();
-  }, [pathname, navigate, isTweetUpdated, isUserEdited]);
+  }, [pathname, isTweetUpdated, isUserEdited, navigate]);
 
 
   console.log('AuthProvider 重新渲染')
@@ -128,6 +128,33 @@ const AuthProvider = ({ children }) => {
               // 儲存使用者資訊到 state 與 localStorage
               setUserInfo(response.data.user);
               localStorage.setItem("userInfo", JSON.stringify(response.data.user));
+            }
+          }
+          //若獲得的response不符合上面條件，回傳response讓LoginPage去做錯誤顯示
+          else {
+            setPayload(null);
+            setIsAuthenticated(false);
+          }
+          return response;
+        },
+        adminLogin: async(data) => {
+          const response = await adminLogin({
+            account: data.account, password: data.password
+          })
+          //若成功可以把payload的資料讓所有頁面看到
+          if (response.data) {
+            if (response.data.status === "success") {
+              const authToken = response.data.token;
+              const temPayload = jwt.decode(authToken);
+              setPayload(temPayload);
+              setIsAuthenticated(true);
+              setCurrentUser({
+                id: temPayload.id,
+              })
+              localStorage.setItem("authToken", authToken);
+              // 儲存使用者資訊到 state 與 localStorage
+              setUserInfo(response.data.admin);
+              localStorage.setItem("userInfo", JSON.stringify(response.data.admin));
             }
           }
           //若獲得的response不符合上面條件，回傳response讓LoginPage去做錯誤顯示
