@@ -4,13 +4,13 @@ import styles from './UserCard.module.scss'
 import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 import dummyBackgroundImage from 'icons/dummyBackgroundImage.svg'
 
-export default function UserCard({avatar, background, name, account, tweetsCount, likesCount, followersCount, followingsCount}) {
+export default function UserCard({ avatar, background, name, account, tweetsCount, likesCount, followersCount, followingsCount }) {
   return (
     <div className={styles.card}>
       <div className={styles.imgContainer}>
-        <img className={styles.backgroundImg} src={background? background : dummyBackgroundImage} alt="background-img" />
+        <img className={styles.backgroundImg} src={background ? background : dummyBackgroundImage} alt="background-img" />
         <div className={styles.avatarContainer}>
-        <img className={styles.avatar} src={avatar? avatar : avatarDefaultMini} alt="avatar-img" />
+          <img className={styles.avatar} src={avatar ? avatar : avatarDefaultMini} alt="avatar-img" />
         </div>
       </div>
       <div className={styles.contentContainer}>
@@ -28,11 +28,11 @@ export default function UserCard({avatar, background, name, account, tweetsCount
         </div>
         <div className={styles.followContainer}>
           <div className={styles.followingContainer}>
-            <span className={styles.followCount}>{followersCount}個</span>
-            <span className={styles.followUnit}>追蹤者</span>
+            <span className={styles.followCount}>{followingsCount}個</span>
+            <span className={styles.followUnit}>跟隨中</span>
           </div>
           <div className={styles.followerContainer}>
-            <span className={styles.followCount}>{followingsCount}位</span>
+            <span className={styles.followCount}>{followersCount}位</span>
             <span className={styles.followUnit}>跟隨者</span>
           </div>
         </div>

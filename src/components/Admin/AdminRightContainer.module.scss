@@ -8,7 +8,7 @@
   margin-left: 24px;
 }
 
-.titleSecion {
+.titleSection {
   position: relative;
   padding-left: 24px;
   height: 74px;
@@ -16,6 +16,8 @@
   display: flex;
   align-items: center;
   overflow-y: scroll;
+  overflow-x: hidden;
+
   &::after {
     content: "";
     position: absolute;
