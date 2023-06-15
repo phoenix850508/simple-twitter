@@ -7,21 +7,27 @@ import styles from './SettingPage.module.scss'
 import { useState } from 'react'
 import clsx from 'clsx'
 import { getUser, putUserSelf } from 'api/tweets.js'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import {useNavigate} from 'react-router-dom'
 
 export default function SettingPage() {
   const savedUserInfo = localStorage.getItem("userInfo")
   const savedUserInfoParsed = JSON.parse(savedUserInfo)
   const savedUserInfoId = savedUserInfoParsed.id
+  //這邊的setState是用來儲存onChange資料
   const [account, setAccount] = useState('')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [checkPassword, setCheckPassword] = useState('')
   const [isPasswordEqual, setIsPasswordEqual] = useState(true)
+  // dataObject是用來補足輸入欄沒有的欄位
   const [dataObject, setDataObject] = useState(null)
   const navigate = useNavigate()
+  // useRef是用來存取當前最新的欄位資料
+  const accountInputRef = useRef(null)
+  const nameInputRef = useRef(null)
+  const emailInputRef = useRef(null)
   // 這邊的errorMsg是用來判斷若後端response的資料不存在或有誤，可以讓<AuthInput/>可以製造出相對的錯誤訊息
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -32,9 +38,14 @@ export default function SettingPage() {
   const handleClick = async () => {
     //檢查格式是否符合需求
     // 防止使用者輸入空值，若input欄位感應不到則會帶入原本的資料
-    if (account.length === 0) setAccount(dataObject.account)
-    if (name.length === 0) setName(dataObject.name)
-    if (email.length === 0) setEmail(dataObject.email)
+    console.log("accountInputRef",accountInputRef.current.value)
+    console.log("dataObject", dataObject)
+    if (accountInputRef.current.value.length === 0) return alert("請輸入帳號")
+    // setAccount(dataObject.account)
+    if (nameInputRef.current.value.length === 0) return alert("請輸入名字")
+    // setName(dataObject.name)
+    if (emailInputRef.current.value.length === 0) return ("請輸入email")
+    // setEmail(dataObject.email)
     if (password.length === 0 || checkPassword.length === 0) return alert("請輸入密碼")
     else if (name.length > 50) return
     else if (password !== checkPassword) {
@@ -44,9 +55,9 @@ export default function SettingPage() {
     for (let key in dataObject) {
       formData.append(key, dataObject[key]);
     }
-    formData.set("name", name)
-    formData.set("email", email)
-    formData.set("account", account)
+    formData.set("name", name ? name : nameInputRef.current.value)
+    formData.set("email", email? email : emailInputRef.current.value)
+    formData.set("account", account ? account : accountInputRef.current.value)
     formData.set("password", password)
     formData.set("checkPassword", checkPassword)
     const response = await putUserSelf(savedUserInfoId, formData)
@@ -87,18 +98,20 @@ export default function SettingPage() {
               placeholder={"請輸入帳號"}
               onChange={(accountInput) => {
                 setErrorMsg('')
-                setAccount(accountInput && accountInput)
+                accountInput && setAccount(accountInput)
               }}
               borderLine={clsx('', { [styles.accountBorderLineError]: errorMsg === "Error: 帳號已存在！" })}
               value={dataObject && dataObject.account}
+              inputRef={accountInputRef}
             />
             <AuthInput
               className={styles.inputContainer}
               label={"名稱"}
               placeholder={"請輸入名稱"}
               borderLine={clsx('', { [styles.nameLengthError]: name.length > 50 })}
-              onChange={(nameInput) => setName(nameInput && nameInput)}
+              onChange={(nameInput) => nameInput && setName(nameInput)}
               value={dataObject && dataObject.name}
+              inputRef={nameInputRef}
             />
             <AuthInput
               className={styles.inputContainer}
@@ -106,10 +119,11 @@ export default function SettingPage() {
               placeholder={"請輸入 Email"}
               onChange={(emailInput) => {
                 setErrorMsg('')
-                setEmail(emailInput && emailInput)
+                emailInput && setEmail(emailInput)
               }}
               borderLine={clsx('', { [styles.emailBorderLineError]: errorMsg === "Error: 信箱已存在！" })}
               value={dataObject && dataObject.email}
+              inputRef={emailInputRef}
             />
             <AuthInput
               className={styles.inputContainer}
@@ -118,10 +132,9 @@ export default function SettingPage() {
               borderLine={clsx('', { [styles.passwordUnequal]: !isPasswordEqual })}
               onChange={(passwordInput) => {
                 setIsPasswordEqual(true)
-                setPassword(passwordInput && passwordInput)
+                passwordInput && setPassword(passwordInput)
               }}
               type="password"
-              value={dataObject && dataObject.password}
             />
             <AuthInput
               className={styles.inputContainerLast}
@@ -131,9 +144,8 @@ export default function SettingPage() {
               type="password"
               onChange={(passwordConfirmInput) => {
                 setIsPasswordEqual(true)
-                setCheckPassword(passwordConfirmInput && passwordConfirmInput)
+                passwordConfirmInput && setCheckPassword(passwordConfirmInput)
               }}
-              value={dataObject && dataObject.password}
             />
             <div className={styles.buttonContainer}>
               <SaveSettingButton btn={"儲存"} onClick={handleClick} />

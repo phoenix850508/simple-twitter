@@ -174,21 +174,14 @@ export function EditUserModal({ show, handleClose, onNameChange, onIntroChange, 
             <input id="avatarInput" className={styles.avatarInput} type="file" onChange={e => {
               handleAvatarFile?.(e)
             }} ref={avatarRefInput} />
-            {/* 點擊大頭貼相機按鈕，同等點擊input file*/}
-            <img className={styles.iconCameraUserPhoto} src={camera} alt="camera.svg" onClick={() => {
-              console.log(avatarRefInput.current)
-            }} />
+            <img className={styles.iconCameraUserPhoto} src={camera} alt="camera.svg" />
             <input id="bannerInput" className={styles.bannerInput} type="file" onChange={e => {
               handleBannerFile?.(e)
             }} ref={bannerRefInput} />
-            {/* 點擊背景相機按鈕，同等點擊input file */}
             <img className={styles.iconCamera} src={camera} alt="camera.svg" onClick={() => {
               console.log(bannerRefInput.current)
             }} />
-            <img className={styles.iconWhiteCross} src={white_cross} alt="white_cross.svg" onClick={() => {
-              alert("Banner deleted")
-              handleBannerDelete()
-            }} />
+            <img className={styles.iconWhiteCross} src={white_cross} alt="white_cross.svg" />
           </div>
           <div className={styles.topUserWordsWrapper}>
           </div>
