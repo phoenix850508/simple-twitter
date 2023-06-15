@@ -4,9 +4,9 @@ import AdminRightContainer from 'components/Admin/AdminRightContainer.jsx'
 import AuthInput from 'components/Form/AuthInput.jsx'
 import SaveSettingButton from 'components/Form/SaveSettingButton.jsx'
 import styles from './SettingPage.module.scss'
-import {useState} from 'react'
+import { useState } from 'react'
 import clsx from 'clsx'
-import {getUser, putUserSelf} from 'api/tweets.js'
+import { getUser, putUserSelf } from 'api/tweets.js'
 import { useEffect } from 'react'
 
 export default function SettingPage() {
@@ -22,6 +22,10 @@ export default function SettingPage() {
   const [dataObject, setDataObject] = useState(null)
   // 這邊的errorMsg是用來判斷若後端response的資料不存在或有誤，可以讓<AuthInput/>可以製造出相對的錯誤訊息
   const [errorMsg, setErrorMsg] = useState('')
+
+  // 為了顯示左側按鈕顏色需做判斷，共有 1、2、3
+  const currentPage = 3
+
   //點擊儲存按鈕 所有欄位應該要拿到最新的data資料
   const handleClick = async () => {
     //檢查格式是否符合需求
@@ -29,8 +33,8 @@ export default function SettingPage() {
     if (account.length === 0) setAccount(dataObject.account)
     if (name.length === 0) setName(dataObject.name)
     if (email.length === 0) setEmail(dataObject.email)
-    if(password.length === 0 || checkPassword.length === 0) return alert("請輸入密碼")
-    else if (name.length > 50) return 
+    if (password.length === 0 || checkPassword.length === 0) return alert("請輸入密碼")
+    else if (name.length > 50) return
     else if (password !== checkPassword) {
       return setIsPasswordEqual(false)
     }
@@ -52,86 +56,87 @@ export default function SettingPage() {
     // 若成功把使用者編輯資料送出
     else if (!response.response) {
       if (response.data) {
-      alert('successfully updated')
+        alert('successfully updated')
       }
     }
   }
   useEffect(() => {
-    const getUserAsync= async() => {
+    const getUserAsync = async () => {
       try {
         const response = await getUser(savedUserInfoId)
         setDataObject(response.data)
       } catch (error) {
         console.error(error)
       }
-    } 
+    }
     getUserAsync();
   }, [savedUserInfoId])
+
   return (
     <div className={styles.settingContainer}>
       <AdminContainer>
-       <LeftBanner />
-       <AdminRightContainer title={"帳戶設定"} rightContainerClassName={styles.rightContainer} contentContainerClassName={styles.contentContainer}>
-        <div className={styles.inputSection}>
-          <AuthInput 
-          className={styles.inputContainer} 
-          label={"帳號"} 
-          placeholder={"請輸入帳號"}
-          onChange={(accountInput) => {
-            setErrorMsg('')
-            setAccount(accountInput)
-          }}
-          borderLine={clsx('', {[styles.accountBorderLineError]: errorMsg === "Error: 帳號已存在！"})} 
-          value={dataObject && dataObject.account}
-          />
-          <AuthInput 
-          className={styles.inputContainer} 
-          label={"名稱"} 
-          placeholder={"請輸入名稱"}
-          borderLine={clsx('', {[styles.nameLengthError]: name.length > 50})}
-          onChange={(nameInput) => setName(nameInput)}
-          value={dataObject && dataObject.name}
-           />
-          <AuthInput 
-          className={styles.inputContainer} 
-          label={"Email"} 
-          placeholder={"請輸入 Email"}
-          onChange={(emailInput) => {
-            setErrorMsg('')
-            setEmail(emailInput)
-          }}
-          borderLine={clsx('', {[styles.emailBorderLineError]: errorMsg === "Error: 信箱已存在！"})}
-          value={dataObject && dataObject.email}  
-          />
-          <AuthInput 
-          className={styles.inputContainer} 
-          label={"密碼"} 
-          placeholder={"請設定密碼"}  
-          borderLine={clsx('', {[styles.passwordUnequal]: !isPasswordEqual})}
-          onChange={(passwordInput) => {
-            setIsPasswordEqual(true)
-            setPassword(passwordInput)
-          }} 
-          type="password" 
-          value={dataObject && dataObject.password}  
-          />
-          <AuthInput 
-          className={styles.inputContainerLast} 
-          label={"確認密碼"} 
-          placeholder={"請再次輸入密碼"}  
-          borderLine={clsx('', {[styles.passwordUnequal]: !isPasswordEqual})}
-          type="password"
-          onChange={(passwordConfirmInput) => {
-            setIsPasswordEqual(true)
-            setCheckPassword(passwordConfirmInput)
-          }}
-          value={dataObject && dataObject.password}  
-           />
-          <div className={styles.buttonContainer}>
-            <SaveSettingButton btn={"儲存"} onClick={handleClick}/>
+        <LeftBanner currentPage={currentPage} />
+        <AdminRightContainer title={"帳戶設定"} rightContainerClassName={styles.rightContainer} contentContainerClassName={styles.contentContainer}>
+          <div className={styles.inputSection}>
+            <AuthInput
+              className={styles.inputContainer}
+              label={"帳號"}
+              placeholder={"請輸入帳號"}
+              onChange={(accountInput) => {
+                setErrorMsg('')
+                setAccount(accountInput)
+              }}
+              borderLine={clsx('', { [styles.accountBorderLineError]: errorMsg === "Error: 帳號已存在！" })}
+              value={dataObject && dataObject.account}
+            />
+            <AuthInput
+              className={styles.inputContainer}
+              label={"名稱"}
+              placeholder={"請輸入名稱"}
+              borderLine={clsx('', { [styles.nameLengthError]: name.length > 50 })}
+              onChange={(nameInput) => setName(nameInput)}
+              value={dataObject && dataObject.name}
+            />
+            <AuthInput
+              className={styles.inputContainer}
+              label={"Email"}
+              placeholder={"請輸入 Email"}
+              onChange={(emailInput) => {
+                setErrorMsg('')
+                setEmail(emailInput)
+              }}
+              borderLine={clsx('', { [styles.emailBorderLineError]: errorMsg === "Error: 信箱已存在！" })}
+              value={dataObject && dataObject.email}
+            />
+            <AuthInput
+              className={styles.inputContainer}
+              label={"密碼"}
+              placeholder={"請設定密碼"}
+              borderLine={clsx('', { [styles.passwordUnequal]: !isPasswordEqual })}
+              onChange={(passwordInput) => {
+                setIsPasswordEqual(true)
+                setPassword(passwordInput)
+              }}
+              type="password"
+              value={dataObject && dataObject.password}
+            />
+            <AuthInput
+              className={styles.inputContainerLast}
+              label={"確認密碼"}
+              placeholder={"請再次輸入密碼"}
+              borderLine={clsx('', { [styles.passwordUnequal]: !isPasswordEqual })}
+              type="password"
+              onChange={(passwordConfirmInput) => {
+                setIsPasswordEqual(true)
+                setCheckPassword(passwordConfirmInput)
+              }}
+              value={dataObject && dataObject.password}
+            />
+            <div className={styles.buttonContainer}>
+              <SaveSettingButton btn={"儲存"} onClick={handleClick} />
+            </div>
           </div>
-        </div>
-       </AdminRightContainer>
+        </AdminRightContainer>
       </AdminContainer>
     </div>
   )

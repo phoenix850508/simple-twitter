@@ -13,14 +13,14 @@ import { AuthContext } from 'context/AuthContext.jsx'
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx'
 
-export default function LeftBanner() {
+export default function LeftBanner({ currentPage }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [tweet, setTweet] = useState('')
   const [isUpdating, setIsUpdating] = useState(false)
-  const [errorMsg, setErrorMsg]= useState(false)
-  const [onPage, setOnPage] = useState('home')
+  const [errorMsg, setErrorMsg] = useState(false)
+  // const [onPage, setOnPage] = useState('home')
   const { postTweets, isTweetUpdated, logout } = useContext(AuthContext);
   const navigate = useNavigate()
   const handleLogout = () => {
@@ -29,31 +29,28 @@ export default function LeftBanner() {
   }
   const handleHomePageClick = () => {
     navigate('/main')
-    setOnPage('home')
   }
   const handleUserSelfPageClick = () => {
     navigate('/user/self')
-    setOnPage('userSelf')
   }
   const handleSettingPageClick = () => {
     navigate('/setting')
-    setOnPage('setting')
   }
   const clearForm = () => {
     setTweet('');
   };
   //在左邊欄也增加新增推文的API請求
   const handleSubmit = async () => {
-    try { 
-      if(isUpdating) return
-      if(tweet.length > 140) return
-      if(tweet.trim().length < 1) return setErrorMsg(true)
-      const res = await postTweets({description: tweet})
+    try {
+      if (isUpdating) return
+      if (tweet.length > 140) return
+      if (tweet.trim().length < 1) return setErrorMsg(true)
+      const res = await postTweets({ description: tweet })
       setIsUpdating(true)
       //若新增推文成功
       if (res) {
-      setShow(false)
-      setIsUpdating(false);
+        setShow(false)
+        setIsUpdating(false);
       }
     } catch (error) {
       console.error("[Post Tweeets failed 2]", error)
@@ -62,7 +59,7 @@ export default function LeftBanner() {
     }
   }
   useEffect(() => {
-      clearForm()
+    clearForm()
   }, [isTweetUpdated])
 
 
@@ -73,44 +70,42 @@ export default function LeftBanner() {
       <div className={styles.leftBannerLogo}>
         <img src={ac_logo} alt="ac_logo.svg" />
       </div>
-      <LeftBannerItems 
-      onTweetClick={handleShow} 
-      onHomePageClick={handleHomePageClick} 
-      onUserSelfClick={handleUserSelfPageClick} 
-      onSettingClick={handleSettingPageClick}
-      homeStatus={onPage === 'home'? homeActive : home}
-      userInfoStatus={onPage === 'userSelf'? userInfoActive : userInfo}
-      settingStatus={onPage === 'setting'? settingsActive : settings}
-       />
+      <LeftBannerItems
+        onTweetClick={handleShow}
+        onHomePageClick={handleHomePageClick}
+        onUserSelfClick={handleUserSelfPageClick}
+        onSettingClick={handleSettingPageClick}
+        currentPage={currentPage}
+      />
       <div className={styles.leftBannerLogout}>
         <Logout onClick={handleLogout} />
       </div>
-      <TopTweetModal 
-      show={show} 
-      handleClose={handleClose} 
-      buttonText={"推文"} 
-      onSubmit={handleSubmit} 
-      onChange={(tweetInput) => {
-        setErrorMsg(false)
-        setTweet(tweetInput)
-      }}
-      borderLine={clsx('', {[styles.wordLengthError]: tweet.length > 140}, {[styles.emptyTweetError]: errorMsg})} />
+      <TopTweetModal
+        show={show}
+        handleClose={handleClose}
+        buttonText={"推文"}
+        onSubmit={handleSubmit}
+        onChange={(tweetInput) => {
+          setErrorMsg(false)
+          setTweet(tweetInput)
+        }}
+        borderLine={clsx('', { [styles.wordLengthError]: tweet.length > 140 }, { [styles.emptyTweetError]: errorMsg })} />
     </div>
   )
 }
 
 // 左欄項目，不含 logo
-function LeftBannerItems({ onTweetClick, onHomePageClick, onUserSelfClick, onSettingClick, homeStatus, userInfoStatus, settingStatus }) {
+function LeftBannerItems({ onTweetClick, onHomePageClick, onUserSelfClick, onSettingClick, currentPage }) {
   return (
     <div>
       <div className={styles.leftBannerItem} onClick={onHomePageClick}>
-        <img className={styles.leftBannerIcon} src={homeStatus} alt="homeActive.svg" />
+        {currentPage === 1 ? <img className={styles.leftBannerIcon} src={homeActive} alt="homeActive.svg" /> : <img className={styles.leftBannerIcon} src={home} alt="home.svg" />}
       </div>
       <div className={styles.leftBannerItem} onClick={onUserSelfClick}>
-        <img className={styles.leftBannerIcon} src={userInfoStatus} alt="userInfo.svg" />
+        {currentPage === 2 ? <img className={styles.leftBannerIcon} src={userInfoActive} alt="userInfoActive.svg" /> : <img className={styles.leftBannerIcon} src={userInfo} alt="userInfo.svg" />}
       </div>
       <div className={styles.leftBannerItem} onClick={onSettingClick}>
-        <img className={styles.leftBannerIcon} src={settingStatus} alt="settings.svg" />
+        {currentPage === 3 ? <img className={styles.leftBannerIcon} src={settingsActive} alt="settingsActive.svg" /> : <img className={styles.leftBannerIcon} src={settings} alt="settings.svg" />}
       </div>
       <LeftBannerTweet onClick={onTweetClick} />
     </div>
