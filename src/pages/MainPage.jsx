@@ -36,7 +36,7 @@ export default function MainPage() {
       <LeftBanner />
       <MiddleColumnContainer>
         <TopTweetSection />
-        <TweetCollection tweets={tweets} />
+        <TweetCollection tweets={tweets} fromPage='/main' />
       </MiddleColumnContainer>
       <RightBanner />
     </MainContainer>

@@ -56,7 +56,9 @@ export default function UserOtherPage() {
       try {
         // 用 Context 裡的 user id 去撈他的推文
         const tweets = await getUserTweets(savedOtherUserId);
-        setTweets(tweets.map((tweet) => ({ ...tweet })));
+        if (tweets.length !== 0) {
+          setTweets(tweets.map((tweet) => ({ ...tweet })));
+        }
       } catch (error) {
         console.error(error);
       }
@@ -66,7 +68,9 @@ export default function UserOtherPage() {
       try {
         // 用 Context 裡的 user id 去撈他的回覆內容
         const replies = await getUserReplies(savedOtherUserId);
-        setReplies(replies.map((reply) => ({ ...reply })));
+        if (replies.length !== 0) {
+          setReplies(replies.map((reply) => ({ ...reply })));
+        }
       } catch (error) {
         console.error(error);
       }
@@ -105,7 +109,7 @@ export default function UserOtherPage() {
       <MiddleColumnContainer>
         <TopUserSectionOther notification={notification} handleNotiClick={handleNotiClick} userDetail={otherUserDetail} handleFollowDetailClick={handleFollowDetailClick} />
         <ChangeUserContent userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
-        {userContent === 'tweets' && <TweetCollection tweets={tweets} />}
+        {userContent === 'tweets' && <TweetCollection tweets={tweets} fromPage='/user/other' />}
         {userContent === 'replies' && <ReplyCollectionUser replies={replies} userDetail={otherUserDetail} />}
         {userContent === 'likes' && <LikeCollection likes={likes} />}
       </MiddleColumnContainer>

@@ -37,7 +37,7 @@ export default function LikeItem({ id, avatar, name, account, description, creat
     <div className={styles.tweetItemContainer}>
       <div className={styles.tweetItemWrapper}>
         <div>
-          <img className={styles.avatar} src={avatar} alt={avatarDefaultMini} />
+          <img className={styles.avatar} src={avatar ? avatar : avatarDefaultMini} alt='avatar' />
         </div>
         <div className={styles.tweetItemInfoWrapper}>
           <div className={styles.tweetItemInfoUser}>

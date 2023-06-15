@@ -170,6 +170,7 @@ const AuthProvider = ({ children }) => {
           localStorage.removeItem("tweetId");
           localStorage.removeItem("otherUserId");
           localStorage.removeItem("followContent");
+          localStorage.removeItem("fromPage");
           setPayload(null);
           setIsAuthenticated(false);
         },

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import LikeItem from "components/LikeItem/LikeItem.jsx";
 import dummyTweets from "./dummyTweets";
 
-export default function LikeCollection({likes}) {
+export default function LikeCollection({ likes }) {
 
   return (
     <div className={styles.tweetCollectionContainer}>

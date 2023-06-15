@@ -1,5 +1,6 @@
 // React Hook
 import { useState, useEffect, useContext } from 'react'
+import { useNavigate } from 'react-router-dom';
 // 元件類
 import MainContainer from "components/MainContainer/MainContainer.jsx";
 import LeftBanner from "components/LeftBanner/LeftBanner.jsx";
@@ -16,6 +17,7 @@ import {AuthContext} from 'context/AuthContext'
 
 
 export default function UserSelfPage() {
+  const navigate = useNavigate();
   // 使用者點擊瀏覽項目最新狀態
   const [userContent, setUserContent] = useState('tweets')
   // tweets 存在這
@@ -33,6 +35,12 @@ export default function UserSelfPage() {
   // 變更瀏覽區塊
   function handleChangeUserContentClick(targetValue) {
     setUserContent(targetValue)
+  }
+
+  // 將 UserOtherFollowPage 要用的瀏覽項目先存起來並跳轉頁面
+  function handleFollowDetailClick(followContent) {
+    localStorage.setItem("followContent", followContent);
+    navigate('/user/self/follow')
   }
 
   // 透過 API 撈資料
@@ -77,9 +85,9 @@ export default function UserSelfPage() {
     <MainContainer >
       <LeftBanner />
       <MiddleColumnContainer>
-        <TopUserSection />
+        <TopUserSection handleFollowDetailClick={handleFollowDetailClick} />
         <ChangeUserContent userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
-        {userContent === 'tweets' && <TweetCollection tweets={tweets} />}
+        {userContent === 'tweets' && <TweetCollection tweets={tweets} fromPage='/user/self' />}
         {userContent === 'replies' && <ReplyCollectionUser replies={replies} userDetail={savedUserInfoParsed} />}
         {userContent === 'likes' && <LikeCollection likes={likes} />}
       </MiddleColumnContainer>
