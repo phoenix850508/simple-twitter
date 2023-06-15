@@ -9,7 +9,6 @@ import cross from 'icons/cross.svg'
 import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTweetButton'
 import {useState, useContext} from 'react'
 import { AuthContext } from 'context/AuthContext'
-import {postUnlike} from 'api/tweets'
 import clsx from 'clsx'
 
 export default function TopReplyListSection({ singleTweetInfo }) {
@@ -20,7 +19,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
   let userAvatar = ''
   let userName = ''
   let userAccount = ''
-  const {postReply, postLike} = useContext(AuthContext)
+  const {postReply, postLike, postUnlike} = useContext(AuthContext)
   const [replyTweet, setReplyTweet] = useState('')
   const [replyNum, setReplyNum] = useState(replyCount)
   const [isLikedBoolean, setIsLikedBoolean] = useState(null)
@@ -56,9 +55,9 @@ export default function TopReplyListSection({ singleTweetInfo }) {
     }
   }
 
-  // 喜歡功能
+  // 喜歡和取消喜歡功能
   const handleLike = async () => {
-    if (isLikedBoolean? isLikedBoolean === "true" : isLiked === true) {
+    if (isLikedBoolean? isLikedBoolean === "true" : isLiked === true){
       const response = await postUnlike(id)
       setIsLikedBoolean("false")
       //若取消喜歡成功
@@ -79,7 +78,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
     }
     if (isLikedBoolean? isLikedBoolean === "false" : isLiked === false) {
       const response = await postLike(id)
-      setIsLikedBoolean("true")
+      // setIsLikedBoolean("true")
       if (response.data) {
         //若喜歡喜歡成功
         if (response.data.status === "已加入喜歡！") {
@@ -118,7 +117,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
           <div className={styles.tweetItemIconWrapper}>
             <img className={styles.tweetItemIcon} src={discussion} alt="discussion.svg" onClick={handleShow} />
             {/* 因為無法提前抓到isLiked的值，所以這邊邏輯稍微複雜 */}
-          <img className={styles.tweetItemIcon} src={(isLikedBoolean? (isLikedBoolean? isLikedBoolean === "true" : isLikedBoolean === "false") : isLiked)? likeActive : like} alt="likeActive.svg" onClick={handleLike} />
+          <img className={styles.tweetItemIcon} src={(isLikedBoolean? isLikedBoolean === "true" : isLikedBoolean === 'true')? likeActive : like} alt="likeActive.svg" onClick={handleLike} />
           </div>
         </div>
       </div>
