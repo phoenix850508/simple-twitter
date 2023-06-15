@@ -11,7 +11,7 @@ export default function ChangeUserContentForFollow({ userContent, handleChangeUs
             [styles.changeUserContentBtnActive]: userContent === 'followers',
           })}
           value='followers'
-          onClick={e => { handleChangeUserContentClick(e.target.value) }}>追隨者</button>
+          onClick={e => { handleChangeUserContentClick(e.target.value) }}>跟隨者</button>
       </div>
       <div className={styles.changeUserContentBtnDiv}>
         <button
@@ -20,7 +20,7 @@ export default function ChangeUserContentForFollow({ userContent, handleChangeUs
             [styles.changeUserContentBtnActive]: userContent === 'followings',
           })}
           value='followings'
-          onClick={e => { handleChangeUserContentClick(e.target.value) }}>正在追隨</button>
+          onClick={e => { handleChangeUserContentClick(e.target.value) }}>正在跟隨</button>
       </div>
     </div>
   )
