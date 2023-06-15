@@ -7,19 +7,20 @@ import PrevPageBtnToTweets from './PrevPageBtnToTweets/PrevPageBtnToTweets'
 import Modal from 'react-bootstrap/Modal';
 import cross from 'icons/cross.svg'
 import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTweetButton'
-import UserTweetPhoto from 'components/TopTweetSection/TopTweetComponents/UserTweetPhoto'
 import {useState, useContext} from 'react'
-import {postReply, postLike, postUnlike} from 'api/tweets'
+import { AuthContext } from 'context/AuthContext'
+import {postUnlike} from 'api/tweets'
 import clsx from 'clsx'
 
 export default function TopReplyListSection({ singleTweetInfo }) {
   // 該篇推文資訊，可直接解析
-  const { description, createdAt, updatedAt, replyCount, likeCount, isLiked, id } = singleTweetInfo
+  const { description, createdAt, replyCount, likeCount, isLiked, id, countDown } = singleTweetInfo
   // 原以為是 useEffect 出錯結果問題出在下面這行，若直接寫則整個 API 完全不會動
   // const { avatar, name, account } = singleTweetInfo.User
   let userAvatar = ''
   let userName = ''
   let userAccount = ''
+  const {postReply, postLike} = useContext(AuthContext)
   const [replyTweet, setReplyTweet] = useState('')
   const [replyNum, setReplyNum] = useState(replyCount)
   const [isLikedBoolean, setIsLikedBoolean] = useState(null)
@@ -105,7 +106,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
             </div>
           </div>
           <div className={styles.tweetItemInfoContent}>{description}</div>
-          <div className={styles.tweetItemInfoTimeWrapper}>{updatedAt}</div>
+          <div className={styles.tweetItemInfoTimeWrapper}>{createdAt}</div>
           <div className={styles.tweetItemInfoCountWrapper}>
             <div>
               <span className={styles.tweetCount}>{replyCount}</span><span className={styles.tweetWord}>回覆</span>
@@ -128,7 +129,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
         threadUserName={userName}
         threadUserAccount={userAccount}
         threadDescription={description}
-        threadCreatedAt={createdAt}
+        threadCreatedAt={countDown}
         threadUserAvatar={userAvatar}
         onInputChange={
           (replyInput) => {

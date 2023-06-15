@@ -2,7 +2,7 @@ import { login, adminLogin } from "api/auth.js";
 import { createContext, useState, useEffect } from "react";
 import * as jwt from "jsonwebtoken";
 import { useLocation } from "react-router-dom";
-import {postTweets, putUserSelf, getUser, getUserReplies, getUserLikes} from 'api/tweets.js'
+import {postTweets, putUserSelf, getUser, getUserReplies, getUserLikes, postReply} from 'api/tweets.js'
 import { useNavigate } from "react-router-dom";
 
 
@@ -199,6 +199,12 @@ const AuthProvider = ({ children }) => {
           const response = await getUserLikes(id)
           console.log("get all user likes", response)
           if(response.data) setIsUpdatedLikes(true)
+          return response
+        },
+        postReply: async(id, {comment}) => {
+          const response = await postReply(id, {comment})
+          console.log("post a reply", response)
+          if(response.data) setIsUpdatedReplies(true)
           return response
         }
       }}

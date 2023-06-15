@@ -1,5 +1,5 @@
 // React Hook
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 // 元件類
 import MainContainer from "components/MainContainer/MainContainer.jsx";
 import LeftBanner from "components/LeftBanner/LeftBanner.jsx";
@@ -9,6 +9,7 @@ import TopReplyListSection from "components/TopReplyListSection/TopReplyListSect
 import ReplyCollection from "components/ReplyCollection/ReplyCollection";
 // API
 import { getTweetReplyList, getSingleTweet } from '../api/tweets';
+import { AuthContext } from 'context/AuthContext'
 
 export default function ReplyListPage() {
   // 儲存使用者點擊想看的 tweetId 的底下回覆
@@ -18,6 +19,7 @@ export default function ReplyListPage() {
   // const { tweetId } = useContext(AuthContext); 這個寫法 useEffect 裡 id 是 null==
   // tweetId 資料從 localStorage 拿
   const savedTweetId = localStorage.getItem("tweetId");
+  const {isUpdatedReplies, isUpdatedLike} = useContext(AuthContext)
 
   // 透過 API 撈資料
   useEffect(() => {
@@ -47,7 +49,7 @@ export default function ReplyListPage() {
     };
     getTweetReplyListAsync();
     getSingleTweetAsync();
-  }, [savedTweetId]);
+  }, [savedTweetId, isUpdatedReplies, isUpdatedLike]);
 
   return (
     <MainContainer>
