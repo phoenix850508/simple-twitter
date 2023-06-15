@@ -197,15 +197,17 @@
 
 .avatarInput {
   position: absolute;
+  z-index: 999;
   top: 184px;
-  left: 76px;
+  left: 70px;
   opacity: 0;
 }
 
 .bannerInput {
   position: absolute;
+  z-index: 999;
   top: 90px;
-  right: 110px;
+  right: 100px;
   opacity: 0;
 }
 
@@ -234,7 +236,6 @@
 }
 
 .iconCameraUserPhoto {
-  z-index: 999;
   position: absolute;
   top: 184px;
   left: 76px;
