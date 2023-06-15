@@ -10,7 +10,7 @@ export default function LikeCollection({ likes }) {
   return (
     <div className={styles.tweetCollectionContainer}>
       {likes.map((likedTweet) => {
-        const {shortDescription} = likedTweet
+        const { shortDescription } = likedTweet
         const { name, account, avatar } = likedTweet.Tweet.User
         const { id, createdAt, replyCount, likeCount } = likedTweet.Tweet
         return (
