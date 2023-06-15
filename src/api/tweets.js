@@ -246,3 +246,14 @@ export const postUnlike = async (id) => {
     console.error("[Post unlike tweet failed]: ", error.response.data.message);
   }
 };
+
+// admin取得所有使用者資料
+export const getAllUsers = async () => {
+  try {
+    const res = axiosInstance.get("admin/users");
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.error("[Get all users failed]: ", error);
+  }
+};

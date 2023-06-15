@@ -2,7 +2,7 @@ import feather from 'icons/feather.svg'
 import like from 'icons/like.svg'
 import styles from './UserCard.module.scss'
 
-export default function UserCard({avatar, background, name, account, tweetCount, likeCount, followerCount, followingCount}) {
+export default function UserCard({avatar, background, name, account, tweetCount, likeCount, followersCount, followingCount}) {
   return (
     <div className={styles.card}>
       <div className={styles.imgContainer}>

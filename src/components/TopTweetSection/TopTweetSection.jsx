@@ -15,6 +15,8 @@ export default function TopTweetSection() {
   const [errorMsg, setErrorMsg] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
   const { postTweets, isTweetUpdated } = useContext(AuthContext);
+  const savedUserInfo = localStorage.getItem("userInfo")
+  const savedUserInfoParsed = JSON.parse(savedUserInfo)
   const clearForm = () => {
     setTweet('');
   };
@@ -46,7 +48,7 @@ export default function TopTweetSection() {
       </section>
       <section className={styles.postingSec} onClick={handleShow}>
         <div className={styles.posting}>
-          <UserTweetPhoto />
+          <img className={styles.avatar} src={savedUserInfoParsed.avatar} alt="avatar" />
           <h5 className={styles.placeholder}>有什麼新鮮事？</h5>
         </div>
         <div className={styles.btnContainer}>
@@ -65,8 +67,3 @@ export default function TopTweetSection() {
     </div>
   )
 } 
-
-// export const handleTweetClick = (e) => {
-//   if(!e.target.className.includes("TopTweetSection")) return 
-
-// }
