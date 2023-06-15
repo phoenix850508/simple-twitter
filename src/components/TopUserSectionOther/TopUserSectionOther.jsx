@@ -1,5 +1,5 @@
 // React Hook
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './TopUserSectionOther.module.scss'
 import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 import dummyBackgroundImage2 from 'icons/dummyBackgroundImage2.svg'
@@ -14,15 +14,19 @@ import PrePageBtn from 'components/PrevPageBtn/PrevPageBtn.jsx'
 import { postUserFollow, deleteUserFollow } from 'api/tweets'
 
 
-export default function TopUserSectionOther({ notification, handleNotiClick, userDetail, handleFollowDetailClick, followerCountTemp, changeFollowerCountTemp, isFollowedStatus, setIsFollowedStatus }) {
+export default function TopUserSectionOther({ notification, handleNotiClick, userDetail, handleFollowDetailClick, followerCount, isFollowed }) {
   // 拿到該使用者資料
   const { id, name, account, avatar, introduction, followingCount, tweetCount } = userDetail
 
   // 拿 authToken
   const authToken = localStorage.getItem("authToken");
 
-  // 是否追蹤暫存在這
-  // const [isFollowedStatus, setIsFollowedStatus] = useState(isFollowed)
+  // 是否跟隨暫存在這
+  const [isFollowedStatus, setIsFollowedStatus] = useState(isFollowed)
+  // 跟隨人數暫存在這
+  const [followerCountTemp, setFollowerCountTemp] = useState(followerCount)
+  console.log('isFollowed', isFollowed)
+  console.log('isFollowedStatus', isFollowedStatus)
 
   // 去撈跟隨 API
   const postUserFollowAsync = async (authToken, id) => {
@@ -49,13 +53,18 @@ export default function TopUserSectionOther({ notification, handleNotiClick, use
   function handleFollowClick() {
     if (isFollowedStatus) {
       deleteUserFollowAsync(authToken, id)
-      changeFollowerCountTemp(followerCountTemp - 1)
+      setFollowerCountTemp(followerCountTemp - 1)
     } else {
       postUserFollowAsync(authToken, id)
-      changeFollowerCountTemp(followerCountTemp + 1)
+      setFollowerCountTemp(followerCountTemp + 1)
     }
     setIsFollowedStatus(!isFollowedStatus)
   }
+
+  useEffect(() => {
+    setIsFollowedStatus(isFollowed)
+    setFollowerCountTemp(followerCount);
+  }, [isFollowed, followerCount]);
 
   return (
     <div>
