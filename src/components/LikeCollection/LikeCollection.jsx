@@ -5,13 +5,14 @@ import { useState } from 'react';
 import LikeItem from "components/LikeItem/LikeItem.jsx";
 import dummyTweets from "./dummyTweets";
 
-export default function LikeCollection({likes}) {
+export default function LikeCollection({ likes }) {
 
   return (
     <div className={styles.tweetCollectionContainer}>
       {likes.map((likedTweet) => {
         const { name, account, avatar } = likedTweet.Tweet.User
-        const { id, description, createdAt, replyCount, likeCount } = likedTweet.Tweet
+        const { id, createdAt, replyCount, likeCount } = likedTweet.Tweet
+        const description = likedTweet.shortDescription
         return (
           <LikeItem
             key={id}

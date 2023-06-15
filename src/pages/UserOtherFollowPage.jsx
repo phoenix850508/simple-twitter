@@ -9,7 +9,7 @@ import ChangeUserContentForFollow from 'components/ChangeUserContentForFollow/Ch
 import FollowerCollection from 'components/Follow/FollowerCollection/FollowerCollection';
 import FollowingCollection from 'components/Follow/FollowingCollection/FollowingCollection';
 // API
-import { getUserFollowings, getUserFollowers } from '../api/tweets';
+import { getUserFollowings, getUserFollowers, getUser } from '../api/tweets';
 
 export default function UserOtherFollowPage() {
   // 先從 localStorage 拿使用者在 UserOtherPage 存的 userContent 當作初始值
@@ -23,6 +23,8 @@ export default function UserOtherFollowPage() {
   const [otherUserFollowings, setOtherUserFollowings] = useState([])
   // 儲存 user other 的 followers
   const [otherUserFollowers, setOtherUserFollowers] = useState([])
+  const [tweetCount, setTweetCount] = useState(null)
+  const [otherUserName, setOtherUserName] = useState(null)
 
   // 改變使用者瀏覽區塊
   function handleChangeUserContentClick(targetValue) {
@@ -53,8 +55,20 @@ export default function UserOtherFollowPage() {
         console.error(error);
       }
     }
+    // 撈取該使用者資訊
+    const getUserAsync = async () => {
+      try {
+        const response = await getUser(savedOtherUserId)
+        setTweetCount(response.data.tweetCount)
+        setOtherUserName(response.data.name)
+      } catch (error) {
+        console.error(error);
+      }
+
+    }
     getUserFollowingsAsync();
     getUserFollowersAsync()
+    getUserAsync()
   }, [savedOtherUserId]);
 
 
@@ -63,7 +77,7 @@ export default function UserOtherFollowPage() {
       <LeftBanner />
       <MiddleColumnContainer>
         <div className={styles.prePageBtnForFollow}>
-          <PrePageBtn />
+          <PrePageBtn toPage='/user/other' name={otherUserName} tweetCount={tweetCount} />
         </div>
         <ChangeUserContentForFollow userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
         {userContent === 'followers' && <FollowerCollection followers={otherUserFollowers} />}

@@ -3,6 +3,7 @@ import styles from "./TweetItem.module.scss";
 import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 import discussion from 'icons/discussion.svg'
 import like from 'icons/like.svg'
+import likeActive from 'icons/likeActive.svg'
 import Modal from 'react-bootstrap/Modal';
 import cross from 'icons/cross.svg'
 import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTweetButton'
@@ -14,12 +15,11 @@ import likeActive from 'icons/likeActive.svg'
 // 引用封裝好的 Context 資訊
 import { AuthContext } from 'context/AuthContext.jsx';
 
-export default function TweetItem({ id, UserId, name, account, description, createdAt, replyCount, likeCount, avatar, isLiked }) {
+export default function TweetItem({ id, UserId, name, account, description, createdAt, replyCount, likeCount, avatar, isLiked, fromPage }) {
   const navigate = useNavigate();
-  // 使用蟲洞從 authContext.js 拿資料：savedUserInfoId
-  // const savedUserInfo = localStorage.getItem("userInfo")
-  // const savedUserInfoParsed = JSON.parse(savedUserInfo)
-  // const savedUserInfoId = savedUserInfoParsed.id
+  const savedUserInfo = localStorage.getItem("userInfo")
+  const savedUserInfoParsed = JSON.parse(savedUserInfo)
+  const savedUserInfoId = savedUserInfoParsed.id
   const { handleSetTweetIdClick } = useContext(AuthContext);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -33,6 +33,8 @@ export default function TweetItem({ id, UserId, name, account, description, crea
   const onTweetClick = (tweetIdReceived) => {
     // 在 Context 用 state 管理，把該推文 ID 存起來
     handleSetTweetIdClick(tweetIdReceived)
+    // 把 fromPage 存起來方便 ReplyListPage 做上一頁導向判斷
+    localStorage.setItem("fromPage", fromPage);
     navigate('/replylist')
   }
 
@@ -98,9 +100,16 @@ export default function TweetItem({ id, UserId, name, account, description, crea
         <button
           className={styles.avatarWrapper}
           onClick={() => {
-            // 將該推文作者的使用者 id 存在 localStorage
-            localStorage.setItem("otherUserId", UserId);
-            navigate('/user/other')
+            console.log('UserIdUserIdUserId', UserId)
+            console.log('savedUserInfoId', savedUserInfoId)
+            // 如果是 user 按自己頭像要導回 user self
+            if (UserId === savedUserInfoId) {
+              navigate('/user/self')
+            } else {
+              // 將該推文作者的使用者 id 存在 localStorage 並跳轉至 user other
+              localStorage.setItem("otherUserId", UserId);
+              navigate('/user/other')
+            }
           }}>
           <img className={styles.avatar} src={avatar ? avatar : avatarDefaultMini} alt='avatar' />
         </button>
