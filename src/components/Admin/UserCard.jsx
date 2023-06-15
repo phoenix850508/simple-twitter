@@ -4,7 +4,7 @@ import styles from './UserCard.module.scss'
 import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 import dummyBackgroundImage from 'icons/dummyBackgroundImage.svg'
 
-export default function UserCard({avatar, background, name, account, tweetCount, likeCount, followersCount, followingsCount}) {
+export default function UserCard({avatar, background, name, account, tweetsCount, likesCount, followersCount, followingsCount}) {
   return (
     <div className={styles.card}>
       <div className={styles.imgContainer}>
@@ -19,11 +19,11 @@ export default function UserCard({avatar, background, name, account, tweetCount,
         <div className={styles.actionIcons}>
           <div className={styles.tweetCountContainer}>
             <img src={feather} alt="feather.svg" />
-            <span className={styles.tweetCount}>{tweetCount}</span>
+            <span className={styles.tweetCount}>{tweetsCount}</span>
           </div>
           <div className={styles.likeContainer}>
             <img src={like} alt="like.svg" />
-            <span className={styles.likeCount}>{likeCount}</span>
+            <span className={styles.likeCount}>{likesCount}</span>
           </div>
         </div>
         <div className={styles.followContainer}>

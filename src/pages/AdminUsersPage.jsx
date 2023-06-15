@@ -33,7 +33,7 @@ export default function AdminUsersPage() {
        <AdminRightContainer title={"使用者列表"}>
         {userAvatar}
         {users.map((user) => {
-          return <UserCard key={user.id} avatar={user.avatar} background={user.banner} name={user.name} account={user.account} tweetCount={user.tweetCount} likeCount={user.likeCount} followersCount={user.followersCount} followingsCount={user.followingsCount} />
+          return <UserCard key={user.id} avatar={user.avatar} background={user.banner} name={user.name} account={user.account} tweetsCount={user.tweetsCount} likesCount={user.likesCount} followersCount={user.followersCount} followingsCount={user.followingsCount} />
         })}
        </AdminRightContainer>
       </AdminContainer>
