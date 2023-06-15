@@ -10,7 +10,6 @@ import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTwe
 import { postReply, postLike, postUnlike } from 'api/tweets'
 import { useState, useContext } from 'react'
 import clsx from 'clsx'
-import likeActive from 'icons/likeActive.svg'
 // 引用封裝好的 Context 資訊
 import { AuthContext } from 'context/AuthContext.jsx';
 
