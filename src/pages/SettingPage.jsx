@@ -8,6 +8,7 @@ import { useState } from 'react'
 import clsx from 'clsx'
 import { getUser, putUserSelf } from 'api/tweets.js'
 import { useEffect } from 'react'
+import {useNavigate} from 'react-router-dom'
 
 export default function SettingPage() {
   const savedUserInfo = localStorage.getItem("userInfo")
@@ -20,6 +21,7 @@ export default function SettingPage() {
   const [checkPassword, setCheckPassword] = useState('')
   const [isPasswordEqual, setIsPasswordEqual] = useState(true)
   const [dataObject, setDataObject] = useState(null)
+  const navigate = useNavigate()
   // 這邊的errorMsg是用來判斷若後端response的資料不存在或有誤，可以讓<AuthInput/>可以製造出相對的錯誤訊息
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -57,6 +59,7 @@ export default function SettingPage() {
     else if (!response.response) {
       if (response.data) {
         alert('successfully updated')
+        navigate('/user/self')
       }
     }
   }
@@ -84,7 +87,7 @@ export default function SettingPage() {
               placeholder={"請輸入帳號"}
               onChange={(accountInput) => {
                 setErrorMsg('')
-                setAccount(accountInput)
+                setAccount(accountInput && accountInput)
               }}
               borderLine={clsx('', { [styles.accountBorderLineError]: errorMsg === "Error: 帳號已存在！" })}
               value={dataObject && dataObject.account}
@@ -94,7 +97,7 @@ export default function SettingPage() {
               label={"名稱"}
               placeholder={"請輸入名稱"}
               borderLine={clsx('', { [styles.nameLengthError]: name.length > 50 })}
-              onChange={(nameInput) => setName(nameInput)}
+              onChange={(nameInput) => setName(nameInput && nameInput)}
               value={dataObject && dataObject.name}
             />
             <AuthInput
@@ -103,7 +106,7 @@ export default function SettingPage() {
               placeholder={"請輸入 Email"}
               onChange={(emailInput) => {
                 setErrorMsg('')
-                setEmail(emailInput)
+                setEmail(emailInput && emailInput)
               }}
               borderLine={clsx('', { [styles.emailBorderLineError]: errorMsg === "Error: 信箱已存在！" })}
               value={dataObject && dataObject.email}
@@ -115,7 +118,7 @@ export default function SettingPage() {
               borderLine={clsx('', { [styles.passwordUnequal]: !isPasswordEqual })}
               onChange={(passwordInput) => {
                 setIsPasswordEqual(true)
-                setPassword(passwordInput)
+                setPassword(passwordInput && passwordInput)
               }}
               type="password"
               value={dataObject && dataObject.password}
@@ -128,7 +131,7 @@ export default function SettingPage() {
               type="password"
               onChange={(passwordConfirmInput) => {
                 setIsPasswordEqual(true)
-                setCheckPassword(passwordConfirmInput)
+                setCheckPassword(passwordConfirmInput && passwordConfirmInput)
               }}
               value={dataObject && dataObject.password}
             />
