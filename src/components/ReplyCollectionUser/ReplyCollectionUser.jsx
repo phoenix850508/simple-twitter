@@ -10,7 +10,7 @@ export default function ReplyCollection({ replies, userDetail }) {
     <div className={styles.replyCollectionContainer}>
       {replies.map((reply) => {
         const { name, account, avatar } = userDetail
-        const { id, comment, createdAt } = reply
+        const { id, shortDescription, createdAt } = reply
         const replyTo = reply.Tweet.User.account
         return (
           <ReplyItem
@@ -18,7 +18,7 @@ export default function ReplyCollection({ replies, userDetail }) {
             name={name}
             account={account}
             avatar={avatar}
-            comment={comment}
+            comment={shortDescription}
             createdAt={createdAt}
             replyTo={replyTo}
           />

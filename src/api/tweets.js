@@ -246,3 +246,13 @@ export const postUnlike = async (id) => {
     console.error("[Post unlike tweet failed]: ", error);
   }
 };
+
+export const getAllUsers = async () => {
+  try {
+    const res = axiosInstance.get("admin/users");
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.error("[Get all users failed]: ", error);
+  }
+};

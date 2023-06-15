@@ -64,6 +64,10 @@ export default function LeftBanner() {
   useEffect(() => {
       clearForm()
   }, [isTweetUpdated])
+
+
+
+
   return (
     <div className={styles.leftBannerContainer}>
       <div className={styles.leftBannerLogo}>

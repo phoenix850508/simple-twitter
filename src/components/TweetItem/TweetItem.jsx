@@ -6,7 +6,6 @@ import like from 'icons/like.svg'
 import Modal from 'react-bootstrap/Modal';
 import cross from 'icons/cross.svg'
 import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTweetButton'
-import UserTweetPhoto from 'components/TopTweetSection/TopTweetComponents/UserTweetPhoto'
 import { postReply, postLike, postUnlike } from 'api/tweets'
 import { useState, useContext } from 'react'
 import clsx from 'clsx'
@@ -150,6 +149,8 @@ export default function TweetItem({ id, UserId, name, account, description, crea
 }
 
 export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserAccount, threadDescription, threadCreatedAt, threadUserAvatar, onInputChange, onSave, borderLine }) {
+  const savedUserInfo = localStorage.getItem("userInfo")
+  const savedUserInfoParsed = JSON.parse(savedUserInfo)
   return (
     <div className={styles.modalContainer}>
       <Modal className={clsx("fade modal show", styles.modal)} show={show} onHide={handleClose}>
@@ -179,7 +180,7 @@ export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserA
             </div>
           </div>
           <div className={styles.modalPost}>
-            <UserTweetPhoto />
+            <img className={styles.avatar} src={savedUserInfoParsed.avatar} alt="avatar" />
             <input className={clsx(styles.modalInput)} type="text" placeholder="推你的回覆" onChange={e => onInputChange?.(e.target.value)} />
             <div className={borderLine}></div>
           </div>
