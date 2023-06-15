@@ -100,7 +100,7 @@ export default function TopUserSection({ handleFollowDetailClick }) {
       <PrePageBtn toPage='/main' name={name} tweetCount={tweetCount} />
       <div className={styles.topUserInfoWrapper}>
         <img className={styles.topUserBanner} src={tempDataObject ? (tempDataObject.banner ? tempDataObject.banner : dummyBackgroundImage) : dummyBackgroundImage} alt="dummyBackgroundImage.svg" />
-        <img className={styles.topUserPhoto} src={tempDataObject ? (tempDataObject.avatar ? tempDataObject.avatar : avatarDefaultMini) : savedUserInfoParsed.avatar} alt='avatar' />
+        <img className={styles.topUserPhoto} src={tempDataObject ? (tempDataObject.avatar ? tempDataObject.avatar : avatarDefaultMini) : (savedUserInfoParsed.avatar? savedUserInfoParsed.avatar : avatarDefaultMini)} alt='avatar' />
         <button className={styles.topUserEditBtn} onClick={handleShowModal} >
           <img src={editUserInfoBtn} alt="editUserInfoBtn.svg" />
         </button>
@@ -142,7 +142,7 @@ export default function TopUserSection({ handleFollowDetailClick }) {
         introValue={intro}
         handleAvatarFile={handleAvatarFile}
         handleBannerFile={handleBannerFile}
-        modalAvatar={tempDataObject ? (tempDataObject.avatar ? tempDataObject.avatar : avatarDefaultMini) : savedUserInfoParsed.avatar}
+        modalAvatar={tempDataObject ? (tempDataObject.avatar ? tempDataObject.avatar : avatarDefaultMini) : (savedUserInfoParsed.avatar? savedUserInfoParsed.avatar : avatarDefaultMini)}
         modalBanner={tempDataObject ? (tempDataObject.banner ? tempDataObject.banner : dummyBackgroundImage) : dummyBackgroundImage}
         handleBannerDelete={() => setBanner(null)}
       />

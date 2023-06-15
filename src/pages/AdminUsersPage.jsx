@@ -7,19 +7,22 @@ import {useState, useEffect} from 'react'
 import {getAllUsers} from 'api/tweets'
 
 export default function AdminUsersPage() {
-  const [users, setUsers] = useState({})
+  const [users, setUsers] = useState([])
   let userAvatar = ''
   const savedUserInfo = localStorage.getItem("userInfo")
   const savedUserInfoParsed = JSON.parse(savedUserInfo)
   if(users && users.data) {
-    const {id, avatar} = users.data
-    userAvatar = avatar
-    console.log(id, avatar)
+    const {avatar} = users.data
+    console.log(avatar)
   }
   useEffect(() => {
     const getAllUsersAsync = async() => {
-      const response = await getAllUsers()
-      setUsers(response)
+      try {
+        const res = await getAllUsers()
+        setUsers(res.data.map((user) => ({ ...user })))
+      } catch (error) {
+        console.error(error)
+      }
     }
     getAllUsersAsync()
   }, [savedUserInfoParsed.id])
@@ -29,9 +32,9 @@ export default function AdminUsersPage() {
        <LeftBannerAdmin />
        <AdminRightContainer title={"使用者列表"}>
         {userAvatar}
-        {/* {users.map((user) => {
-          return <UserCard key={user.id} avatar={user.avatar} background={user.banner} name={user.name} account={user.account} tweetCount={user.tweetCount} likeCount={user.likeCount} followersCount={user.followersCount} followingCount={user.followingCount} />
-        })} */}
+        {users.map((user) => {
+          return <UserCard key={user.id} avatar={user.avatar} background={user.banner} name={user.name} account={user.account} tweetsCount={user.tweetsCount} likesCount={user.likesCount} followersCount={user.followersCount} followingsCount={user.followingsCount} />
+        })}
        </AdminRightContainer>
       </AdminContainer>
     </div>

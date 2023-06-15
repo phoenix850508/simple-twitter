@@ -1,5 +1,7 @@
 import styles from "./TweetCollection.module.scss";
 import TweetItem from "components/TweetItem/TweetItem.jsx";
+import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
+
 // import dummyTweets from "./dummyTweets";
 
 export default function TweetCollection({ tweets, fromPage }) {
@@ -20,7 +22,7 @@ export default function TweetCollection({ tweets, fromPage }) {
             createdAt={createdAt}
             replyCount={replyCount}
             likeCount={likeCount}
-            avatar={avatar}
+            avatar={avatar ? avatar : avatarDefaultMini}
             isLiked={isLiked}
             fromPage={fromPage}
           />
