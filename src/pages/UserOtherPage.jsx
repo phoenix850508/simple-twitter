@@ -32,6 +32,19 @@ export default function UserOtherPage() {
   // userInfo 資料從 localStorage 拿
   const savedOtherUserId = localStorage.getItem("otherUserId")
 
+  // 拿到該使用者資料
+  let followerCount = 0
+  let isFollowed = false
+  if (otherUserDetail && otherUserDetail.followerCount) {
+    followerCount = otherUserDetail.followerCount
+    isFollowed = otherUserDetail.isFollowed
+  }
+  // followerCount 暫存在這，方便畫面即時更新
+  const [followerCountTemp, setFollowerCountTemp] = useState(followerCount)
+  console.log('我要看我要看我要看followerCountTemp', followerCountTemp)
+  // 是否追蹤暫存在這
+  const [isFollowedStatus, setIsFollowedStatus] = useState(isFollowed)
+  console.log('我要看我要看我要看isFollowedStatus', isFollowedStatus)
 
   // 變更瀏覽區塊
   function handleChangeUserContentClick(targetValue) {
@@ -107,7 +120,16 @@ export default function UserOtherPage() {
     <MainContainer>
       <LeftBanner />
       <MiddleColumnContainer>
-        <TopUserSectionOther notification={notification} handleNotiClick={handleNotiClick} userDetail={otherUserDetail} handleFollowDetailClick={handleFollowDetailClick} />
+        <TopUserSectionOther
+          notification={notification}
+          handleNotiClick={handleNotiClick}
+          userDetail={otherUserDetail}
+          handleFollowDetailClick={handleFollowDetailClick}
+          followerCountTemp={followerCountTemp}
+          changeFollowerCountTemp={setFollowerCountTemp}
+          isFollowedStatus={isFollowedStatus}
+          setIsFollowedStatus={setIsFollowedStatus}
+        />
         <ChangeUserContent userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
         {userContent === 'tweets' && <TweetCollection tweets={tweets} fromPage='/user/other' />}
         {userContent === 'replies' && <ReplyCollectionUser replies={replies} userDetail={otherUserDetail} />}

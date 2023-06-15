@@ -14,15 +14,15 @@ import PrePageBtn from 'components/PrevPageBtn/PrevPageBtn.jsx'
 import { postUserFollow, deleteUserFollow } from 'api/tweets'
 
 
-export default function TopUserSectionOther({ notification, handleNotiClick, userDetail, handleFollowDetailClick }) {
+export default function TopUserSectionOther({ notification, handleNotiClick, userDetail, handleFollowDetailClick, followerCountTemp, changeFollowerCountTemp, isFollowedStatus, setIsFollowedStatus }) {
   // 拿到該使用者資料
-  const { id, name, account, avatar, introduction, followingCount, followerCount, isFollowed, tweetCount } = userDetail
+  const { id, name, account, avatar, introduction, followingCount, tweetCount } = userDetail
 
   // 拿 authToken
   const authToken = localStorage.getItem("authToken");
 
   // 是否追蹤暫存在這
-  const [isFollowedStatus, setIsFollowedStatus] = useState(isFollowed)
+  // const [isFollowedStatus, setIsFollowedStatus] = useState(isFollowed)
 
   // 去撈跟隨 API
   const postUserFollowAsync = async (authToken, id) => {
@@ -49,15 +49,17 @@ export default function TopUserSectionOther({ notification, handleNotiClick, use
   function handleFollowClick() {
     if (isFollowedStatus) {
       deleteUserFollowAsync(authToken, id)
+      changeFollowerCountTemp(followerCountTemp - 1)
     } else {
       postUserFollowAsync(authToken, id)
+      changeFollowerCountTemp(followerCountTemp + 1)
     }
     setIsFollowedStatus(!isFollowedStatus)
   }
 
   return (
     <div>
-      <PrePageBtn toPage='/main' name={name} tweetCount={tweetCount}  />
+      <PrePageBtn toPage='/main' name={name} tweetCount={tweetCount} />
       <div className={styles.topUserInfoWrapper}>
         <img src={dummyBackgroundImage2} alt="dummyBackgroundImage2.svg" />
         <img className={styles.topUserPhoto} src={avatar ? avatar : avatarDefaultMini} alt='avatar' />
@@ -98,7 +100,7 @@ export default function TopUserSectionOther({ notification, handleNotiClick, use
                 value='followers'
                 onClick={e => { handleFollowDetailClick(e.currentTarget.value) }}
               >
-                <span className={styles.topUserFollowCount}>{followerCount}</span><span className={styles.topUserFollowWord}>跟隨者</span>
+                <span className={styles.topUserFollowCount}>{followerCountTemp}</span><span className={styles.topUserFollowWord}>跟隨者</span>
               </button>
             </div>
           </div>
