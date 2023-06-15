@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import Modal from 'react-bootstrap/Modal';
 import cross from 'icons/cross.svg'
 import TopTweetButton from './TopTweetButton'
+import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 import { useState, useEffect } from 'react';
 import {getUser} from 'api/tweets'
 
@@ -37,7 +38,7 @@ export default function TopTweetModal({modal, modalHeader, modalClose, modalBody
         </Modal.Header>
         <Modal.Body className={clsx(styles.modalBody, modalBody)}>
           <div className={styles.modalPost}>
-            <img className={styles.avatar} src={dataObject && dataObject.avatar} alt="avatar" />
+            <img className={styles.avatar} src={dataObject &&  dataObject.avatar? dataObject.avatar : avatarDefaultMini} alt="avatar" />
             <div className={styles.inputWrapper}>
             <input 
             className={clsx(styles.modalInput, modalInput)}
