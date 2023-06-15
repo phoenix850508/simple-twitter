@@ -32,6 +32,9 @@ export default function UserSelfPage() {
   const savedUserInfoParsed = JSON.parse(savedUserInfo)
   const savedUserInfoId = savedUserInfoParsed.id
 
+  // 為了顯示左側按鈕顏色需做判斷，共有 1、2、3
+  const currentPage = 2
+
   // 變更瀏覽區塊
   function handleChangeUserContentClick(targetValue) {
     setUserContent(targetValue)
@@ -83,7 +86,7 @@ export default function UserSelfPage() {
 
   return (
     <MainContainer >
-      <LeftBanner />
+      <LeftBanner currentPage={currentPage} />
       <MiddleColumnContainer>
         <TopUserSection handleFollowDetailClick={handleFollowDetailClick} />
         <ChangeUserContent userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />

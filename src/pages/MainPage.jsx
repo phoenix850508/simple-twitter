@@ -18,6 +18,9 @@ export default function MainPage() {
   const [tweets, setTweets] = useState([]);
   const { isTweetUpdated } = useContext(AuthContext);
 
+  // 為了顯示左側按鈕顏色需做判斷，共有 1、2、3
+  const currentPage = 1
+
   // 透過 API 撈初始資料
   useEffect(() => {
     const getTweetsAsync = async () => {
@@ -33,7 +36,7 @@ export default function MainPage() {
 
   return (
     <MainContainer>
-      <LeftBanner />
+      <LeftBanner currentPage={currentPage} />
       <MiddleColumnContainer>
         <TopTweetSection />
         <TweetCollection tweets={tweets} fromPage='/main' />
