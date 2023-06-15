@@ -15,7 +15,7 @@ export default function AdminTweetItem({ id, name, account, description, created
           <img src={crossDark} alt="crossDark.svg" />
         </button>
         <div>
-          <img className={styles.avatar} src={avatar} alt={avatarDefaultMini} />
+          <img className={styles.avatar} src={avatar ? avatar : avatarDefaultMini} alt='avatar' />
         </div>
         <div className={styles.tweetItemInfoWrapper}>
           <div className={styles.tweetItemInfoUser}>
