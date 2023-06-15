@@ -113,7 +113,7 @@ export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserA
             </div>
           </div>
           <div className={styles.modalPost}>
-            <img className={styles.avatar} src={savedUserInfoParsed.avatar} alt="avatar" />
+            <img className={styles.avatar} src={savedUserInfoParsed.avatar? savedUserInfoParsed.avatar : avatarDefaultMini} alt="avatar" />
             <input className={clsx(styles.modalInput)} type="text" placeholder="推你的回覆" onChange={e => onInputChange?.(e.target.value)} />
             <div className={borderLine}></div>
           </div>
