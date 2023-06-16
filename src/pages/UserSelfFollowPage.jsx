@@ -12,18 +12,22 @@ import FollowingCollection from 'components/Follow/FollowingCollection/Following
 import { getUserFollowings, getUserFollowers, getUser } from '../api/tweets';
 
 export default function UserSelfFollowPage() {
+  // 先從 localStorage 拿使用者在 UserOtherPage 存的 userContent 當作初始值
+  const savedFollowContent = localStorage.getItem("followContent");
   // userInfo 資料從 localStorage 拿
   const savedUserInfo = localStorage.getItem("userInfo")
   const savedUserInfoParsed = JSON.parse(savedUserInfo)
   const savedUserId = savedUserInfoParsed.id
 
   // 使用者點擊瀏覽項目最新狀態
-  const [userContent, setUserContent] = useState('followers')
-  // 儲存 user other 的 followings
+  const [userContent, setUserContent] = useState(savedFollowContent)
+  // 儲存 user 的 followings
   const [userFollowings, setUserFollowings] = useState([])
-  // 儲存 user other 的 followers
+  // 儲存 user 的 followers
   const [userFollowers, setUserFollowers] = useState([])
   const [tweetCount, setTweetCount] = useState(null)
+  // 負責觸發 UserSelfFollowPage 與 RightBanner 重新渲染
+  const [flagForRendering, setFlagForRendering] = useState(false)
 
   // 改變瀏覽區塊
   function handleChangeUserContentClick(targetValue) {
@@ -36,7 +40,6 @@ export default function UserSelfFollowPage() {
     const getUserFollowingsAsync = async () => {
       try {
         const followings = await getUserFollowings(savedUserId)
-        console.log('UserOtherFollowPage 裡的 getUserFollowings 回傳值: ', followings)
         // 只會 set 一次所以不用淺拷貝
         setUserFollowings(followings)
       } catch (error) {
@@ -47,7 +50,6 @@ export default function UserSelfFollowPage() {
     const getUserFollowersAsync = async () => {
       try {
         const followers = await getUserFollowers(savedUserId)
-        console.log('UserOtherFollowPage 裡的 getUserFollowers 回傳值: ', followers)
         // 只會 set 一次所以不用淺拷貝
         setUserFollowers(followers)
       } catch (error) {
@@ -67,7 +69,7 @@ export default function UserSelfFollowPage() {
     getUserFollowingsAsync();
     getUserFollowersAsync()
     getUserAsync()
-  }, [savedUserId]);
+  }, [savedUserId, flagForRendering]);
 
   return (
     <MainContainer>
@@ -77,10 +79,10 @@ export default function UserSelfFollowPage() {
           <PrePageBtn toPage='/user/self' name={savedUserInfoParsed.name} tweetCount={tweetCount} />
         </div>
         <ChangeUserContentForFollow userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
-        {userContent === 'followers' && <FollowerCollection followers={userFollowers} />}
-        {userContent === 'followings' && <FollowingCollection followings={userFollowings} />}
+        {userContent === 'followers' && <FollowerCollection followers={userFollowers} flagForRendering={flagForRendering} setFlagForRendering={setFlagForRendering} />}
+        {userContent === 'followings' && <FollowingCollection followings={userFollowings} flagForRendering={flagForRendering} setFlagForRendering={setFlagForRendering} />}
       </MiddleColumnContainer>
-      <RightBanner />
+      <RightBanner flagForRendering={flagForRendering} setFlagForRendering={setFlagForRendering} />
     </MainContainer>
   )
 }

@@ -94,7 +94,7 @@ const AuthProvider = ({ children }) => {
   }, [pathname, isTweetUpdated, isUserEdited, navigate]);
 
 
-  console.log('AuthProvider 重新渲染')
+  // console.log('AuthProvider 重新渲染')
   return (
     <AuthContext.Provider
       value={{

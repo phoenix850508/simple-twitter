@@ -2,7 +2,7 @@ import LeftBannerAdmin from 'components/LeftBannerAdmin/LeftBannerAdmin.jsx'
 import UserCard from 'components/Admin/UserCard.jsx'
 import AdminContainer from 'components/Admin/AdminContainer.jsx'
 import AdminRightContainer from 'components/Admin/AdminRightContainer.jsx'
-import dummyUserCards from 'components/Admin/dummyUserCards.js'
+// import dummyUserCards from 'components/Admin/dummyUserCards.js'
 import { useState, useEffect } from 'react'
 import { getAllUsers } from 'api/tweets'
 

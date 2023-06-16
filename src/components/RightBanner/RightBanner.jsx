@@ -8,18 +8,15 @@ import follow from 'icons/follow.svg'
 import { getTopUsers, postUserFollow, deleteUserFollow } from "api/tweets";
 
 
-export default function RightBanner() {
+export default function RightBanner({ flagForRendering, setFlagForRendering }) {
   // 拿 authToken
   const authToken = localStorage.getItem("authToken");
   // userInfo 資料從 localStorage 拿
   const savedUserInfoParsed = JSON.parse(localStorage.getItem("userInfo"))
   const savedUserId = savedUserInfoParsed && savedUserInfoParsed.id
 
-  // tweets 存在這
+  // topUsers 存在這
   const [topUsers, setTopUsers] = useState([]);
-  // 本來想設置 flag，讓點擊跟隨時畫面能重新渲染，但無效，故轉採子元件設 state 方式
-  const [flagForRendering, setFlagForRendering] = useState(false);
-  console.log('flagForRendering', flagForRendering)
 
   // 去撈跟隨 API
   const postUserFollowAsync = async (authToken, id) => {
@@ -48,12 +45,11 @@ export default function RightBanner() {
     } else {
       await postUserFollowAsync(authToken, idTopUserReceived)
     }
-    setFlagForRendering(!flagForRendering)
+    await setFlagForRendering(!flagForRendering)
   }
 
-  // 透過 API 撈 topUsers 資料
+  // 透過 API 撈所有 topUsers 資料
   useEffect(() => {
-    // 所有 topUsers
     const getTopUsersAsync = async () => {
       try {
         const topUsers = await getTopUsers();
@@ -63,7 +59,9 @@ export default function RightBanner() {
       }
     };
     getTopUsersAsync()
+    console.log('讓 RightBanner 重新渲染')
   }, [flagForRendering]);
+
 
   return (
     <div className={styles.rightBannerContainer}>
@@ -98,8 +96,12 @@ function RecommendCollection({ topUsers, handleFollowClick, savedUserId }) {
 }
 
 function RecommendItem({ id, name, account, avatar, isFollowed, handleFollowClick, savedUserId }) {
-  // 暫存 isFollowed，讓點擊跟隨時畫面能即時回饋給使用者，同時往後端送資料
-  const [isFollowedTemp, setIsFollowedTemp] = useState(isFollowed);
+  // 讓使用者即時看到跟隨按鈕變化
+  const [isFollowedTemp, setIsFollowedTemp] = useState(isFollowed)
+
+  useEffect(() => {
+    setIsFollowedTemp(isFollowed)
+  }, [isFollowed]);
 
   return (
     <div className={styles.recommendItemContainer}>
@@ -118,8 +120,8 @@ function RecommendItem({ id, name, account, avatar, isFollowed, handleFollowClic
           if (id === savedUserId) {
             alert('使用者不能跟隨自己哦，請跟隨其他使用者吧～')
           } else {
-            handleFollowClick(id, isFollowed)
             setIsFollowedTemp(!isFollowedTemp)
+            handleFollowClick(id, isFollowed)
           }
         }}
       >

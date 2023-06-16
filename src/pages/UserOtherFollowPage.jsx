@@ -25,6 +25,8 @@ export default function UserOtherFollowPage() {
   const [otherUserFollowers, setOtherUserFollowers] = useState([])
   const [tweetCount, setTweetCount] = useState(null)
   const [otherUserName, setOtherUserName] = useState(null)
+  // 負責觸發 UserSelfFollowPage 與 RightBanner 重新渲染
+  const [flagForRendering, setFlagForRendering] = useState(false)
 
   // 改變使用者瀏覽區塊
   function handleChangeUserContentClick(targetValue) {
@@ -69,7 +71,7 @@ export default function UserOtherFollowPage() {
     getUserFollowingsAsync();
     getUserFollowersAsync()
     getUserAsync()
-  }, [savedOtherUserId]);
+  }, [savedOtherUserId, flagForRendering]);
 
 
   return (
@@ -80,10 +82,10 @@ export default function UserOtherFollowPage() {
           <PrePageBtn toPage='/user/other' name={otherUserName} tweetCount={tweetCount} />
         </div>
         <ChangeUserContentForFollow userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
-        {userContent === 'followers' && <FollowerCollection followers={otherUserFollowers} />}
-        {userContent === 'followings' && <FollowingCollection followings={otherUserFollowings} />}
+        {userContent === 'followers' && <FollowerCollection followers={otherUserFollowers} flagForRendering={flagForRendering} setFlagForRendering={setFlagForRendering} />}
+        {userContent === 'followings' && <FollowingCollection followings={otherUserFollowings} flagForRendering={flagForRendering} setFlagForRendering={setFlagForRendering} />}
       </MiddleColumnContainer>
-      <RightBanner />
+      <RightBanner flagForRendering={flagForRendering} setFlagForRendering={setFlagForRendering} />
     </MainContainer>
   )
 }
