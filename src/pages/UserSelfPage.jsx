@@ -36,18 +36,6 @@ export default function UserSelfPage() {
   // 設置 flag 讓 TopUserSectionOther 與 RightBanner 能彼此連動
   const [flagForRendering, setFlagForRendering] = useState(false);
 
-  // const [followingCount, setFollowingCount] = useState(0);
-
-
-  // 拿到使用者資料
-  // let followingCount = 0
-  // let followerCount = 0
-  // if (userDetail && userDetail.followingCount) {
-  //   const followingCountTemp = userDetail.followingCount
-  //   setFollowingCount(followingCountTemp)
-  // }
-
-
   // 為了顯示左側按鈕顏色需做判斷，共有 1、2、3
   const currentPage = 2
 

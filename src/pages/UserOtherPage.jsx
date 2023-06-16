@@ -12,7 +12,7 @@ import TweetCollection from "components/TweetCollection/TweetCollection.jsx";
 import ReplyCollectionUser from 'components/ReplyCollectionUser/ReplyCollectionUser';
 import LikeCollection from 'components/LikeCollection/LikeCollection';
 // API
-import { getUserTweets, getUserReplies, getUserLikes, getUser } from '../api/tweets';
+import { getUser, getUserTweets, getUserReplies, getUserLikes } from '../api/tweets';
 
 
 export default function UserOtherPage() {

@@ -21,11 +21,13 @@ export default function UserSelfFollowPage() {
 
   // 使用者點擊瀏覽項目最新狀態
   const [userContent, setUserContent] = useState(savedFollowContent)
-  // 儲存 user other 的 followings
+  // 儲存 user 的 followings
   const [userFollowings, setUserFollowings] = useState([])
-  // 儲存 user other 的 followers
+  // 儲存 user 的 followers
   const [userFollowers, setUserFollowers] = useState([])
   const [tweetCount, setTweetCount] = useState(null)
+  // 負責觸發 UserSelfFollowPage 與 RightBanner 重新渲染
+  const [flagForRendering, setFlagForRendering] = useState(false)
 
   // 改變瀏覽區塊
   function handleChangeUserContentClick(targetValue) {
@@ -67,7 +69,7 @@ export default function UserSelfFollowPage() {
     getUserFollowingsAsync();
     getUserFollowersAsync()
     getUserAsync()
-  }, [savedUserId]);
+  }, [savedUserId, flagForRendering]);
 
   return (
     <MainContainer>
@@ -77,10 +79,10 @@ export default function UserSelfFollowPage() {
           <PrePageBtn toPage='/user/self' name={savedUserInfoParsed.name} tweetCount={tweetCount} />
         </div>
         <ChangeUserContentForFollow userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
-        {userContent === 'followers' && <FollowerCollection followers={userFollowers} />}
-        {userContent === 'followings' && <FollowingCollection followings={userFollowings} />}
+        {userContent === 'followers' && <FollowerCollection followers={userFollowers} flagForRendering={flagForRendering} setFlagForRendering={setFlagForRendering} />}
+        {userContent === 'followings' && <FollowingCollection followings={userFollowings} flagForRendering={flagForRendering} setFlagForRendering={setFlagForRendering} />}
       </MiddleColumnContainer>
-      <RightBanner />
+      <RightBanner flagForRendering={flagForRendering} setFlagForRendering={setFlagForRendering} />
     </MainContainer>
   )
 }

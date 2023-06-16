@@ -35,8 +35,6 @@ export default function TopUserSection({ handleFollowDetailClick, followingCount
 
   // following 人數暫存在這，而 follower 人數不會因 user 行為而改變所以不用放
   const [followingCountTemp, setFollowingCountTemp] = useState(followingCount)
-  console.log('我要看！', followingCountTemp)
-
 
   const handleShowModal = () => {
     handleShow();
@@ -121,7 +119,7 @@ export default function TopUserSection({ handleFollowDetailClick, followingCount
                 onClick={e => { handleFollowDetailClick(e.currentTarget.value) }}
               >
                 {/* <span className={styles.topUserFollowCount}>{tempDataObject ? tempDataObject.followingCount : followingCountTemp}</span><span className={styles.topUserFollowWord}>跟隨中</span> */}
-                <span className={styles.topUserFollowCount}>{followingCountTemp ? followingCountTemp : 100}</span><span className={styles.topUserFollowWord}>跟隨中</span>
+                <span className={styles.topUserFollowCount}>{followingCountTemp && followingCountTemp}</span><span className={styles.topUserFollowWord}>跟隨中</span>
               </button>
             </div>
             <div className={styles.topUserFollowerWrapper}>
