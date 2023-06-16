@@ -10,8 +10,10 @@ import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTwe
 import {useState, useContext} from 'react'
 import { AuthContext } from 'context/AuthContext'
 import clsx from 'clsx'
+import { useEffect } from 'react'
 
 export default function TopReplyListSection({ singleTweetInfo }) {
+  console.log("我被執行了")
   // 該篇推文資訊，可直接解析
   const { description, createdAt, replyCount, likeCount, isLiked, id, countDown } = singleTweetInfo
   // 原以為是 useEffect 出錯結果問題出在下面這行，若直接寫則整個 API 完全不會動
@@ -21,11 +23,12 @@ export default function TopReplyListSection({ singleTweetInfo }) {
   let userAccount = ''
   const {postReply, postLike, postUnlike} = useContext(AuthContext)
   const [replyTweet, setReplyTweet] = useState('')
-  const [replyNum, setReplyNum] = useState(replyCount)
+  // const [replyNum, setReplyNum] = useState(replyCount)
   const [isLikedBoolean, setIsLikedBoolean] = useState(null)
-  const [likeNum, setLikeNum] = useState(0)
+  // const [likeNum, setLikeNum] = useState(0)
   const [errorMsg, setErrorMsg] = useState(false)
   const [show, setShow] = useState(false);
+  const [objectData, setObjectData] = useState(null)
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   // 不太確定為什麼會需要繞一圈才取得到 User 內的值？？？
@@ -46,7 +49,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
     //若新增推文成功
     if (response.data.comment) {
       handleClose()
-      setReplyNum(replyNum + 1)
+      // setReplyNum(replyNum + 1)
       return
     }
     else {
@@ -64,13 +67,14 @@ export default function TopReplyListSection({ singleTweetInfo }) {
       //若取消喜歡成功
       if (response.data) {
         if (response.data.message === "Like 取消成功") {
+          setObjectData(...objectData, objectData.likeCount = objectData.likeCount - 1, objectData.likeCount.isLiked = false)
           //防止資料庫錯誤，若likeNum > 0則讓likeNum - 1
-          setLikeNum(() => {
-            if (likeNum) {
-              return likeNum - 1
-            }
-            else return likeNum
-          })
+          // setLikeNum(() => {
+          //   if (likeNum) {
+          //     return likeNum - 1
+          //   }
+          //   else return likeNum
+          // })
         }
       }
       else {
@@ -84,7 +88,8 @@ export default function TopReplyListSection({ singleTweetInfo }) {
       if (response.data) {
         //若喜歡喜歡成功
         if (response.data.status === "已加入喜歡！") {
-          setLikeNum(likeNum + 1)
+          // setLikeNum(likeNum + 1)
+          setObjectData(...objectData, objectData.likeCount = objectData.likeCount + 1, objectData.likeCount.isLiked = true)
         }
         else {
           return alert("新增喜歡失敗")
@@ -92,6 +97,11 @@ export default function TopReplyListSection({ singleTweetInfo }) {
       }
     }
   }
+
+  useEffect(() => {
+    // sessionStorage.setItem('singleTweetInfo', JSON.stringify(singleTweetInfo))
+    setObjectData(singleTweetInfo)
+  },[singleTweetInfo])
   return (
     <>
       <PrevPageBtnToTweets />
