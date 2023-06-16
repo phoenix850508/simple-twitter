@@ -156,7 +156,6 @@
   --bs-modal-width: 634px;
 
   &Content {
-    outline: solid red 2px;
     border-radius: 40px;
   }
 
@@ -186,15 +185,35 @@
     flex: none;
     padding: 0;
     height: 443px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 0 16px;
   }
 
   &Post {
     position: relative;
-    margin-top: 16px;
     padding: 0 24px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 8px;
+  }
+
+  &TweetItemInfoWrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    gap: 8px;
+    width: 528px;
+  }
+
+  &UserTweetItemInfo {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  &InputContainer {
+    margin-top: 40px;
   }
 
   &Input {
@@ -238,18 +257,14 @@
 .tweetItemInfo {
   &Wrapper {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
     padding: 0px;
     gap: 8px;
     width: 528px;
-    height: 136px;
   }
 
   &User {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     padding: 0px;
     gap: 8px;
     height: 26px;
@@ -285,6 +300,7 @@
 
     // Tweet 文字內容
     .tweetItemInfoContent {
+      height: 80px;
       text-align: left;
       font-weight: 400;
       font-size: 16px;

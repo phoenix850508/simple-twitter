@@ -167,8 +167,8 @@ export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserA
             <div className={styles.replyModaldAvatarContainer}>
               <img className={styles.threadUserAvatar} src={threadUserAvatar? threadUserAvatar : avatarDefaultMini} alt="avatarDefaultMini.svg" />
             </div>
-            <div className={styles.tweetItemInfoWrapper}>
-              <div className={styles.tweetItemInfoUser}>
+            <div className={clsx(styles.modalTweetItemInfoWrapper)}>
+              <div className={styles.modalUserTweetItemInfo}>
                 <div className={styles.tweetItemInfoUserName}>{threadUserName}</div>
                 <div className={styles.tweetItemInfoUserDetail}>@{threadUserAccount}・{threadCreatedAt}</div>
               </div>
@@ -178,7 +178,7 @@ export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserA
               </div>
             </div>
           </div>
-          <div className={styles.modalPost}>
+          <div className={clsx(styles.modalPost, styles.modalInputContainer)}>
             <img className={styles.threadUserAvatar} src={savedUserInfoParsed.avatar? savedUserInfoParsed.avatar: avatarDefaultMini} alt="avatar" />
             <input className={clsx(styles.modalInput)} type="text" placeholder="推你的回覆" onChange={e => onInputChange?.(e.target.value)} />
             <div className={borderLine}></div>
