@@ -26,7 +26,7 @@ export default function UserSelfPage() {
   const [replies, setReplies] = useState([]);
   // 喜歡過的推特存在這
   const [likes, setLikes] = useState([]);
-  const { isUpdatedLike, isUpdatedReplies } = useContext(AuthContext)
+  const {isUpdatedRepliesLikes} = useContext(AuthContext)
   // 使用者詳細帳號資訊
   const [userDetail, setUserDetail] = useState({})
   // userId 從 localStorage 拿
@@ -110,7 +110,7 @@ export default function UserSelfPage() {
       getUserLikesAsync();
       getUserAsync()
     }
-  }, [savedUserInfoId, isUpdatedLike, isUpdatedReplies, flagForRendering]);
+  }, [savedUserInfoId, isUpdatedRepliesLikes, flagForRendering]);
 
   return (
     <MainContainer >

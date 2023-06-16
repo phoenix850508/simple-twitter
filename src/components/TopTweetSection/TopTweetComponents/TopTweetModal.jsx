@@ -11,7 +11,7 @@ import {getUser} from 'api/tweets'
 
 
 export default function TopTweetModal({modal, modalHeader, modalClose, modalBody, modalInput, modalSubmit, handleClose, show, onChange, value, onSubmit, buttonText, borderLine}) {
-  const {isAuthenticated} = useContext(AuthContext)
+  const {isUserEdited} = useContext(AuthContext)
   const savedUserInfo = localStorage.getItem("userInfo")
   const savedUserInfoParsed = JSON.parse(savedUserInfo)
   const savedUserInfoParsedId = savedUserInfoParsed && savedUserInfoParsed.id
@@ -26,7 +26,7 @@ export default function TopTweetModal({modal, modalHeader, modalClose, modalBody
       }
     } 
     getUserAsync();
-  }, [savedUserInfoParsedId, isAuthenticated])
+  }, [savedUserInfoParsedId, isUserEdited])
 
   return (
     <div className={styles.modalContainer}>

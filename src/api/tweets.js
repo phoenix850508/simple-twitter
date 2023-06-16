@@ -223,6 +223,7 @@ export const postReply = async (id, { comment }) => {
     const res = axiosInstance.post(`${baseUrl}/tweets/${id}/replies`, {
       comment,
     });
+    console.log(res);
     return res;
   } catch (error) {
     console.error("[Post reply tweet failed]: ", error.response.data.message);
@@ -233,6 +234,7 @@ export const postReply = async (id, { comment }) => {
 export const postLike = async (id) => {
   try {
     const res = axiosInstance.post(`/tweets/${id}/like`);
+    console.log(res);
     return res;
   } catch (error) {
     console.error("[Post like tweet failed]: ", error.response.data.message);
@@ -243,6 +245,7 @@ export const postLike = async (id) => {
 export const postUnlike = async (id) => {
   try {
     const res = axiosInstance.post(`/tweets/${id}/unlike`);
+    console.log(res);
     return res;
   } catch (error) {
     console.error("[Post unlike tweet failed]: ", error.response.data.message);

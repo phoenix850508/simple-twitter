@@ -48,7 +48,7 @@ export default function TopTweetSection() {
       </section>
       <section className={styles.postingSec} onClick={handleShow}>
         <div className={styles.posting}>
-          <img className={styles.avatar} src={savedUserInfoParsed? savedUserInfoParsed.avatar : avatarDefaultMini} alt="avatar" />
+          <img className={styles.avatar} src={savedUserInfoParsed? (savedUserInfoParsed.avatar? savedUserInfoParsed.avatar : avatarDefaultMini) : avatarDefaultMini} alt="avatar" />
           <h5 className={styles.placeholder}>有什麼新鮮事？</h5>
         </div>
         <div className={styles.btnContainer}>
