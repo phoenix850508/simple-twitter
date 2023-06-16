@@ -104,6 +104,7 @@ export const getUserReplies = async (id) => {
     const response = await axiosInstance.get(
       `${baseUrl}/users/${id}/replied_tweets`
     );
+    console.log("tweets.js 裡的 getUserReplies 回傳值: ", response.data);
     return response.data;
   } catch (error) {
     console.error("[Get User Replies failed]: ", error.response.data.message);
@@ -209,6 +210,7 @@ export const postTweets = async ({ description }) => {
 export const getUserLikes = async (id) => {
   try {
     const res = axiosInstance.get(`${baseUrl}/users/${id}/likes`);
+    console.log("tweets.js 裡的 getUserLikes 回傳值: ", res);
     return res;
   } catch (error) {
     console.error("[Get user like failed]: ", error.response.data.message);
@@ -257,6 +259,6 @@ export const getAllUsers = async () => {
     console.log(res);
     return res;
   } catch (error) {
-    console.error("[Get all users failed]: ", error);
+    console.error("[Get all users failed]: ", error.response.data.message);
   }
 };

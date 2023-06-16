@@ -12,8 +12,8 @@ import TweetCollection from "components/TweetCollection/TweetCollection.jsx";
 import ReplyCollectionUser from 'components/ReplyCollectionUser/ReplyCollectionUser';
 import LikeCollection from 'components/LikeCollection/LikeCollection';
 // API
-import { getUserTweets, getUserReplies, getUserLikes } from '../api/tweets';
-import {AuthContext} from 'context/AuthContext'
+import { getUser, getUserTweets, getUserReplies, getUserLikes } from '../api/tweets';
+import { AuthContext } from 'context/AuthContext'
 
 
 export default function UserSelfPage() {
@@ -27,10 +27,14 @@ export default function UserSelfPage() {
   // 喜歡過的推特存在這
   const [likes, setLikes] = useState([]);
   const {isUpdatedRepliesLikes} = useContext(AuthContext)
-  // userInfo 資料從 localStorage 拿
-  const savedUserInfo = localStorage.getItem("userInfo")
-  const savedUserInfoParsed = JSON.parse(savedUserInfo)
-  const savedUserInfoId = savedUserInfoParsed.id
+  // 使用者詳細帳號資訊
+  const [userDetail, setUserDetail] = useState({})
+  // userId 從 localStorage 拿
+  const savedUserInfo = JSON.parse(localStorage.getItem("userInfo"))
+  const savedUserInfoId = savedUserInfo.id
+
+  // 設置 flag 讓 TopUserSectionOther 與 RightBanner 能彼此連動
+  const [flagForRendering, setFlagForRendering] = useState(false);
 
   // 為了顯示左側按鈕顏色需做判斷，共有 1、2、3
   const currentPage = 2
@@ -53,7 +57,12 @@ export default function UserSelfPage() {
       try {
         // 用 Context 裡的 user id 去撈他的推文
         const tweets = await getUserTweets(savedUserInfoId);
-        setTweets(tweets.map((tweet) => ({ ...tweet })));
+        // 多寫一層條件式判斷是否有回傳值，若無則方便顯示相關提醒字樣
+        if (tweets) {
+          setTweets(tweets.map((tweet) => ({ ...tweet })));
+        } else {
+          setTweets(null)
+        }
       } catch (error) {
         console.error(error);
       }
@@ -63,7 +72,11 @@ export default function UserSelfPage() {
       try {
         // 用 Context 裡的 user id 去撈他的回覆內容
         const replies = await getUserReplies(savedUserInfoId);
-        setReplies(replies.map((reply) => ({ ...reply })));
+        if (replies) {
+          setReplies(replies.map((reply) => ({ ...reply })));
+        } else {
+          setReplies(null)
+        }
       } catch (error) {
         console.error(error);
       }
@@ -72,7 +85,21 @@ export default function UserSelfPage() {
     const getUserLikesAsync = async () => {
       try {
         const { data } = await getUserLikes(savedUserInfoId)
-        setLikes(data.map((like) => ({ ...like })))
+        if ({ data }) {
+          setLikes(data.map((like) => ({ ...like })))
+        } else {
+          setLikes(null)
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    // 撈取該使用者資訊，因為 localStorage 沒有 followingCount
+    const getUserAsync = async () => {
+      try {
+        const data = await getUser(savedUserInfoId)
+        const userDetail = data.data
+        setUserDetail({ ...userDetail })
       } catch (error) {
         console.error(error);
       }
@@ -81,20 +108,28 @@ export default function UserSelfPage() {
       getTweetsAsync();
       getUserRepliesAsync();
       getUserLikesAsync();
+      getUserAsync()
     }
-  }, [savedUserInfoId, isUpdatedRepliesLikes]);
+  }, [savedUserInfoId, isUpdatedRepliesLikes, flagForRendering]);
 
   return (
     <MainContainer >
       <LeftBanner currentPage={currentPage} />
       <MiddleColumnContainer>
-        <TopUserSection handleFollowDetailClick={handleFollowDetailClick} />
+        <TopUserSection
+          handleFollowDetailClick={handleFollowDetailClick}
+          followingCount={userDetail.followingCount}
+          followerCount={userDetail.followerCount}
+        />
         <ChangeUserContent userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
         {userContent === 'tweets' && <TweetCollection tweets={tweets} fromPage='/user/self' />}
-        {userContent === 'replies' && <ReplyCollectionUser replies={replies} userDetail={savedUserInfoParsed} />}
+        {userContent === 'replies' && <ReplyCollectionUser replies={replies} userDetail={savedUserInfo} />}
         {userContent === 'likes' && <LikeCollection likes={likes} />}
       </MiddleColumnContainer>
-      <RightBanner />
+      <RightBanner
+        flagForRendering={flagForRendering}
+        setFlagForRendering={setFlagForRendering}
+      />
     </MainContainer >
   )
 }

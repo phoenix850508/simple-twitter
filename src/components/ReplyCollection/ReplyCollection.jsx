@@ -12,7 +12,7 @@ export default function ReplyCollection({ tweetReplyList, singleTweetInfo }) {
 
   return (
     <div className={styles.replyCollectionContainer}>
-      {tweetReplyList.map((reply) => {
+      {tweetReplyList?(tweetReplyList.map((reply) => {
         const { id, comment, createdAt } = reply
 
         let userAvatar = ''
@@ -48,7 +48,7 @@ export default function ReplyCollection({ tweetReplyList, singleTweetInfo }) {
             replyTo={replyTo}
           />
         );
-      })}
+      })) : '（此使用者尚未回覆任何推文）'}
     </div>
   )
 }

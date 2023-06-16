@@ -12,7 +12,7 @@ import TweetCollection from "components/TweetCollection/TweetCollection.jsx";
 import ReplyCollectionUser from 'components/ReplyCollectionUser/ReplyCollectionUser';
 import LikeCollection from 'components/LikeCollection/LikeCollection';
 // API
-import { getUserTweets, getUserReplies, getUserLikes, getUser } from '../api/tweets';
+import { getUser, getUserTweets, getUserReplies, getUserLikes } from '../api/tweets';
 
 
 export default function UserOtherPage() {
@@ -31,6 +31,9 @@ export default function UserOtherPage() {
   const [otherUserDetail, setOtherUserDetail] = useState({})
   // userInfo 資料從 localStorage 拿
   const savedOtherUserId = localStorage.getItem("otherUserId")
+
+  // 設置 flag 讓 TopUserSectionOther 與 RightBanner 能彼此連動
+  const [flagForRendering, setFlagForRendering] = useState(false);
 
   // 拿到該使用者資料
   let followerCount = 0
@@ -63,8 +66,11 @@ export default function UserOtherPage() {
       try {
         // 用 Context 裡的 user id 去撈他的推文
         const tweets = await getUserTweets(savedOtherUserId);
-        if (tweets.length !== 0) {
+        // 多寫一層條件式判斷是否有回傳值，若無則方便顯示相關提醒字樣
+        if (tweets) {
           setTweets(tweets.map((tweet) => ({ ...tweet })));
+        } else {
+          setTweets(null)
         }
       } catch (error) {
         console.error(error);
@@ -75,8 +81,10 @@ export default function UserOtherPage() {
       try {
         // 用 Context 裡的 user id 去撈他的回覆內容
         const replies = await getUserReplies(savedOtherUserId);
-        if (replies.length !== 0) {
+        if (replies) {
           setReplies(replies.map((reply) => ({ ...reply })));
+        } else {
+          setReplies(null)
         }
       } catch (error) {
         console.error(error);
@@ -86,7 +94,11 @@ export default function UserOtherPage() {
     const getUserLikesAsync = async () => {
       try {
         const { data } = await getUserLikes(savedOtherUserId)
-        setLikes(data.map((like) => ({ ...like })))
+        if ({ data }) {
+          setLikes(data.map((like) => ({ ...like })))
+        } else {
+          setLikes(null)
+        }
       } catch (error) {
         console.error(error);
       }
@@ -108,7 +120,7 @@ export default function UserOtherPage() {
       getUserLikesAsync();
       getUserAsync();
     }
-  }, [savedOtherUserId]);
+  }, [savedOtherUserId, flagForRendering]);
 
   return (
     <MainContainer>
@@ -121,13 +133,18 @@ export default function UserOtherPage() {
           handleFollowDetailClick={handleFollowDetailClick}
           followerCount={followerCount}
           isFollowed={isFollowed}
+          flagForRendering={flagForRendering}
+          setFlagForRendering={setFlagForRendering}
         />
         <ChangeUserContent userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
         {userContent === 'tweets' && <TweetCollection tweets={tweets} fromPage='/user/other' />}
         {userContent === 'replies' && <ReplyCollectionUser replies={replies} userDetail={otherUserDetail} />}
         {userContent === 'likes' && <LikeCollection likes={likes} />}
       </MiddleColumnContainer>
-      <RightBanner />
+      <RightBanner
+        flagForRendering={flagForRendering}
+        setFlagForRendering={setFlagForRendering}
+      />
     </MainContainer>
   )
 }
