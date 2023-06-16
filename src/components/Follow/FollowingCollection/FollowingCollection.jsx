@@ -1,12 +1,10 @@
-// 要記得做跟隨顯示邏輯
-
+import styles from "./FollowingCollection.module.scss"
 import FollowingItem from "components/Follow/FollowingItem/FollowingItem.jsx"
 
 export default function FollowingCollection({ followings }) {
-  console.log('FollowingCollection 裡面的 followings: ', followings)
   return (
-    <div>
-      {followings.map((following) => {
+    <div className={styles.container}>
+      {followings ? (followings.map((following) => {
         const { avatar, name, introduction } = following.Followers
         const { id, isFollowed } = following
         return (
@@ -18,7 +16,7 @@ export default function FollowingCollection({ followings }) {
             isFollowed={isFollowed}
           />
         )
-      })}
+      })) : '（此使用者尚未跟隨任何人）'}
     </div>
   )
 }

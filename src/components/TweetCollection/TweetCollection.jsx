@@ -2,13 +2,12 @@ import styles from "./TweetCollection.module.scss";
 import TweetItem from "components/TweetItem/TweetItem.jsx";
 import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 
-// import dummyTweets from "./dummyTweets";
 
 export default function TweetCollection({ tweets, fromPage }) {
 
   return (
     <div className={styles.tweetCollectionContainer}>
-      {tweets.map((tweet) => {
+      {tweets ? (tweets.map((tweet) => {
         const { name, account, avatar } = tweet.User
         const { id, UserId, description, createdAt, replyCount, likeCount, isLiked } = tweet
         return (
@@ -27,7 +26,7 @@ export default function TweetCollection({ tweets, fromPage }) {
             fromPage={fromPage}
           />
         );
-      })}
+      })) : '（此使用者尚未發佈任何推文）' }
     </div>
   )
 }

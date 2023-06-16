@@ -8,7 +8,7 @@ export default function ReplyCollection({ replies, userDetail }) {
 
   return (
     <div className={styles.replyCollectionContainer}>
-      {replies.map((reply) => {
+      {replies?(replies.map((reply) => {
         const { name, account, avatar } = userDetail
         const { id, comment, createdAt } = reply
         const replyTo = reply.Tweet.User.account
@@ -23,7 +23,7 @@ export default function ReplyCollection({ replies, userDetail }) {
             replyTo={replyTo}
           />
         );
-      })}
+      })) : '（您尚未回覆任何推文）'}
     </div>
   )
 }

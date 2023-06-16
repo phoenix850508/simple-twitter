@@ -1,16 +1,15 @@
 // LikeCollection 的 layout 跟 TweetCollection 一樣
-// 之後要寫邏輯判斷是否為 like、發文者資訊
 import styles from "./LikeCollection.module.scss";
-import { useState } from 'react';
+// import { useState } from 'react';
 import LikeItem from "components/LikeItem/LikeItem.jsx";
-import dummyTweets from "./dummyTweets";
+// import dummyTweets from "./dummyTweets";
 
 export default function LikeCollection({ likes }) {
 
   return (
     <div className={styles.tweetCollectionContainer}>
-      {likes.map((likedTweet) => {
-        const {shortDescription, createdAt} = likedTweet
+      {likes ? (likes.map((likedTweet) => {
+        const { shortDescription, createdAt } = likedTweet
         const { name, account, avatar } = likedTweet.Tweet.User
         const { id, replyCount, likeCount } = likedTweet.Tweet
         return (
@@ -26,7 +25,7 @@ export default function LikeCollection({ likes }) {
             avatar={avatar}
           />
         );
-      })}
+      })) : '（使用者尚未喜歡任何內容）'}
     </div>
   )
 }

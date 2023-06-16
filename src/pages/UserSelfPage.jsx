@@ -13,7 +13,7 @@ import ReplyCollectionUser from 'components/ReplyCollectionUser/ReplyCollectionU
 import LikeCollection from 'components/LikeCollection/LikeCollection';
 // API
 import { getUserTweets, getUserReplies, getUserLikes } from '../api/tweets';
-import {AuthContext} from 'context/AuthContext'
+import { AuthContext } from 'context/AuthContext'
 
 
 export default function UserSelfPage() {
@@ -26,7 +26,7 @@ export default function UserSelfPage() {
   const [replies, setReplies] = useState([]);
   // 喜歡過的推特存在這
   const [likes, setLikes] = useState([]);
-  const {isUpdatedLike, isUpdatedReplies} = useContext(AuthContext)
+  const { isUpdatedLike, isUpdatedReplies } = useContext(AuthContext)
   // userInfo 資料從 localStorage 拿
   const savedUserInfo = localStorage.getItem("userInfo")
   const savedUserInfoParsed = JSON.parse(savedUserInfo)
