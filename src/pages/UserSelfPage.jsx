@@ -12,7 +12,7 @@ import TweetCollection from "components/TweetCollection/TweetCollection.jsx";
 import ReplyCollectionUser from 'components/ReplyCollectionUser/ReplyCollectionUser';
 import LikeCollection from 'components/LikeCollection/LikeCollection';
 // API
-import { getUserTweets, getUserReplies, getUserLikes } from '../api/tweets';
+import { getUser, getUserTweets, getUserReplies, getUserLikes } from '../api/tweets';
 import { AuthContext } from 'context/AuthContext'
 
 
@@ -27,10 +27,26 @@ export default function UserSelfPage() {
   // 喜歡過的推特存在這
   const [likes, setLikes] = useState([]);
   const { isUpdatedLike, isUpdatedReplies } = useContext(AuthContext)
-  // userInfo 資料從 localStorage 拿
-  const savedUserInfo = localStorage.getItem("userInfo")
-  const savedUserInfoParsed = JSON.parse(savedUserInfo)
-  const savedUserInfoId = savedUserInfoParsed.id
+  // 使用者詳細帳號資訊
+  const [userDetail, setUserDetail] = useState({})
+  // userId 從 localStorage 拿
+  const savedUserInfo = JSON.parse(localStorage.getItem("userInfo"))
+  const savedUserInfoId = savedUserInfo.id
+
+  // 設置 flag 讓 TopUserSectionOther 與 RightBanner 能彼此連動
+  const [flagForRendering, setFlagForRendering] = useState(false);
+
+  // const [followingCount, setFollowingCount] = useState(0);
+
+
+  // 拿到使用者資料
+  // let followingCount = 0
+  // let followerCount = 0
+  // if (userDetail && userDetail.followingCount) {
+  //   const followingCountTemp = userDetail.followingCount
+  //   setFollowingCount(followingCountTemp)
+  // }
+
 
   // 為了顯示左側按鈕顏色需做判斷，共有 1、2、3
   const currentPage = 2
@@ -77,24 +93,42 @@ export default function UserSelfPage() {
         console.error(error);
       }
     }
+    // 撈取該使用者資訊，因為 localStorage 沒有 followingCount
+    const getUserAsync = async () => {
+      try {
+        const data = await getUser(savedUserInfoId)
+        const userDetail = data.data
+        setUserDetail({ ...userDetail })
+      } catch (error) {
+        console.error(error);
+      }
+    }
     if (savedUserInfoId) {
       getTweetsAsync();
       getUserRepliesAsync();
       getUserLikesAsync();
+      getUserAsync()
     }
-  }, [savedUserInfoId, isUpdatedLike, isUpdatedReplies]);
+  }, [savedUserInfoId, isUpdatedLike, isUpdatedReplies, flagForRendering]);
 
   return (
     <MainContainer >
       <LeftBanner currentPage={currentPage} />
       <MiddleColumnContainer>
-        <TopUserSection handleFollowDetailClick={handleFollowDetailClick} />
+        <TopUserSection
+          handleFollowDetailClick={handleFollowDetailClick}
+          followingCount={userDetail.followingCount}
+          followerCount={userDetail.followerCount}
+        />
         <ChangeUserContent userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
         {userContent === 'tweets' && <TweetCollection tweets={tweets} fromPage='/user/self' />}
-        {userContent === 'replies' && <ReplyCollectionUser replies={replies} userDetail={savedUserInfoParsed} />}
+        {userContent === 'replies' && <ReplyCollectionUser replies={replies} userDetail={savedUserInfo} />}
         {userContent === 'likes' && <LikeCollection likes={likes} />}
       </MiddleColumnContainer>
-      <RightBanner />
+      <RightBanner
+        flagForRendering={flagForRendering}
+        setFlagForRendering={setFlagForRendering}
+      />
     </MainContainer >
   )
 }

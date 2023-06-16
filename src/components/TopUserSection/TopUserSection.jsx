@@ -1,7 +1,7 @@
 import styles from './TopUserSection.module.scss'
 import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 import dummyBackgroundImage from 'icons/dummyBackgroundImage.svg'
-import dummyUserPhoto from 'icons/dummyUserPhoto.svg'
+// import dummyUserPhoto from 'icons/dummyUserPhoto.svg'
 import editUserInfoBtn from 'icons/editUserInfoBtn.svg'
 import PrePageBtn from 'components/PrevPageBtn/PrevPageBtn.jsx'
 import { useState, useContext, useEffect, useRef } from 'react'
@@ -13,10 +13,9 @@ import AuthInput from 'components/Form/AuthInput'
 import camera from 'icons/camera.svg'
 import white_cross from 'icons/white_cross.svg'
 import { AuthContext } from 'context/AuthContext.jsx'
-import { useNavigate } from 'react-router-dom'
 
 
-export default function TopUserSection({ handleFollowDetailClick }) {
+export default function TopUserSection({ handleFollowDetailClick, followingCount, followerCount }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -29,12 +28,15 @@ export default function TopUserSection({ handleFollowDetailClick }) {
   const { putUserSelf, isUserEdited, getUser } = useContext(AuthContext)
 
   // userInfo 資料從 localStorage 拿
-  const savedUserInfo = localStorage.getItem("userInfo")
-  const savedUserInfoParsed = JSON.parse(savedUserInfo)
-  const savedUserInfoId = savedUserInfoParsed.id
-
+  const savedUserInfo = JSON.parse(localStorage.getItem("userInfo"))
+  const savedUserInfoId = savedUserInfo.id
   // 其他沒從 API 撈的直接用 localStorage 拿，code 才不用改太多
-  const { avatar, account, followingCount, followerCount } = savedUserInfoParsed;
+  const { account } = savedUserInfo;
+
+  // following 人數暫存在這，而 follower 人數不會因 user 行為而改變所以不用放
+  const [followingCountTemp, setFollowingCountTemp] = useState(followingCount)
+  console.log('我要看！', followingCountTemp)
+
 
   const handleShowModal = () => {
     handleShow();
@@ -92,15 +94,18 @@ export default function TopUserSection({ handleFollowDetailClick }) {
       setUserAvatar(response.data.avatar)
       setBanner(response.data.banner)
       setTweetCount(response.data.tweetCount)
+      setFollowingCountTemp(followingCount)
     }
     getUserAsync()
-  }, [savedUserInfoId, isUserEdited, getUser])
+  }, [getUser, savedUserInfoId, isUserEdited, followingCount])
+
+
   return (
     <div>
       <PrePageBtn toPage='/main' name={name} tweetCount={tweetCount} />
       <div className={styles.topUserInfoWrapper}>
         <img className={styles.topUserBanner} src={tempDataObject ? (tempDataObject.banner ? tempDataObject.banner : dummyBackgroundImage) : dummyBackgroundImage} alt="dummyBackgroundImage.svg" />
-        <img className={styles.topUserPhoto} src={tempDataObject ? (tempDataObject.avatar ? tempDataObject.avatar : avatarDefaultMini) : (savedUserInfoParsed.avatar? savedUserInfoParsed.avatar : avatarDefaultMini)} alt='avatar' />
+        <img className={styles.topUserPhoto} src={tempDataObject ? (tempDataObject.avatar ? tempDataObject.avatar : avatarDefaultMini) : (savedUserInfo.avatar ? savedUserInfo.avatar : avatarDefaultMini)} alt='avatar' />
         <button className={styles.topUserEditBtn} onClick={handleShowModal} >
           <img src={editUserInfoBtn} alt="editUserInfoBtn.svg" />
         </button>
@@ -115,7 +120,8 @@ export default function TopUserSection({ handleFollowDetailClick }) {
                 value='followings'
                 onClick={e => { handleFollowDetailClick(e.currentTarget.value) }}
               >
-                <span className={styles.topUserFollowCount}>{tempDataObject ? tempDataObject.followingCount : followingCount}</span><span className={styles.topUserFollowWord}>跟隨中</span>
+                {/* <span className={styles.topUserFollowCount}>{tempDataObject ? tempDataObject.followingCount : followingCountTemp}</span><span className={styles.topUserFollowWord}>跟隨中</span> */}
+                <span className={styles.topUserFollowCount}>{followingCountTemp ? followingCountTemp : 100}</span><span className={styles.topUserFollowWord}>跟隨中</span>
               </button>
             </div>
             <div className={styles.topUserFollowerWrapper}>
@@ -137,12 +143,12 @@ export default function TopUserSection({ handleFollowDetailClick }) {
         onIntroChange={(updateIntroInput) => updateIntroInput ? setIntro(updateIntroInput) : setIntro('')}
         onSave={handleSave}
         nameBorderLine={clsx('', { [styles.wordLengthError]: name.length > 50 }, { [styles.emptyError]: name.trim().length === 0 })}
-        introBorderLine={clsx('', { [styles.wordLengthError]: (intro? intro.length > 160 : false)}, { [styles.emptyError]: !intro})}
+        introBorderLine={clsx('', { [styles.wordLengthError]: (intro ? intro.length > 160 : false) }, { [styles.emptyError]: !intro })}
         nameValue={name}
         introValue={intro}
         handleAvatarFile={handleAvatarFile}
         handleBannerFile={handleBannerFile}
-        modalAvatar={tempDataObject ? (tempDataObject.avatar ? tempDataObject.avatar : avatarDefaultMini) : (savedUserInfoParsed.avatar? savedUserInfoParsed.avatar : avatarDefaultMini)}
+        modalAvatar={tempDataObject ? (tempDataObject.avatar ? tempDataObject.avatar : avatarDefaultMini) : (savedUserInfo.avatar ? savedUserInfo.avatar : avatarDefaultMini)}
         modalBanner={tempDataObject ? (tempDataObject.banner ? tempDataObject.banner : dummyBackgroundImage) : dummyBackgroundImage}
         handleBannerDelete={() => setBanner(null)}
       />

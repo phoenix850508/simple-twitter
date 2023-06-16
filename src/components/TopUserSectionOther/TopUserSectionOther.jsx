@@ -49,15 +49,13 @@ export default function TopUserSectionOther({ notification, handleNotiClick, use
 
   // 追蹤按鈕邏輯
   async function handleFollowClick() {
-    // 因為下面元件會先改，例如 isFollowedStatus 變成 false 那這邊就是要 delete
     if (isFollowedStatus) {
-      await postUserFollowAsync(authToken, id)
-      await setFollowerCountTemp(followerCountTemp + 1)
-    } else {
       await deleteUserFollowAsync(authToken, id)
       await setFollowerCountTemp(followerCountTemp - 1)
+    } else {
+      await postUserFollowAsync(authToken, id)
+      await setFollowerCountTemp(followerCountTemp + 1)
     }
-    // await setIsFollowedStatus(!isFollowedStatus)
     await setFlagForRendering(!flagForRendering)
   }
 
