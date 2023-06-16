@@ -59,6 +59,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
   const handleLike = async () => {
     //取消喜歡
     if (isLikedBoolean? isLikedBoolean === "true" : isLiked === false){
+      console.log("isLiked", isLiked)
       const response = await postUnlike(id)
       setIsLikedBoolean("false")
       //若取消喜歡成功
@@ -79,6 +80,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
     }
     //增加喜歡
     if (isLikedBoolean? isLikedBoolean === "false" : isLiked === true) {
+      console.log("isLiked", isLiked)
       const response = await postLike(id)
       setIsLikedBoolean("true")
       if (response.data) {
