@@ -181,7 +181,14 @@ const AuthProvider = ({ children }) => {
         }, 
         putUserSelf: async(id, formData) => {
           const response = await putUserSelf(id, formData)
+          // 若成功更新user資料 把isUserEdited設為true
           if (!response.response) setIsUserEdited(true)
+          // 順便更新其他地方的avatar，需更動localStorage的內容
+          const savedUserInfo = localStorage.getItem("userInfo")
+          let savedUserInfoParsed = JSON.parse(savedUserInfo)
+          savedUserInfoParsed.avatar = response.data.avatar
+          const modifiedSavedUserInfo = JSON.stringify(savedUserInfoParsed);
+          localStorage.setItem("userInfo", modifiedSavedUserInfo)
           return response
         }, 
         getUser: async(id) => {
