@@ -14,7 +14,7 @@ import PrePageBtn from 'components/PrevPageBtn/PrevPageBtn.jsx'
 import { postUserFollow, deleteUserFollow } from 'api/tweets'
 
 
-export default function TopUserSectionOther({ notification, handleNotiClick, userDetail, handleFollowDetailClick, followerCount, isFollowed }) {
+export default function TopUserSectionOther({ notification, handleNotiClick, userDetail, handleFollowDetailClick, followerCount, isFollowed, flagForRendering, setFlagForRendering }) {
   // 拿到該使用者資料
   const { id, name, account, avatar, introduction, followingCount, tweetCount } = userDetail
 
@@ -25,8 +25,6 @@ export default function TopUserSectionOther({ notification, handleNotiClick, use
   const [isFollowedStatus, setIsFollowedStatus] = useState(isFollowed)
   // 跟隨人數暫存在這
   const [followerCountTemp, setFollowerCountTemp] = useState(followerCount)
-  console.log('isFollowed', isFollowed)
-  console.log('isFollowedStatus', isFollowedStatus)
 
   // 去撈跟隨 API
   const postUserFollowAsync = async (authToken, id) => {
@@ -50,21 +48,24 @@ export default function TopUserSectionOther({ notification, handleNotiClick, use
 
 
   // 追蹤按鈕邏輯
-  function handleFollowClick() {
+  async function handleFollowClick() {
+    // 因為下面元件會先改，例如 isFollowedStatus 變成 false 那這邊就是要 delete
     if (isFollowedStatus) {
-      deleteUserFollowAsync(authToken, id)
-      setFollowerCountTemp(followerCountTemp - 1)
+      await postUserFollowAsync(authToken, id)
+      await setFollowerCountTemp(followerCountTemp + 1)
     } else {
-      postUserFollowAsync(authToken, id)
-      setFollowerCountTemp(followerCountTemp + 1)
+      await deleteUserFollowAsync(authToken, id)
+      await setFollowerCountTemp(followerCountTemp - 1)
     }
-    setIsFollowedStatus(!isFollowedStatus)
+    // await setIsFollowedStatus(!isFollowedStatus)
+    await setFlagForRendering(!flagForRendering)
   }
 
   useEffect(() => {
     setIsFollowedStatus(isFollowed)
     setFollowerCountTemp(followerCount);
   }, [isFollowed, followerCount]);
+
 
   return (
     <div>
@@ -84,7 +85,10 @@ export default function TopUserSectionOther({ notification, handleNotiClick, use
           {/* 跟隨按鈕，按了馬上更新畫面同時送資料到後端 */}
           <button
             className={styles.topUserEditBtn}
-            onClick={() => { handleFollowClick() }}
+            onClick={() => {
+              setIsFollowedStatus(!isFollowedStatus)
+              handleFollowClick()
+            }}
           >
             {isFollowedStatus ? <img src={following} alt="following.svg" /> : <img src={follow} alt="follow.svg" />}
           </button>

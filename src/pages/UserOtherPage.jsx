@@ -32,6 +32,9 @@ export default function UserOtherPage() {
   // userInfo 資料從 localStorage 拿
   const savedOtherUserId = localStorage.getItem("otherUserId")
 
+  // 設置 flag 讓 TopUserSectionOther 與 RightBanner 能彼此連動
+  const [flagForRendering, setFlagForRendering] = useState(false);
+
   // 拿到該使用者資料
   let followerCount = 0
   let isFollowed = false
@@ -108,7 +111,7 @@ export default function UserOtherPage() {
       getUserLikesAsync();
       getUserAsync();
     }
-  }, [savedOtherUserId]);
+  }, [savedOtherUserId, flagForRendering]);
 
   return (
     <MainContainer>
@@ -121,13 +124,18 @@ export default function UserOtherPage() {
           handleFollowDetailClick={handleFollowDetailClick}
           followerCount={followerCount}
           isFollowed={isFollowed}
+          flagForRendering={flagForRendering}
+          setFlagForRendering={setFlagForRendering}
         />
         <ChangeUserContent userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
         {userContent === 'tweets' && <TweetCollection tweets={tweets} fromPage='/user/other' />}
         {userContent === 'replies' && <ReplyCollectionUser replies={replies} userDetail={otherUserDetail} />}
         {userContent === 'likes' && <LikeCollection likes={likes} />}
       </MiddleColumnContainer>
-      <RightBanner />
+      <RightBanner
+        flagForRendering={flagForRendering}
+        setFlagForRendering={setFlagForRendering}
+      />
     </MainContainer>
   )
 }
