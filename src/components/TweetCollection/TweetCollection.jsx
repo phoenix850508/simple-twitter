@@ -4,10 +4,9 @@ import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
 
 
 export default function TweetCollection({ tweets, fromPage }) {
-
   return (
     <div className={styles.tweetCollectionContainer}>
-      {tweets ? (tweets.map((tweet) => {
+      {tweets.length !== 0 ? (tweets.map((tweet) => {
         const { name, account, avatar } = tweet.User
         const { id, UserId, description, createdAt, replyCount, likeCount, isLiked } = tweet
         return (
@@ -26,7 +25,12 @@ export default function TweetCollection({ tweets, fromPage }) {
             fromPage={fromPage}
           />
         );
-      })) : '（此使用者尚未發佈任何推文）' }
+      })) : (
+        <div className={styles.margin}>
+          <div></div>
+          <span>（尚未發佈任何推文）</span>
+        </div>
+      )}
     </div>
   )
 }

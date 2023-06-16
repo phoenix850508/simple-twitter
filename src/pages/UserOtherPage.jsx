@@ -66,8 +66,11 @@ export default function UserOtherPage() {
       try {
         // 用 Context 裡的 user id 去撈他的推文
         const tweets = await getUserTweets(savedOtherUserId);
-        if (tweets.length !== 0) {
+        // 多寫一層條件式判斷是否有回傳值，若無則方便顯示相關提醒字樣
+        if (tweets) {
           setTweets(tweets.map((tweet) => ({ ...tweet })));
+        } else {
+          setTweets(null)
         }
       } catch (error) {
         console.error(error);
@@ -78,8 +81,10 @@ export default function UserOtherPage() {
       try {
         // 用 Context 裡的 user id 去撈他的回覆內容
         const replies = await getUserReplies(savedOtherUserId);
-        if (replies.length !== 0) {
+        if (replies) {
           setReplies(replies.map((reply) => ({ ...reply })));
+        } else {
+          setReplies(null)
         }
       } catch (error) {
         console.error(error);
@@ -89,7 +94,11 @@ export default function UserOtherPage() {
     const getUserLikesAsync = async () => {
       try {
         const { data } = await getUserLikes(savedOtherUserId)
-        setLikes(data.map((like) => ({ ...like })))
+        if ({ data }) {
+          setLikes(data.map((like) => ({ ...like })))
+        } else {
+          setLikes(null)
+        }
       } catch (error) {
         console.error(error);
       }

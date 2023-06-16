@@ -3,7 +3,7 @@ import FollowingItem from "components/Follow/FollowingItem/FollowingItem.jsx"
 
 export default function FollowingCollection({ followings, flagForRendering, setFlagForRendering }) {
   return (
-    <div className={styles.container}>
+    <div >
       {followings ? (followings.map((following) => {
         const { avatar, name, introduction } = following.Followers
         const { id, followingId, isFollowed } = following
@@ -19,7 +19,12 @@ export default function FollowingCollection({ followings, flagForRendering, setF
             setFlagForRendering={setFlagForRendering}
           />
         )
-      })) : '（此使用者尚未跟隨任何人）'}
+      })) : (
+        <div className={styles.margin}>
+          <div></div>
+          <span>（此使用者尚未跟隨任何人）</span>
+        </div>
+      )}
     </div>
   )
 }

@@ -3,11 +3,11 @@ import FollowerItem from "components/Follow/FollowerItem/FollowerItem.jsx"
 
 export default function FollowerCollection({ followers, flagForRendering, setFlagForRendering }) {
   return (
-    <div className={styles.container}>
+    <div >
       {followers ? (
         followers.map((follower) => {
           const { avatar, name, introduction } = follower.Followings
-          const { id, followerId,  isFollowed } = follower
+          const { id, followerId, isFollowed } = follower
           return (
             <FollowerItem
               key={id}
@@ -21,7 +21,12 @@ export default function FollowerCollection({ followers, flagForRendering, setFla
             />
           )
         })
-      ) : '（此使用者尚未被任何人跟隨）'}
+      ) : (
+        <div className={styles.margin}>
+          <div></div>
+          <span>（此使用者尚未被任何人跟隨）</span>
+        </div>
+      )}
     </div>
   )
 }

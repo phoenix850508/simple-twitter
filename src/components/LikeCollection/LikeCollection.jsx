@@ -8,7 +8,7 @@ export default function LikeCollection({ likes }) {
 
   return (
     <div className={styles.tweetCollectionContainer}>
-      {likes ? (likes.map((likedTweet) => {
+      {likes.length !== 0 ? (likes.map((likedTweet) => {
         const { shortDescription, createdAt } = likedTweet
         const { name, account, avatar } = likedTweet.Tweet.User
         const { id, replyCount, likeCount } = likedTweet.Tweet
@@ -25,7 +25,12 @@ export default function LikeCollection({ likes }) {
             avatar={avatar}
           />
         );
-      })) : '（使用者尚未喜歡任何內容）'}
+      })) : (
+        <div className={styles.margin}>
+          <div></div>
+          <span>（尚未喜歡任何內容）</span>
+        </div>
+      )}
     </div>
   )
 }
