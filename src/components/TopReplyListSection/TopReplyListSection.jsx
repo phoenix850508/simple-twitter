@@ -58,8 +58,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
   // 喜歡和取消喜歡功能
   const handleLike = async () => {
     //取消喜歡
-    if (isLikedBoolean? isLikedBoolean === "true" : isLiked === false){
-      console.log("isLiked", isLiked)
+    if (isLikedBoolean? isLikedBoolean === "true" : isLiked === true){
       const response = await postUnlike(id)
       setIsLikedBoolean("false")
       //若取消喜歡成功
@@ -79,8 +78,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
       }
     }
     //增加喜歡
-    if (isLikedBoolean? isLikedBoolean === "false" : isLiked === true) {
-      console.log("isLiked", isLiked)
+    if (isLikedBoolean? isLikedBoolean === "false" : isLiked === false) {
       const response = await postLike(id)
       setIsLikedBoolean("true")
       if (response.data) {
@@ -121,7 +119,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
           <div className={styles.tweetItemIconWrapper}>
             <img className={styles.tweetItemIcon} src={discussion} alt="discussion.svg" onClick={handleShow} />
             {/* 因為無法提前抓到isLiked的值，所以這邊邏輯稍微複雜 */}
-          <img className={styles.tweetItemIcon} src={(isLikedBoolean?(isLikedBoolean? isLikedBoolean === "true" : isLikedBoolean === 'true') : !isLiked)? likeActive : like} alt="likeActive.svg" onClick={handleLike} />
+          <img className={styles.tweetItemIcon} src={(isLikedBoolean? (isLikedBoolean? isLikedBoolean === "true" : isLikedBoolean === "false") : isLiked)? likeActive : like} alt="likeActive.svg" onClick={handleLike} />
           </div>
         </div>
       </div>

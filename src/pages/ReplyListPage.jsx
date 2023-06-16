@@ -20,7 +20,8 @@ export default function ReplyListPage() {
   // tweetId 資料從 localStorage 拿
   const savedTweetId = localStorage.getItem("tweetId");
   const {isUpdatedReplies, isUpdatedLike} = useContext(AuthContext)
-
+  console.log("TEST setTweetReplyList re-render", tweetReplyList)
+  console.log("TEST setSingleTweetInfo re-render", singleTweetInfo)
   // 透過 API 撈資料
   useEffect(() => {
     // 該推文底下的回覆資料
@@ -28,8 +29,7 @@ export default function ReplyListPage() {
       try {
         // 用 Context 裡的 tweetId 去撈
         const tweetReplyList = await getTweetReplyList(savedTweetId);
-        console.log('ReplyListPage 裡的 tweetReplyList: ', tweetReplyList)
-        setTweetReplyList(tweetReplyList.map((reply) => ({ ...reply })));
+        tweetReplyList && setTweetReplyList(tweetReplyList.map((reply) => ({ ...reply })));
       } catch (error) {
         console.error(error);
       }
@@ -39,17 +39,16 @@ export default function ReplyListPage() {
       try {
         // 用 localStorage 裡的 tweetId 去撈
         const singleTweet = await getSingleTweet(savedTweetId);
-        console.log('ReplyListPage 裡的 singleTweet: ', singleTweet)
         // 只在渲染時 set 一次似乎不用拷貝？
         // setSingleTweetInfo({ ...singleTweet, User: { ...singleTweet.User } });
-        setSingleTweetInfo(singleTweet);
+        singleTweet && setSingleTweetInfo(singleTweet);
       } catch (error) {
         console.error(error);
       }
     };
     getTweetReplyListAsync();
     getSingleTweetAsync();
-  }, [savedTweetId, isUpdatedReplies, isUpdatedLike]);
+  }, [savedTweetId, isUpdatedReplies, isUpdatedLike, setTweetReplyList, setSingleTweetInfo]);
 
   return (
     <MainContainer>

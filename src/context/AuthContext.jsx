@@ -91,7 +91,7 @@ const AuthProvider = ({ children }) => {
       }
     };
     checkTokenIsValid();
-  }, [pathname, isTweetUpdated, isUserEdited, navigate]);
+  }, [pathname, isUserEdited, navigate]);
 
 
   console.log('AuthProvider 重新渲染')
@@ -215,7 +215,7 @@ const AuthProvider = ({ children }) => {
         },
         postUnlike: async(id) => {
           const response = await postUnlike(id)
-          console.log("post a like", response)
+          console.log("post an unlike", response)
           if(response.data) setIsUpdatedLikes(true)
           return response
         },
