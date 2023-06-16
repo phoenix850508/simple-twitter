@@ -1,6 +1,5 @@
 import clsx from 'clsx'
 import styles from './AuthInput.module.scss'
-import {useRef} from 'react'
 
 export default function AuthInput({type, label, placeholder, className, borderLine, onChange, value, inputRef}) {
   return (

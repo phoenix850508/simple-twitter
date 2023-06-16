@@ -49,7 +49,7 @@ export default function ReplyListPage() {
     };
     getTweetReplyListAsync();
     getSingleTweetAsync();
-  }, [savedTweetId, isUpdatedReplies]);
+  }, [savedTweetId, isUpdatedReplies, isUpdatedLike]);
 
   return (
     <MainContainer>

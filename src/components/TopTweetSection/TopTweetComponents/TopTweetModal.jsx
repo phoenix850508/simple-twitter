@@ -4,26 +4,29 @@ import Modal from 'react-bootstrap/Modal';
 import cross from 'icons/cross.svg'
 import TopTweetButton from './TopTweetButton'
 import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { AuthContext } from 'context/AuthContext';
 import {getUser} from 'api/tweets'
 
 
 
 export default function TopTweetModal({modal, modalHeader, modalClose, modalBody, modalInput, modalSubmit, handleClose, show, onChange, value, onSubmit, buttonText, borderLine}) {
+  const {isAuthenticated} = useContext(AuthContext)
   const savedUserInfo = localStorage.getItem("userInfo")
   const savedUserInfoParsed = JSON.parse(savedUserInfo)
+  const savedUserInfoParsedId = savedUserInfoParsed && savedUserInfoParsed.id
   const [dataObject, setDataObject] = useState(null)
     useEffect(() => {
     const getUserAsync= async() => {
       try {
-        const response = await getUser(savedUserInfoParsed.id)
+        const response = await getUser(savedUserInfoParsedId)
         setDataObject(response.data)
       } catch (error) {
         console.error(error)
       }
     } 
     getUserAsync();
-  }, [savedUserInfoParsed.id])
+  }, [savedUserInfoParsedId, isAuthenticated])
 
   return (
     <div className={styles.modalContainer}>

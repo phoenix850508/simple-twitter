@@ -13,7 +13,7 @@ export default function RightBanner() {
   const authToken = localStorage.getItem("authToken");
   // userInfo 資料從 localStorage 拿
   const savedUserInfoParsed = JSON.parse(localStorage.getItem("userInfo"))
-  const savedUserId = savedUserInfoParsed.id
+  const savedUserId = savedUserInfoParsed && savedUserInfoParsed.id
 
   // tweets 存在這
   const [topUsers, setTopUsers] = useState([]);
