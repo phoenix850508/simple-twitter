@@ -10,13 +10,17 @@ import likeActive from 'icons/likeActive.svg'
 import clsx from 'clsx'
 import { useState } from "react";
 import {postReply} from 'api/tweets'
+import { useEffect } from "react";
+import { useContext } from "react";
+import { AuthContext } from "context/AuthContext";
 
 export default function LikeItem({ id, avatar, name, account, description, createdAt, replyCount, likeCount }) {
-   const [show, setShow] = useState(false);
+  const {setIsUpdatedReplies, setIsUpdateLikes} = useContext(AuthContext)
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [replyTweet, setReplyTweet] = useState('')
-    const [errorMsg, setErrorMsg] = useState(false)
+  const [errorMsg, setErrorMsg] = useState(false)
   // 送出回覆文字
   const handleSave = async () => {
     //預防空值與回覆文字限制
@@ -33,6 +37,10 @@ export default function LikeItem({ id, avatar, name, account, description, creat
       return alert("新增回覆失敗")
     }
   }
+  useEffect(() => {
+    setIsUpdateLikes(false)
+    setIsUpdatedReplies(false)
+  }, [setIsUpdateLikes, setIsUpdatedReplies])
   return (
     <div className={styles.tweetItemContainer}>
       <div className={styles.tweetItemWrapper}>

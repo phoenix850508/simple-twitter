@@ -7,13 +7,15 @@ import likeActive from 'icons/likeActive.svg'
 import Modal from 'react-bootstrap/Modal';
 import cross from 'icons/cross.svg'
 import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTweetButton'
-import { postReply, postLike, postUnlike } from 'api/tweets'
+// import { postReply, postLike, postUnlike } from 'api/tweets'
 import { useState, useContext } from 'react'
 import clsx from 'clsx'
 // 引用封裝好的 Context 資訊
-import { AuthContext } from 'context/AuthContext.jsx';
+import { AuthContext} from 'context/AuthContext.jsx';
+import { useEffect } from 'react';
 
 export default function TweetItem({ id, UserId, name, account, description, createdAt, replyCount, likeCount, avatar, isLiked, fromPage }) {
+  const {postLike, postReply, postUnlike, setIsUpdatedReplies, setIsUpdateLikes}  = useContext(AuthContext)
   const navigate = useNavigate();
   const savedUserInfo = localStorage.getItem("userInfo")
   const savedUserInfoParsed = JSON.parse(savedUserInfo)
@@ -90,6 +92,11 @@ export default function TweetItem({ id, UserId, name, account, description, crea
       }
     }
   }
+
+  useEffect(() => {
+    setIsUpdatedReplies(false)
+    setIsUpdateLikes(false)
+  }, [setIsUpdatedReplies, setIsUpdateLikes])
 
   return (
     <div className={styles.tweetItemContainer}>

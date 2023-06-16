@@ -24,9 +24,9 @@ const AuthProvider = ({ children }) => {
   // 若有更動過個人資料
   const [isUserEdited, setIsUserEdited] = useState(false)
   // 若有更新過喜歡推文
-  // const [isUpdatedLike, setIsUpdatedLikes] = useState(false)
+  const [isUpdateLikes, setIsUpdateLikes] = useState(false)
   // 若有更新過回覆推文
-  const [isUpdatedRepliesLikes, setIsUpdatedRepliesLikes] = useState(false)
+  const [isUpdatedReplies, setIsUpdatedReplies] = useState(false)
   const { pathname } = useLocation();
   const navigate = useNavigate()
 
@@ -46,9 +46,9 @@ const AuthProvider = ({ children }) => {
     //更新完個人編輯資料後，要把isUserEdited退回false
     setIsUserEdited(false)
     //更新過回覆推文後，要把isUpdatedReplies退回false
-    // setIsUpdatedReplies(false)
-    //更新更新過喜歡推文後，要把isUpdatedLikes退回false
-    setIsUpdatedRepliesLikes(false)
+    setIsUpdatedReplies(false)
+    //更新過回覆推文後，要把isUpdateLikes退回false
+    setIsUpdateLikes(false)
     const checkTokenIsValid = async () => {
       // 從 localStorage 拿 token
       const authToken = localStorage.getItem("authToken");
@@ -106,10 +106,12 @@ const AuthProvider = ({ children }) => {
         userReplyList,
         setUserReplyList,
         isTweetUpdated,
+        setIsTweetUpdated,
         isUserEdited, 
-        setIsUpdatedRepliesLikes,
-        // isUpdatedLike,
-        isUpdatedRepliesLikes,
+        isUpdatedReplies,
+        setIsUpdatedReplies,
+        isUpdateLikes,
+        setIsUpdateLikes,
         login: async (data) => {
           const response = await login({
             account: data.account,
@@ -200,31 +202,30 @@ const AuthProvider = ({ children }) => {
         getUserReplies: async(id) => {
           const response = await getUserReplies(id)
           console.log("get all user replies", response)
-          if(response.data) setIsUpdatedRepliesLikes(true)
+          if(response.data) setIsUpdatedReplies(true)
           return response
         },
         getUserLikes: async(id) => {
           const response = await getUserLikes(id)
           console.log("get all user likes", response)
-          if(response.data) setIsUpdatedRepliesLikes(true)
           return response
         },
         postReply: async(id, {comment}) => {
           const response = await postReply(id, {comment})
           console.log("post a reply", response)
-          if(response.data) setIsUpdatedRepliesLikes(true)
+          if(response.data) setIsUpdatedReplies(true)
           return response
         },
         postLike: async(id) => {
           const response = await postLike(id)
           console.log("post a like", response)
-          if(response.data) setIsUpdatedRepliesLikes(true)
+          if(response.data) setIsUpdateLikes(true)
           return response
         },
         postUnlike: async(id) => {
           const response = await postUnlike(id)
           console.log("post an unlike", response)
-          if(response.data) setIsUpdatedRepliesLikes(true)
+          if(response.data) setIsUpdateLikes(true)
           return response
         },
       }}

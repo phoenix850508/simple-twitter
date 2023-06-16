@@ -17,9 +17,9 @@ export default function ReplyListPage() {
   // 儲存該推文發文者資訊
   const [singleTweetInfo, setSingleTweetInfo] = useState(null);
   // const { tweetId } = useContext(AuthContext); 這個寫法 useEffect 裡 id 是 null==
+  const {isUpdatedReplies} = useContext(AuthContext)
   // tweetId 資料從 localStorage 拿
   const savedTweetId = localStorage.getItem("tweetId");
-  const {setIsUpdatedRepliesLikes} = useContext(AuthContext)
   // 透過 API 撈資料
   useEffect(() => {
     // 該推文底下的回覆資料
@@ -27,8 +27,7 @@ export default function ReplyListPage() {
       try {
         // 用 Context 裡的 tweetId 去撈
         const tweetReplyList = await getTweetReplyList(savedTweetId);
-          console.log("TEST EXIST", tweetReplyList)
-        tweetReplyList.length > 0 && setTweetReplyList(tweetReplyList.map((reply) => ({ ...reply })));
+        setTweetReplyList(tweetReplyList.map((reply) => ({ ...reply })));
       } catch (error) {
         console.error(error);
       }
@@ -38,24 +37,25 @@ export default function ReplyListPage() {
       try {
         // 用 localStorage 裡的 tweetId 去撈
         const singleTweet = await getSingleTweet(savedTweetId);
-        console.log("TEST EXIST", singleTweetInfo)
         // 只在渲染時 set 一次似乎不用拷貝？
         // setSingleTweetInfo({ ...singleTweet, User: { ...singleTweet.User } });
-        Object.keys(singleTweet).length > 0 && setSingleTweetInfo(singleTweet);
+        setSingleTweetInfo(singleTweet);
       } catch (error) {
         console.error(error);
       }
     };
+    console.log("before api call",isUpdatedReplies)
     getSingleTweetAsync();
     getTweetReplyListAsync();
-  }, [savedTweetId]);
+    console.log("after api call", isUpdatedReplies)
+  }, [savedTweetId, isUpdatedReplies]);
 
   return (
     <MainContainer>
       <LeftBanner />
       <MiddleColumnContainer>
-        {singleTweetInfo && <TopReplyListSection singleTweetInfo={singleTweetInfo} tweetId={savedTweetId} />}
-        {singleTweetInfo && tweetReplyList  && <ReplyCollection tweetReplyList={tweetReplyList} singleTweetInfo={singleTweetInfo} />}
+        <TopReplyListSection singleTweetInfo={singleTweetInfo} tweetId={savedTweetId} />
+        <ReplyCollection tweetReplyList={tweetReplyList} />
       </MiddleColumnContainer>
       <RightBanner />
     </MainContainer>

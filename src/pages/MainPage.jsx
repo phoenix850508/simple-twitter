@@ -16,7 +16,7 @@ import { AuthContext } from 'context/AuthContext.jsx';
 export default function MainPage() {
   // tweets 存在這
   const [tweets, setTweets] = useState([]);
-  const { isTweetUpdated, isAuthenticated } = useContext(AuthContext);
+  const { isTweetUpdated, isAuthenticated, setIsTweetUpdated } = useContext(AuthContext);
 
   // 為了顯示左側按鈕顏色需做判斷，共有 1、2、3
   const currentPage = 1
@@ -33,8 +33,9 @@ export default function MainPage() {
     };
     if(isAuthenticated) {
       getTweetsAsync();
+      setIsTweetUpdated(false)
     }
-  }, [isTweetUpdated, isAuthenticated]);
+  }, [isTweetUpdated, isAuthenticated, setIsTweetUpdated]);
 
   return (
     <MainContainer>
