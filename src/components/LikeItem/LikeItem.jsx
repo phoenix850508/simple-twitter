@@ -15,7 +15,7 @@ import { useContext } from "react";
 import { AuthContext } from "context/AuthContext";
 
 export default function LikeItem({ id, avatar, name, account, description, createdAt, replyCount, likeCount }) {
-  const {setIsUpdatedReplies, setIsUpdateLikes} = useContext(AuthContext)
+  const {setIsUpdatedReplies, setIsUpdateLikes, postLike, postUnlike} = useContext(AuthContext)
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -37,6 +37,15 @@ export default function LikeItem({ id, avatar, name, account, description, creat
       return alert("新增回覆失敗")
     }
   }
+
+  // 喜歡功能
+  const handleLike = async () => {
+      const response = await postUnlike(id)
+      //若取消喜歡成功
+      if (!response.data) {
+        return alert("取消喜歡失敗")
+      }
+  }
   useEffect(() => {
     setIsUpdateLikes(false)
     setIsUpdatedReplies(false)
@@ -45,9 +54,9 @@ export default function LikeItem({ id, avatar, name, account, description, creat
     <div className={styles.tweetItemContainer}>
       <div className={styles.tweetItemWrapper}>
         <div>
-          <img className={styles.avatar} src={avatar ? avatar : avatarDefaultMini} alt='avatar' />
+          <img className={styles.avatar} src={avatar ? (avatar? avatar : avatarDefaultMini) : avatarDefaultMini} alt='avatar' />
         </div>
-        <div className={styles.tweetItemInfoWrapper}>
+        <div className={styles.tweetItemInfoWrapper}> 
           <div className={styles.tweetItemInfoUser}>
             <div className={styles.tweetItemInfoUserName}>{name}</div>
             <div className={styles.tweetItemInfoUserDetail}>@{account}・{createdAt}</div>
@@ -61,7 +70,7 @@ export default function LikeItem({ id, avatar, name, account, description, creat
               <div className={styles.tweetDiscussionNum}>{replyCount}</div>
             </div>
             <div className={styles.tweetItemInfoBottomLike}>
-              <img className={styles.tweetLike} src={likeActive} alt="likeActive.svg" />
+              <img className={styles.tweetLike} src={likeActive} alt="likeActive.svg" onClick={handleLike} />
               <div className={styles.tweetLikeNum}>{likeCount}</div>
             </div>
           </div>
