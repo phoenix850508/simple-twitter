@@ -1,13 +1,15 @@
+// React Hook
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import AuthButton from 'components/Form/AuthButton.jsx'
 import AuthInput from 'components/Form/AuthInput.jsx'
 import ac_logo from 'icons/ac_logo.svg'
 import styles from './SignupPage.module.scss'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom';
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
 import { signup } from 'api/auth.js'
 import Alert from 'components/Form/Alert.jsx'
+
 export default function SignupPage() {
   const [account, setAccount] = useState('')
   const [name, setName] = useState('')
@@ -19,6 +21,31 @@ export default function SignupPage() {
   const navigate = useNavigate()
   // 這邊的errorMsg是用來判斷若後端response的資料不存在或有誤，可以讓<AuthInput/>可以製造出相對的錯誤訊息
   const [errorMsg, setErrorMsg] = useState('')
+
+  // 撈取 localStorage 中的 userInfo 協助跳轉頁面
+  let savedUserInfo = {}
+  let savedUserInfoId = 0
+  let role = ''
+  if (localStorage.getItem("userInfo")) {
+    savedUserInfo = JSON.parse(localStorage.getItem("userInfo"));
+    role = savedUserInfo.role
+    savedUserInfoId = savedUserInfo.id
+  }
+
+  // 透過 API 撈初始資料
+  useEffect(() => {
+    // 驗證角色，如果是管理者那就導回管理者自己的頁面，若為登入的使用者則導回首頁
+    if (savedUserInfoId && role === 'user') {
+      navigate('/main');
+    } else if (savedUserInfoId && role === 'admin') {
+      navigate('/admin_users');
+      // 剩下的就是真的想註冊，留在原頁面
+    } else {
+      navigate('/signup');
+    }
+  }, [savedUserInfoId, navigate, role]);
+
+
   const handleClick = async () => {
     //檢查格式是否符合需求
     if (account.length === 0 || name.length === 0 || email.length === 0 || password.length === 0) return

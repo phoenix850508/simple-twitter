@@ -59,6 +59,11 @@ export default function UserOtherPage() {
     navigate('/user/other/follow')
   }
 
+  // userId 從 localStorage 拿
+  const savedUserInfo = JSON.parse(localStorage.getItem("userInfo"))
+  const savedUserInfoId = savedUserInfo.id
+  const role = savedUserInfo.role
+
   // 透過 API 撈資料
   useEffect(() => {
     // 所有該使用者的推文
@@ -113,14 +118,21 @@ export default function UserOtherPage() {
         console.error(error);
       }
     }
-
-    if (savedOtherUserId) {
+    // 驗證角色，如果是管理者那就導回管理者自己的頁面
+    if (savedOtherUserId && savedUserInfoId && role === 'user') {
       getTweetsAsync();
       getUserRepliesAsync();
       getUserLikesAsync();
       getUserAsync();
+      // 沒點人就進來，請回去首頁
+    } else if (savedUserInfoId && role === 'user') {
+      navigate('/main');
+    } else if (savedUserInfoId && role === 'admin') {
+      navigate('/admin_users');
+    } else {
+      navigate('/login');
     }
-  }, [savedOtherUserId, flagForRendering]);
+  }, [savedUserInfoId, savedOtherUserId, flagForRendering, navigate, role]);
 
   return (
     <MainContainer>

@@ -4,7 +4,7 @@ import AuthInput from 'components/Form/AuthInput.jsx'
 import ac_logo from 'icons/ac_logo.svg'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom';
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from 'context/AuthContext.jsx'
 
@@ -16,6 +16,29 @@ export default function AdminPage() {
   const [errorMsg, setErrorMsg] = useState('')
   const navigate = useNavigate();
   const { adminLogin } = useContext(AuthContext)
+
+  // 撈取 localStorage 中的 userInfo 協助跳轉頁面
+  let savedUserInfo = {}
+  let savedUserInfoId = 0
+  let role = ''
+  if (localStorage.getItem("userInfo")) {
+    savedUserInfo = JSON.parse(localStorage.getItem("userInfo"));
+    savedUserInfoId = savedUserInfo.id
+    role = savedUserInfo.role
+  }
+
+  // 驗證角色，若登入者為一般使用者則導回首頁，若是管理者那就停在原頁面，其他的請登入
+  useEffect(() => {
+    if (savedUserInfoId && role === 'user') {
+      navigate('/main');
+    } else if (savedUserInfoId && role === 'admin') {
+      navigate('/admin_main');
+      // 剩下的就是請先登入
+    } else {
+      navigate('/login');
+    }
+  }, [savedUserInfoId, navigate, role])
+
   const handleClick = async () => {
     // 檢查格式是否符合需求
     if (account.length === 0 || password.length === 0) return
@@ -29,6 +52,7 @@ export default function AdminPage() {
       navigate('/admin_users')
     }
   }
+
   return (
     <div className={styles.adminLoginContainer}>
       <img src={ac_logo} alt="ac_logo.svg" />
