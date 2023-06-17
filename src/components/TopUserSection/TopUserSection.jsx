@@ -23,6 +23,8 @@ export default function TopUserSection({ handleFollowDetailClick, followingCount
   const [intro, setIntro] = useState('')
   const [userAvatar, setUserAvatar] = useState(null)
   const [banner, setBanner] = useState(null)
+  const [previewAvatar, setPreviewAvatar] = useState(null)
+  const [previewBanner, setPreviewBanner] = useState(null)
   const [tweetCount, setTweetCount] = useState(null)
   const [tempDataObject, setTempDataObject] = useState(null)
   const { putUserSelf, getUser, setIsUserEdited } = useContext(AuthContext)
@@ -42,13 +44,16 @@ export default function TopUserSection({ handleFollowDetailClick, followingCount
   //點擊上傳圖片按鈕
   const handleAvatarFile = (event) => {
     setUserAvatar(event.target.files[0]);
+    setPreviewAvatar(URL.createObjectURL(event.target.files[0]))
   }
   const handleBannerFile = (event) => {
     setBanner(event.target.files[0]);
+    setPreviewBanner(URL.createObjectURL(event.target.files[0]))
   }
   //點擊儲存按鈕
   const handleSave = async () => {
-    console.log(banner)
+    setPreviewAvatar(null)
+    setPreviewBanner(null)
     // 若input空值，則返回
     if (name.trim().length === 0 || intro.trim().length === 0) return
     // 若自我介紹或是名字長度超過限制，則返回
@@ -147,8 +152,8 @@ export default function TopUserSection({ handleFollowDetailClick, followingCount
         introValue={intro}
         handleAvatarFile={handleAvatarFile}
         handleBannerFile={handleBannerFile}
-        modalAvatar={tempDataObject ? (tempDataObject.avatar ? tempDataObject.avatar : avatarDefaultMini) : (savedUserInfo.avatar ? savedUserInfo.avatar : avatarDefaultMini)}
-        modalBanner={tempDataObject ? (tempDataObject.banner ? tempDataObject.banner : dummyBackgroundImage) : dummyBackgroundImage}
+        modalAvatar={previewAvatar? previewAvatar : (tempDataObject ? (tempDataObject.avatar ? tempDataObject.avatar : avatarDefaultMini) : (savedUserInfo.avatar ? savedUserInfo.avatar : avatarDefaultMini))}
+        modalBanner={previewBanner? previewBanner : (tempDataObject ? (tempDataObject.banner ? tempDataObject.banner : dummyBackgroundImage) : dummyBackgroundImage)}
         handleBannerDelete={() => setBanner(null)}
       />
     </div>
