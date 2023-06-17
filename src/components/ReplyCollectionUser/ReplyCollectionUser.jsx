@@ -1,12 +1,13 @@
 import styles from "./ReplyCollectionUser.module.scss";
 // import { useState, useEffect, useContext } from 'react';
 import ReplyItem from "components/ReplyItem/ReplyItem.jsx";
+import clsx from 'clsx'
 
 
 export default function ReplyCollection({ replies, userDetail }) {
 
   return (
-    <div className={styles.replyCollectionContainer}>
+    <div className={clsx({[styles.replyCollectionContainer]: replies}, styles.noBorder)}>
       {replies ? (replies.map((reply) => {
         const { name, account, avatar } = userDetail
         const { id, comment, createdAt } = reply

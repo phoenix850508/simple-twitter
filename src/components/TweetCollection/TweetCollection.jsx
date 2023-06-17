@@ -1,12 +1,13 @@
 import styles from "./TweetCollection.module.scss";
 import TweetItem from "components/TweetItem/TweetItem.jsx";
 import avatarDefaultMini from 'icons/avatarDefaultMini.svg'
+import clsx from 'clsx'
 
 
 export default function TweetCollection({ tweets, userDetail, fromPage }) {
   // userDetail帶入的參數是從localStorage取的，若有大頭貼、名字或是帳號更新，會同步更動
   return (
-    <div className={styles.tweetCollectionContainer}>
+    <div className={clsx({[styles.tweetCollectionContainer]: tweets}, styles.noBorder)}>
       {tweets.length !== 0 ? (tweets.map((tweet) => {
         let { name, account, avatar } = tweet.User
         const { id, UserId, description, createdAt, replyCount, likeCount, isLiked } = tweet

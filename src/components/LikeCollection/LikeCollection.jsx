@@ -3,10 +3,11 @@ import styles from "./LikeCollection.module.scss";
 // import { useState } from 'react';
 import LikeItem from "components/LikeItem/LikeItem.jsx";
 // import dummyTweets from "./dummyTweets";
+import clsx from 'clsx'
 
 export default function LikeCollection({ likes, userDetail }) {
   return (
-    <div className={styles.tweetCollectionContainer}>
+    <div className={clsx({[styles.tweetCollectionContainer]: likes}, styles.noBorder)}>
       {likes? (likes.map((likedTweet) => {
         const { shortDescription, createdAt, UserId } = likedTweet
         let { name, account, avatar } = likedTweet.Tweet.User

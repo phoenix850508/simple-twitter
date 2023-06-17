@@ -1,6 +1,7 @@
 import styles from "./ReplyCollection.module.scss";
 import { useState, useEffect } from 'react';
 import ReplyItem from "components/ReplyItem/ReplyItem.jsx";
+import clsx from 'clsx'
 
 
 export default function ReplyCollection({ tweetReplyList, replyTo }) {
@@ -11,7 +12,7 @@ export default function ReplyCollection({ tweetReplyList, replyTo }) {
   }, [tweetReplyList])
 
   return (
-    <div className={styles.replyCollectionContainer}>
+    <div className={clsx({[styles.replyCollectionContainer]: arrayData.length !== 0}, styles.noBorder)}>
       {arrayData.length !== 0 ? (arrayData && arrayData.map((reply) => {
         return <ReplyItem
           key={reply.id}
