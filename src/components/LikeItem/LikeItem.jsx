@@ -15,7 +15,7 @@ import { useContext } from "react";
 import { AuthContext } from "context/AuthContext";
 
 export default function LikeItem({ id, avatar, name, account, description, createdAt, replyCount, likeCount }) {
-  const {setIsUpdatedReplies, setIsUpdateLikes, postLike, postUnlike} = useContext(AuthContext)
+  const {setIsUpdatedReplies, setIsUpdateLikes, postUnlike} = useContext(AuthContext)
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);

@@ -99,7 +99,8 @@ const AuthProvider = ({ children }) => {
       }
     };
     checkTokenIsValid();
-  }, [pathname, isUserEdited, navigate]);
+    console.log('AuthProvider 重新渲染')
+  }, [pathname, navigate]);
 
 
   // console.log('AuthProvider 重新渲染')
@@ -117,6 +118,7 @@ const AuthProvider = ({ children }) => {
         isTweetUpdated,
         setIsTweetUpdated,
         isUserEdited, 
+        setIsUserEdited,
         isUpdatedReplies,
         setIsUpdatedReplies,
         isUpdateLikes,
@@ -194,13 +196,18 @@ const AuthProvider = ({ children }) => {
         putUserSelf: async(id, formData) => {
           const response = await putUserSelf(id, formData)
           // 若成功更新user資料 把isUserEdited設為true
-          if (!response.response) setIsUserEdited(true)
-          // 順便更新其他地方的avatar，需更動localStorage的內容
-          const savedUserInfo = localStorage.getItem("userInfo")
-          let savedUserInfoParsed = JSON.parse(savedUserInfo)
-          savedUserInfoParsed.avatar = response.data.avatar
-          const modifiedSavedUserInfo = JSON.stringify(savedUserInfoParsed);
-          localStorage.setItem("userInfo", modifiedSavedUserInfo)
+          if (!response.response) {
+            if(response.data) {
+              // 更新localStorage的內容
+              const savedUserInfo = localStorage.getItem("userInfo")
+              let savedUserInfoParsed = JSON.parse(savedUserInfo)
+              savedUserInfoParsed.avatar = response.data.avatar
+              savedUserInfoParsed.name = response.data.name
+              const modifiedSavedUserInfo = JSON.stringify(savedUserInfoParsed);
+              localStorage.setItem("userInfo", modifiedSavedUserInfo)
+              setIsUserEdited(true)
+              }
+          }
           return response
         }, 
         getUser: async(id) => {
