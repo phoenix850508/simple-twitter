@@ -13,43 +13,25 @@ import clsx from 'clsx'
 import { useEffect } from 'react'
 
 export default function TopReplyListSection({ singleTweetInfo }) {
-  console.log("我被執行了")
-  // 該篇推文資訊，可直接解析
-  const { description, createdAt, replyCount, likeCount, isLiked, id, countDown } = singleTweetInfo
-  // 原以為是 useEffect 出錯結果問題出在下面這行，若直接寫則整個 API 完全不會動
-  // const { avatar, name, account } = singleTweetInfo.User
-  let userAvatar = ''
-  let userName = ''
-  let userAccount = ''
-  const {postReply, postLike, postUnlike} = useContext(AuthContext)
+  const {postReply, postLike, postUnlike, setIsUpdatedReplies} = useContext(AuthContext)
   const [replyTweet, setReplyTweet] = useState('')
-  // const [replyNum, setReplyNum] = useState(replyCount)
-  const [isLikedBoolean, setIsLikedBoolean] = useState(null)
-  // const [likeNum, setLikeNum] = useState(0)
   const [errorMsg, setErrorMsg] = useState(false)
   const [show, setShow] = useState(false);
   const [objectData, setObjectData] = useState(null)
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  // 不太確定為什麼會需要繞一圈才取得到 User 內的值？？？
-  if (singleTweetInfo && singleTweetInfo.User) {
-    const { avatar, name, account } = singleTweetInfo.User;
-    // 其他操作
-    userAvatar = avatar
-    userName = name
-    userAccount = account
-  }
+
 
     // 送出回覆文字
   const handleSave = async () => {
     //預防空值與回覆文字限制
     if (replyTweet.length > 140) return
     if (replyTweet.length < 1) return setErrorMsg(true)
-    const response = await postReply(id, { comment: replyTweet })
+    const response = await postReply(objectData.id, { comment: replyTweet })
     //若新增推文成功
     if (response.data.comment) {
       handleClose()
-      // setReplyNum(replyNum + 1)
+      setObjectData({...objectData, replyCount: objectData.replyCount + 1})
       return
     }
     else {
@@ -61,20 +43,12 @@ export default function TopReplyListSection({ singleTweetInfo }) {
   // 喜歡和取消喜歡功能
   const handleLike = async () => {
     //取消喜歡
-    if (isLikedBoolean? isLikedBoolean === "true" : isLiked === true){
-      const response = await postUnlike(id)
-      setIsLikedBoolean("false")
+    if (objectData && objectData.isLiked){
+      const response = await postUnlike(objectData.id)
       //若取消喜歡成功
       if (response.data) {
         if (response.data.message === "Like 取消成功") {
-          setObjectData(...objectData, objectData.likeCount = objectData.likeCount - 1, objectData.likeCount.isLiked = false)
-          //防止資料庫錯誤，若likeNum > 0則讓likeNum - 1
-          // setLikeNum(() => {
-          //   if (likeNum) {
-          //     return likeNum - 1
-          //   }
-          //   else return likeNum
-          // })
+          setObjectData({...objectData, likeCount : objectData.likeCount - 1, isLiked : false})
         }
       }
       else {
@@ -82,14 +56,12 @@ export default function TopReplyListSection({ singleTweetInfo }) {
       }
     }
     //增加喜歡
-    if (isLikedBoolean? isLikedBoolean === "false" : isLiked === false) {
-      const response = await postLike(id)
-      setIsLikedBoolean("true")
+    if (objectData && !objectData.isLiked) {
+      const response = await postLike(objectData.id)
       if (response.data) {
         //若喜歡喜歡成功
         if (response.data.status === "已加入喜歡！") {
-          // setLikeNum(likeNum + 1)
-          setObjectData(...objectData, objectData.likeCount = objectData.likeCount + 1, objectData.likeCount.isLiked = true)
+          setObjectData({...objectData, likeCount : objectData.likeCount + 1, isLiked : true})        
         }
         else {
           return alert("新增喜歡失敗")
@@ -99,9 +71,9 @@ export default function TopReplyListSection({ singleTweetInfo }) {
   }
 
   useEffect(() => {
-    // sessionStorage.setItem('singleTweetInfo', JSON.stringify(singleTweetInfo))
     setObjectData(singleTweetInfo)
-  },[singleTweetInfo])
+    setIsUpdatedReplies(false)
+  },[singleTweetInfo, setIsUpdatedReplies])
   return (
     <>
       <PrevPageBtnToTweets />
@@ -109,27 +81,26 @@ export default function TopReplyListSection({ singleTweetInfo }) {
         <div className={styles.tweetItemWrapper}>
           <div className={styles.tweetItemInfoWrapper}>
             <div>
-              <img className={styles.avatar} src={userAvatar? userAvatar : avatarDefaultMini} alt="avatarDefaultMini" />
+              <img className={styles.avatar} src={objectData? (objectData.User.avatar? objectData.User.avatar : avatarDefaultMini) : avatarDefaultMini} alt="avatarDefaultMini" />
             </div>
             <div className={styles.tweetItemInfoUser}>
-              <div className={styles.tweetItemInfoUserName}>{userName}</div>
-              <div className={styles.tweetItemInfoUserAccount}>@{userAccount}</div>
+              <div className={styles.tweetItemInfoUserName}>{objectData && objectData.User.name}</div>
+              <div className={styles.tweetItemInfoUserAccount}>@{objectData && objectData.User.account}</div>
             </div>
           </div>
-          <div className={styles.tweetItemInfoContent}>{description}</div>
-          <div className={styles.tweetItemInfoTimeWrapper}>{createdAt}</div>
+          <div className={styles.tweetItemInfoContent}>{objectData && objectData.description}</div>
+          <div className={styles.tweetItemInfoTimeWrapper}>{objectData && objectData.createdAt}</div>
           <div className={styles.tweetItemInfoCountWrapper}>
             <div>
-              <span className={styles.tweetCount}>{replyCount}</span><span className={styles.tweetWord}>回覆</span>
+              <span className={styles.tweetCount}>{objectData && objectData.replyCount}</span><span className={styles.tweetWord}>回覆</span>
             </div>
             <div className={styles.tweetLikeCountWrapper}>
-              <span className={styles.tweetCount}>{likeCount}</span><span className={styles.tweetWord}>喜歡次數</span>
+              <span className={styles.tweetCount}>{objectData && objectData.likeCount}</span><span className={styles.tweetWord}>喜歡次數</span>
             </div>
           </div>
           <div className={styles.tweetItemIconWrapper}>
             <img className={styles.tweetItemIcon} src={discussion} alt="discussion.svg" onClick={handleShow} />
-            {/* 因為無法提前抓到isLiked的值，所以這邊邏輯稍微複雜 */}
-          <img className={styles.tweetItemIcon} src={(isLikedBoolean? (isLikedBoolean? isLikedBoolean === "true" : isLikedBoolean === "false") : isLiked)? likeActive : like} alt="likeActive.svg" onClick={handleLike} />
+          <img className={styles.tweetItemIcon} src={objectData && objectData.isLiked? likeActive : like} alt="likeActive.svg" onClick={handleLike} />
           </div>
         </div>
       </div>
@@ -137,11 +108,11 @@ export default function TopReplyListSection({ singleTweetInfo }) {
         handleShow={handleShow}
         show={show}
         handleClose={handleClose}
-        threadUserName={userName}
-        threadUserAccount={userAccount}
-        threadDescription={description}
-        threadCreatedAt={countDown}
-        threadUserAvatar={userAvatar}
+        threadUserName={objectData && objectData.User.name}
+        threadUserAccount={objectData && objectData.User.account}
+        threadDescription={objectData && objectData.description}
+        threadCreatedAt={objectData && objectData.countDown}
+        threadUserAvatar={objectData && objectData.User.avatar}
         onInputChange={
           (replyInput) => {
             setReplyTweet(replyInput)
@@ -173,7 +144,7 @@ export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserA
         <Modal.Body className={clsx(styles.modalBody)}>
           <div className={styles.modalPost}>
             <div className={styles.replyModaldAvatarContainer}>
-              <img className={styles.threadUserAvatar} src={threadUserAvatar? threadUserAvatar : avatarDefaultMini} alt="avatarDefaultMini.svg" />
+              <img className={styles.threadUserAvatar} src={threadUserAvatar? (threadUserAvatar? threadUserAvatar : avatarDefaultMini) : avatarDefaultMini} alt="avatarDefaultMini.svg" />
             </div>
             <div className={clsx(styles.modalTweetItemInfoWrapper)}>
               <div className={styles.modalUserTweetItemInfo}>
@@ -187,7 +158,7 @@ export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserA
             </div>
           </div>
           <div className={clsx(styles.modalPost, styles.modalInputContainer)}>
-            <img className={styles.threadUserAvatar} src={savedUserInfoParsed.avatar? savedUserInfoParsed.avatar: avatarDefaultMini} alt="avatar" />
+            <img className={styles.threadUserAvatar} src={savedUserInfoParsed.avatar? (savedUserInfoParsed.avatar? savedUserInfoParsed.avatar : avatarDefaultMini): avatarDefaultMini} alt="avatar" />
             <input className={clsx(styles.modalInput)} type="text" placeholder="推你的回覆" onChange={e => onInputChange?.(e.target.value)} />
             <div className={borderLine}></div>
           </div>
