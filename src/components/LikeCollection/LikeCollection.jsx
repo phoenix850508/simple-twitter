@@ -11,7 +11,8 @@ export default function LikeCollection({ likes }) {
       {likes? (likes.map((likedTweet) => {
         const { shortDescription, createdAt } = likedTweet
         const { name, account, avatar } = likedTweet.Tweet.User
-        const { id, replyCount, likeCount } = likedTweet.Tweet
+        const { id } = likedTweet.Tweet
+        const {replyCount, likeCount} = likedTweet
         return (
           <LikeItem
             key={id}
