@@ -185,6 +185,7 @@ const AuthProvider = ({ children }) => {
           localStorage.removeItem("otherUserId");
           localStorage.removeItem("followContent");
           localStorage.removeItem("fromPage");
+          localStorage.removeItem("userTweetAccount")
           setPayload(null);
           setIsAuthenticated(false);
         },

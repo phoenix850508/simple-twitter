@@ -34,6 +34,13 @@
   }
 }
 
+.accountNotExit {
+  @extend %authError;
+  &::after {
+    content: "帳號不存在";
+  }
+}
+
 .password {
   margin-bottom: 40px;
 }

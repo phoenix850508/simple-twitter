@@ -374,13 +374,13 @@
 .wordLengthError {
   @extend %authError;
   &::after {
-    content: "回覆推文不能超過140字";
+    content: "字數不可超過140字";
   }
 }
 
 .emptyReplyError {
   @extend %authError;
   &::after {
-    content: "推文不能為空白";
+    content: "內容不可空白";
   }
 }

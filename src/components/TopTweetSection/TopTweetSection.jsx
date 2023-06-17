@@ -9,7 +9,10 @@ import { useEffect } from 'react'
 
 export default function TopTweetSection() {
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    clearForm()
+    setShow(false)
+  }
   const handleShow = () => setShow(true);
   const [tweet, setTweet] = useState('')
   const [errorMsg, setErrorMsg] = useState(false)
