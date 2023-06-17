@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/simple-twitter/static/css/main.27b9239a.chunk.css",
-    "main.js": "/simple-twitter/static/js/main.c811a541.chunk.js",
-    "main.js.map": "/simple-twitter/static/js/main.c811a541.chunk.js.map",
+    "main.css": "/simple-twitter/static/css/main.84dbfec6.chunk.css",
+    "main.js": "/simple-twitter/static/js/main.96134a5a.chunk.js",
+    "main.js.map": "/simple-twitter/static/js/main.96134a5a.chunk.js.map",
     "runtime-main.js": "/simple-twitter/static/js/runtime-main.5f59ba27.js",
     "runtime-main.js.map": "/simple-twitter/static/js/runtime-main.5f59ba27.js.map",
-    "static/js/2.e0eb203e.chunk.js": "/simple-twitter/static/js/2.e0eb203e.chunk.js",
-    "static/js/2.e0eb203e.chunk.js.map": "/simple-twitter/static/js/2.e0eb203e.chunk.js.map",
+    "static/js/2.ccaf3e10.chunk.js": "/simple-twitter/static/js/2.ccaf3e10.chunk.js",
+    "static/js/2.ccaf3e10.chunk.js.map": "/simple-twitter/static/js/2.ccaf3e10.chunk.js.map",
     "static/js/3.8de7e2bc.chunk.js": "/simple-twitter/static/js/3.8de7e2bc.chunk.js",
     "static/js/3.8de7e2bc.chunk.js.map": "/simple-twitter/static/js/3.8de7e2bc.chunk.js.map",
     "index.html": "/simple-twitter/index.html",
-    "static/css/main.27b9239a.chunk.css.map": "/simple-twitter/static/css/main.27b9239a.chunk.css.map",
-    "static/js/2.e0eb203e.chunk.js.LICENSE.txt": "/simple-twitter/static/js/2.e0eb203e.chunk.js.LICENSE.txt",
+    "static/css/main.84dbfec6.chunk.css.map": "/simple-twitter/static/css/main.84dbfec6.chunk.css.map",
+    "static/js/2.ccaf3e10.chunk.js.LICENSE.txt": "/simple-twitter/static/js/2.ccaf3e10.chunk.js.LICENSE.txt",
     "static/media/ac_logo.684e310b.svg": "/simple-twitter/static/media/ac_logo.684e310b.svg",
     "static/media/adminTweetsList.39189d10.svg": "/simple-twitter/static/media/adminTweetsList.39189d10.svg",
     "static/media/adminTweetsListActive.1a274d26.svg": "/simple-twitter/static/media/adminTweetsListActive.1a274d26.svg",
@@ -47,8 +47,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.5f59ba27.js",
-    "static/js/2.e0eb203e.chunk.js",
-    "static/css/main.27b9239a.chunk.css",
-    "static/js/main.c811a541.chunk.js"
+    "static/js/2.ccaf3e10.chunk.js",
+    "static/css/main.84dbfec6.chunk.css",
+    "static/js/main.96134a5a.chunk.js"
   ]
 }
