@@ -4,7 +4,7 @@ import dummyBackgroundImage from 'icons/dummyBackgroundImage.svg'
 // import dummyUserPhoto from 'icons/dummyUserPhoto.svg'
 import editUserInfoBtn from 'icons/editUserInfoBtn.svg'
 import PrePageBtn from 'components/PrevPageBtn/PrevPageBtn.jsx'
-import { useState, useContext, useEffect, useRef } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import clsx from 'clsx'
 import Modal from 'react-bootstrap/Modal';
 import cross from 'icons/cross.svg'
@@ -23,6 +23,8 @@ export default function TopUserSection({ handleFollowDetailClick, followingCount
   const [intro, setIntro] = useState('')
   const [userAvatar, setUserAvatar] = useState(null)
   const [banner, setBanner] = useState(null)
+  const [previewAvatar, setPreviewAvatar] = useState(null)
+  const [previewBanner, setPreviewBanner] = useState(null)
   const [tweetCount, setTweetCount] = useState(null)
   const [tempDataObject, setTempDataObject] = useState(null)
   const { putUserSelf, getUser, setIsUserEdited } = useContext(AuthContext)
@@ -31,7 +33,7 @@ export default function TopUserSection({ handleFollowDetailClick, followingCount
   const savedUserInfo = JSON.parse(localStorage.getItem("userInfo"))
   const savedUserInfoId = savedUserInfo.id
   // 其他沒從 API 撈的直接用 localStorage 拿，code 才不用改太多
-  const { account } = savedUserInfo;
+  // const { account } = savedUserInfo;
 
   // following 人數暫存在這，而 follower 人數不會因 user 行為而改變所以不用放
   const [followingCountTemp, setFollowingCountTemp] = useState(followingCount)
@@ -42,13 +44,16 @@ export default function TopUserSection({ handleFollowDetailClick, followingCount
   //點擊上傳圖片按鈕
   const handleAvatarFile = (event) => {
     setUserAvatar(event.target.files[0]);
+    setPreviewAvatar(URL.createObjectURL(event.target.files[0]))
   }
   const handleBannerFile = (event) => {
     setBanner(event.target.files[0]);
+    setPreviewBanner(URL.createObjectURL(event.target.files[0]))
   }
   //點擊儲存按鈕
   const handleSave = async () => {
-    console.log(banner)
+    setPreviewAvatar(null)
+    setPreviewBanner(null)
     // 若input空值，則返回
     if (name.trim().length === 0 || intro.trim().length === 0) return
     // 若自我介紹或是名字長度超過限制，則返回
@@ -96,13 +101,12 @@ export default function TopUserSection({ handleFollowDetailClick, followingCount
     }
     getUserAsync()
     setIsUserEdited(false)
-    console.log("我被執行")
   }, [getUser, savedUserInfoId, setIsUserEdited, followingCount])
 
 
   return (
     <div>
-      <PrePageBtn toPage='/main' name={name} tweetCount={tweetCount} />
+      <PrePageBtn toPage='/main' name={tempDataObject && tempDataObject.name} tweetCount={tweetCount} />
       <div className={styles.topUserInfoWrapper}>
         <img className={styles.topUserBanner} src={tempDataObject ? (tempDataObject.banner ? tempDataObject.banner : dummyBackgroundImage) : dummyBackgroundImage} alt="dummyBackgroundImage.svg" />
         <img className={styles.topUserPhoto} src={tempDataObject ? (tempDataObject.avatar ? tempDataObject.avatar : avatarDefaultMini) : (savedUserInfo.avatar ? savedUserInfo.avatar : avatarDefaultMini)} alt='avatar' />
@@ -110,9 +114,9 @@ export default function TopUserSection({ handleFollowDetailClick, followingCount
           <img src={editUserInfoBtn} alt="editUserInfoBtn.svg" />
         </button>
         <div className={styles.topUserWordsWrapper}>
-          <div className={styles.topUserName}>{tempDataObject ? tempDataObject.name : name}</div>
-          <div className={styles.topUserAccount}>@{tempDataObject ? tempDataObject.account : account}</div>
-          <div className={styles.topUserIntro}>{intro}</div>
+          <div className={styles.topUserName}>{tempDataObject && tempDataObject.name}</div>
+          <div className={styles.topUserAccount}>@{tempDataObject && tempDataObject.account}</div>
+          <div className={styles.topUserIntro}>{tempDataObject && tempDataObject.introduction}</div>
           <div className={styles.topUserFollowWrapper}>
             <div>
               <button
@@ -130,7 +134,7 @@ export default function TopUserSection({ handleFollowDetailClick, followingCount
                 value='followers'
                 onClick={e => { handleFollowDetailClick(e.currentTarget.value) }}
               >
-                <span className={styles.topUserFollowCount}>{tempDataObject ? tempDataObject.followerCount : followerCount}</span><span className={styles.topUserFollowWord}>跟隨者</span>
+                <span className={styles.topUserFollowCount}>{followerCount && followerCount}</span><span className={styles.topUserFollowWord}>跟隨者</span>
               </button>
             </div>
           </div>
@@ -148,8 +152,8 @@ export default function TopUserSection({ handleFollowDetailClick, followingCount
         introValue={intro}
         handleAvatarFile={handleAvatarFile}
         handleBannerFile={handleBannerFile}
-        modalAvatar={tempDataObject ? (tempDataObject.avatar ? tempDataObject.avatar : avatarDefaultMini) : (savedUserInfo.avatar ? savedUserInfo.avatar : avatarDefaultMini)}
-        modalBanner={tempDataObject ? (tempDataObject.banner ? tempDataObject.banner : dummyBackgroundImage) : dummyBackgroundImage}
+        modalAvatar={previewAvatar? previewAvatar : (tempDataObject ? (tempDataObject.avatar ? tempDataObject.avatar : avatarDefaultMini) : (savedUserInfo.avatar ? savedUserInfo.avatar : avatarDefaultMini))}
+        modalBanner={previewBanner? previewBanner : (tempDataObject ? (tempDataObject.banner ? tempDataObject.banner : dummyBackgroundImage) : dummyBackgroundImage)}
         handleBannerDelete={() => setBanner(null)}
       />
     </div>

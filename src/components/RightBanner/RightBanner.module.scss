@@ -67,6 +67,7 @@
       // margin-right: 13px;
 
       &Name {
+        display: flex;
         font-weight: 700;
         font-size: 16px;
         line-height: 26px;
@@ -74,6 +75,7 @@
       }
 
       &Account {
+        display: flex;
         font-weight: 500;
         font-size: 14px;
         line-height: 22px;

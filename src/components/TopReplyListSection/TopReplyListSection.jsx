@@ -100,7 +100,7 @@ export default function TopReplyListSection({ singleTweetInfo }) {
           </div>
           <div className={styles.tweetItemIconWrapper}>
             <img className={styles.tweetItemIcon} src={discussion} alt="discussion.svg" onClick={handleShow} />
-          <img className={styles.tweetItemIcon} src={objectData && objectData.isLiked? likeActive : like} alt="likeActive.svg" onClick={handleLike} />
+            <img className={styles.tweetItemIcon} src={objectData && objectData.isLiked? likeActive : like} alt="likeActive.svg" onClick={handleLike} />
           </div>
         </div>
       </div>
