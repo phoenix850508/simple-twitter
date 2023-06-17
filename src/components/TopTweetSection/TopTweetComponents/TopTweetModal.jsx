@@ -41,7 +41,7 @@ export default function TopTweetModal({modal, modalHeader, modalClose, modalBody
         </Modal.Header>
         <Modal.Body className={clsx(styles.modalBody, modalBody)}>
           <div className={styles.modalPost}>
-            <img className={styles.avatar} src={dataObject &&  dataObject.avatar? dataObject.avatar : avatarDefaultMini} alt="avatar" />
+            <img className={styles.avatar} src={dataObject &&  dataObject.avatar? (dataObject.avatar? dataObject.avatar : avatarDefaultMini) : avatarDefaultMini} alt="avatar" />
             <div className={styles.inputWrapper}>
             <input 
             className={clsx(styles.modalInput, modalInput)}

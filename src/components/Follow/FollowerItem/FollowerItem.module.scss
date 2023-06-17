@@ -3,9 +3,9 @@
     width: 100%;
     height: 159;
     padding: 16px 29px 16px 24px;
-    border-right: 1px solid #E6ECF0;
-    border-bottom: 1px solid #E6ECF0;
-    border-left: 1px solid #E6ECF0;
+    border-right: 1px solid #e6ecf0;
+    border-bottom: 1px solid #e6ecf0;
+    border-left: 1px solid #e6ecf0;
   }
 
   &Wrapper {
@@ -18,6 +18,7 @@
       width: 50px;
       height: 50px;
       border-radius: 50%;
+      object-fit: cover;
     }
   }
 
@@ -35,7 +36,7 @@
 
   &Name {
     /* body/16px/medium */
-    font-family: 'Noto Sans TC';
+    font-family: "Noto Sans TC";
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
@@ -54,7 +55,7 @@
 
   &Intro {
     /* body/16px/regular */
-    font-family: 'Noto Sans TC';
+    font-family: "Noto Sans TC";
     font-style: normal;
     font-weight: 400;
     font-size: 16px;

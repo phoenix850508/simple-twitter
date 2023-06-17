@@ -47,7 +47,7 @@ export default function FollowerItem({ id, avatar, name, introduction, isFollowe
     <div className={styles.followerItemContainer}>
       <div className={styles.followerItemWrapper}>
         <div>
-          <img className={styles.avatar} src={avatar ? avatar : avatarDefaultMini} alt='avatar' />
+          <img className={styles.avatar} src={avatar ? (avatar? avatar : avatarDefaultMini) : avatarDefaultMini} alt='avatar' />
         </div>
         <div className={styles.followerItemInfoWrapper}>
           <div className={styles.followerItemNameFollowWrapper}>
