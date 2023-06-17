@@ -69,7 +69,7 @@ export default function TopUserSectionOther({ notification, handleNotiClick, use
     <div>
       <PrePageBtn toPage='/main' name={name} tweetCount={tweetCount} />
       <div className={styles.topUserInfoWrapper}>
-        <img className={styles.topUserBanner} src={banner? (banner? banner : dummyBackgroundImage2) : dummyBackgroundImage2} alt="dummyBackgroundImage2.svg" />
+        <img className={styles.topUserBanner} src={banner? (banner? (banner? banner : dummyBackgroundImage2) : dummyBackgroundImage2) : dummyBackgroundImage2} alt="dummyBackgroundImage2.svg" />
         <img className={styles.topUserPhoto} src={avatar ? (avatar? avatar : avatarDefaultMini) : avatarDefaultMini} alt='avatar' />
         <div className={styles.topUserEditBtnWrapper}>
           <button className={styles.topUserEditBtn}>

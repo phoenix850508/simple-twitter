@@ -139,6 +139,7 @@
       padding-top: 16px;
       padding-bottom: 16px;
       display: flex;
+      align-items: center;
       justify-content: space-between;
 
       .tweetItemIcon {
@@ -215,6 +216,7 @@
   &TweetItemInfoWrapper {
     display: flex;
     flex-direction: column;
+    align-items: center;
     padding: 0px;
     gap: 8px;
     width: 528px;
