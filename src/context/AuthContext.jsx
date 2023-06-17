@@ -17,6 +17,8 @@ const AuthProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState({});
   // 儲存使用者點擊想看的 tweetId
   const [tweetId, setTweetId] = useState(null);
+  // 儲存使用者點擊想看的 tweet user account
+  const [userTweetAccount, setUserTweetAccount] = useState('')
   // 儲存使用者所有已回覆的 tweet
   const [userReplyList, setUserReplyList] = useState([]);
   // 若自己有Tweet更新
@@ -34,6 +36,12 @@ const AuthProvider = ({ children }) => {
   function handleSetTweetIdClick(tweetIdReceived) {
     setTweetId(tweetIdReceived);
     localStorage.setItem("tweetId", tweetIdReceived);
+  };
+
+  // 儲存點擊的 tweet user account
+  function handleSetUserTweetAccount(accountReceived) {
+    setUserTweetAccount(accountReceived);
+    localStorage.setItem("userTweetAccount", accountReceived);
   };
 
   // 現在每條 API 都會驗證身份，要再測試一下被擋後的回傳值是什麼，再做對應畫面
@@ -91,7 +99,8 @@ const AuthProvider = ({ children }) => {
       }
     };
     checkTokenIsValid();
-  }, [pathname, isUserEdited, navigate]);
+    console.log('AuthProvider 重新渲染')
+  }, [pathname, navigate]);
 
 
   // console.log('AuthProvider 重新渲染')
@@ -103,11 +112,13 @@ const AuthProvider = ({ children }) => {
         userInfo,
         tweetId,
         handleSetTweetIdClick,
+        handleSetUserTweetAccount,
         userReplyList,
         setUserReplyList,
         isTweetUpdated,
         setIsTweetUpdated,
         isUserEdited, 
+        setIsUserEdited,
         isUpdatedReplies,
         setIsUpdatedReplies,
         isUpdateLikes,
@@ -185,13 +196,18 @@ const AuthProvider = ({ children }) => {
         putUserSelf: async(id, formData) => {
           const response = await putUserSelf(id, formData)
           // 若成功更新user資料 把isUserEdited設為true
-          if (!response.response) setIsUserEdited(true)
-          // 順便更新其他地方的avatar，需更動localStorage的內容
-          const savedUserInfo = localStorage.getItem("userInfo")
-          let savedUserInfoParsed = JSON.parse(savedUserInfo)
-          savedUserInfoParsed.avatar = response.data.avatar
-          const modifiedSavedUserInfo = JSON.stringify(savedUserInfoParsed);
-          localStorage.setItem("userInfo", modifiedSavedUserInfo)
+          if (!response.response) {
+            if(response.data) {
+              // 更新localStorage的內容
+              const savedUserInfo = localStorage.getItem("userInfo")
+              let savedUserInfoParsed = JSON.parse(savedUserInfo)
+              savedUserInfoParsed.avatar = response.data.avatar
+              savedUserInfoParsed.name = response.data.name
+              const modifiedSavedUserInfo = JSON.stringify(savedUserInfoParsed);
+              localStorage.setItem("userInfo", modifiedSavedUserInfo)
+              setIsUserEdited(true)
+              }
+          }
           return response
         }, 
         getUser: async(id) => {

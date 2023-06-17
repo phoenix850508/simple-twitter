@@ -7,7 +7,7 @@ export default function ReplyItem({ name, account, avatar, comment, createdAt, r
     <div className={styles.replyItemContainer}>
       <div className={styles.replyItemWrapper}>
         <div>
-          <img className={styles.avatar} src={avatar ? avatar : avatarDefaultMini} alt='avatar' />
+          <img className={styles.avatar} src={avatar ? (avatar? avatar : avatarDefaultMini) : avatarDefaultMini} alt='avatar' />
         </div>
         <div className={styles.replyItemInfoWrapper}>
           <div className={styles.replyItemInfoUser}>

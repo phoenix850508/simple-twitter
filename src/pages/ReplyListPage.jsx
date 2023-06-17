@@ -20,6 +20,8 @@ export default function ReplyListPage() {
   const {isUpdatedReplies} = useContext(AuthContext)
   // tweetId 資料從 localStorage 拿
   const savedTweetId = localStorage.getItem("tweetId");
+  // userTweetAccount 資料從 localStorage 拿
+  const savedUserTweetAccount = localStorage.getItem("userTweetAccount")
   // 透過 API 撈資料
   useEffect(() => {
     // 該推文底下的回覆資料
@@ -55,7 +57,7 @@ export default function ReplyListPage() {
       <LeftBanner />
       <MiddleColumnContainer>
         <TopReplyListSection singleTweetInfo={singleTweetInfo} tweetId={savedTweetId} />
-        <ReplyCollection tweetReplyList={tweetReplyList} />
+        <ReplyCollection tweetReplyList={tweetReplyList} replyTo={savedUserTweetAccount}/>
       </MiddleColumnContainer>
       <RightBanner />
     </MainContainer>
