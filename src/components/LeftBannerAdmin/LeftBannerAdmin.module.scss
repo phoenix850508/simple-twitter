@@ -20,6 +20,16 @@
     width: 100%;
     height: 58px;
     margin-bottom: 8px;
+    cursor: pointer;
+
+    // 以下是 hover 效果
+    .iconHome:hover {
+      content: url('../../icons/adminTweetsListActive.svg');
+    }
+
+    .iconUserInfo:hover {
+      content: url('../../icons/adminUsersListActive.svg');
+    }
   }
 
   // 左側按鈕

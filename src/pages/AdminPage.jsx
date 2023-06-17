@@ -15,7 +15,7 @@ export default function AdminPage() {
   // 這邊的errorMsg是用來判斷若後端response的資料不存在或有誤，可以讓<AuthInput/>可以製造出相對的錯誤訊息
   const [errorMsg, setErrorMsg] = useState('')
   const navigate = useNavigate();
-  const {adminLogin} = useContext(AuthContext)
+  const { adminLogin } = useContext(AuthContext)
   const handleClick = async () => {
     // 檢查格式是否符合需求
     if (account.length === 0 || password.length === 0) return
@@ -39,6 +39,7 @@ export default function AdminPage() {
         label={"帳號"}
         placeholder={"請輸入帳號"}
         value={account}
+        dataFrom={'AdminPage'}
         onChange={(accountInput) => {
           setErrorMsg('')
           setAccount(accountInput)
@@ -50,6 +51,7 @@ export default function AdminPage() {
         placeholder={"請輸入密碼"}
         type="password"
         value={password}
+        dataFrom={'AdminPage'}
         onChange={(passwordInput) => {
           setErrorMsg('')
           setPassword(passwordInput)

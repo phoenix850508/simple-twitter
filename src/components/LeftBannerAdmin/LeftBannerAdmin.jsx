@@ -52,7 +52,7 @@ function LeftBannerItems({ handleToMainClick, handleToUsersClick, currentPage })
           className={styles.leftBannerBtn}
           onClick={() => { handleToMainClick() }}
         >
-          {currentPage ? <img className={styles.leftBannerIcon} src={adminTweetsList} alt="adminTweetsList.svg" /> : <img className={styles.leftBannerIcon} src={adminTweetsListActive} alt="adminTweetsListActive.svg" />}
+          {currentPage ? <img className={`${styles.leftBannerIcon} ${styles.iconHome}`} src={adminTweetsList} alt="adminTweetsList.svg" /> : <img className={`${styles.leftBannerIcon} ${styles.iconHome}`} src={adminTweetsListActive} alt="adminTweetsListActive.svg" />}
         </button>
       </div>
       <div className={styles.leftBannerItem}>
@@ -60,7 +60,7 @@ function LeftBannerItems({ handleToMainClick, handleToUsersClick, currentPage })
           className={styles.leftBannerBtn}
           onClick={() => { handleToUsersClick() }}
         >
-          {currentPage ? <img className={styles.leftBannerIcon} src={adminUsersListActive} alt="adminUsersListActive.svg" /> : <img className={styles.leftBannerIcon} src={adminUsersList} alt="adminUsersList.svg" />}
+          {currentPage ? <img className={`${styles.leftBannerIcon} ${styles.iconUserInfo}`} src={adminUsersListActive} alt="adminUsersListActive.svg" /> : <img className={`${styles.leftBannerIcon} ${styles.iconUserInfo}`} src={adminUsersList} alt="adminUsersList.svg" />}
         </button>
       </div>
     </div>

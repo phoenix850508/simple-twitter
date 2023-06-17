@@ -5,6 +5,7 @@
   left: 0;
   height: 2px;
   width: 100%;
+
   &::after {
     content: "";
     position: absolute;
@@ -39,6 +40,19 @@
     height: 58px;
     margin-bottom: 8px;
     cursor: pointer;
+
+    // 以下是 hover 效果
+    .iconHome:hover {
+      content: url('../../icons/homeActive.svg');
+    }
+
+    .iconUserInfo:hover {
+      content: url('../../icons/userInfoActive.svg');
+    }
+
+    .iconSettings:hover {
+      content: url('../../icons/settingsActive.svg');
+    }
   }
 
   &Icon {
@@ -87,6 +101,7 @@
 
 .wordLengthError {
   @extend %authError;
+
   &::after {
     content: "推文不能超過140字";
   }
@@ -94,6 +109,7 @@
 
 .emptyTweetError {
   @extend %authError;
+
   &::after {
     content: "推文不能為空白";
   }

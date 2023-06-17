@@ -1,8 +1,7 @@
 import styles from "./ReplyCollectionUser.module.scss";
 // import { useState, useEffect, useContext } from 'react';
 import ReplyItem from "components/ReplyItem/ReplyItem.jsx";
-// 引用封裝好的 Context 資訊
-// import { AuthContext } from 'context/AuthContext.jsx';
+
 
 export default function ReplyCollection({ replies, userDetail }) {
 

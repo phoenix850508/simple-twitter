@@ -1,4 +1,5 @@
 .inputContainer {
+  // border: 1px solid red;
   position: relative;
   margin: 0 auto;
   background-color: #f5f8fa;
@@ -28,13 +29,16 @@
   line-height: 22px;
   border: none;
   background-color: inherit;
+
   &:focus {
     outline: none;
   }
-  &:focus ~ .borderLine,
-  &:hover ~ .borderLine {
+
+  &:focus~.borderLine,
+  &:hover~.borderLine {
     background-color: var(--secondary-blue);
   }
+
   &::placeholder {
     position: absolute;
     left: 0;
@@ -50,4 +54,22 @@
   height: 2px;
   width: 100%;
   background-color: #657786;
+}
+
+// 偵測字串長度
+.inputLength {
+  // border: 1px solid green;
+  /* body/12px/medium */
+  font-family: 'Noto Sans TC';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  /* identical to box height, or 167% */
+  line-height: 20px;
+  /* grayscale/dark-80 */
+  color: #696974;
+  position: absolute;
+  // 貼住上方底線
+  bottom: -20px;
+  right: 0px;
 }
