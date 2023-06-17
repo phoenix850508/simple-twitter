@@ -31,11 +31,12 @@ export default function AdminPage() {
   useEffect(() => {
     if (savedUserInfoId && role === 'user') {
       navigate('/main');
+      // 若管理者已登入就直接到 admin_main
     } else if (savedUserInfoId && role === 'admin') {
       navigate('/admin_main');
-      // 剩下的就是請先登入
+      // 剩下的就是留在原頁面
     } else {
-      navigate('/login');
+      navigate('/admin');
     }
   }, [savedUserInfoId, navigate, role])
 
