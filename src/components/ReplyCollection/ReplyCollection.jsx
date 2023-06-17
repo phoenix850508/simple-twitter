@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import ReplyItem from "components/ReplyItem/ReplyItem.jsx";
 
 
-export default function ReplyCollection({ tweetReplyList }) {
+export default function ReplyCollection({ tweetReplyList, replyTo }) {
   console.log('ReplyCollection 裡的 tweetReplyList: ', tweetReplyList)
   const [arrayData, setArrayData] = useState([])
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function ReplyCollection({ tweetReplyList }) {
           avatar={reply.User.avatar}
           comment={reply.comment}
           createdAt={reply.createdAt}
-          replyTo={reply.account}
+          replyTo={replyTo}
         />
       })) : (
         <div className={styles.margin}>

@@ -15,12 +15,11 @@ import { AuthContext} from 'context/AuthContext.jsx';
 import { useEffect } from 'react';
 
 export default function TweetItem({ id, UserId, name, account, description, createdAt, replyCount, likeCount, avatar, isLiked, fromPage }) {
-  const {postLike, postReply, postUnlike, setIsUpdatedReplies, setIsUpdateLikes}  = useContext(AuthContext)
+  const {handleSetTweetIdClick, handleSetUserTweetAccount, postLike, postReply, postUnlike, setIsUpdatedReplies, setIsUpdateLikes}  = useContext(AuthContext)
   const navigate = useNavigate();
   const savedUserInfo = localStorage.getItem("userInfo")
   const savedUserInfoParsed = JSON.parse(savedUserInfo)
   const savedUserInfoId = savedUserInfoParsed.id
-  const { handleSetTweetIdClick } = useContext(AuthContext);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -30,9 +29,10 @@ export default function TweetItem({ id, UserId, name, account, description, crea
   const [isLikedBoolean, setIsLikedBoolean] = useState(isLiked)
   const [likeNum, setLikeNum] = useState(likeCount)
 
-  const onTweetClick = (tweetIdReceived) => {
-    // 在 Context 用 state 管理，把該推文 ID 存起來
+  const onTweetClick = (tweetIdReceived, accountReceived) => {
+    // 在 Context 用 state 管理，把該推文user ID和account 存起來
     handleSetTweetIdClick(tweetIdReceived)
+    handleSetUserTweetAccount(accountReceived)
     // 把 fromPage 存起來方便 ReplyListPage 做上一頁導向判斷
     localStorage.setItem("fromPage", fromPage);
     navigate('/replylist')
@@ -126,7 +126,7 @@ export default function TweetItem({ id, UserId, name, account, description, crea
           {/* 點擊可跳轉 replylist 頁面 */}
           <button
             className={styles.tweetItemInfoContentWrapper}
-            onClick={() => { onTweetClick(id) }}>
+            onClick={() => { onTweetClick(id, account) }}>
             <p className={styles.tweetItemInfoContent}>{description}</p>
           </button>
           <div className={styles.tweetItemInfoBottom}>

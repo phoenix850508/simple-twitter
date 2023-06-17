@@ -25,7 +25,7 @@ export default function TopUserSection({ handleFollowDetailClick, followingCount
   const [banner, setBanner] = useState(null)
   const [tweetCount, setTweetCount] = useState(null)
   const [tempDataObject, setTempDataObject] = useState(null)
-  const { putUserSelf, isUserEdited, getUser } = useContext(AuthContext)
+  const { putUserSelf, getUser, setIsUserEdited } = useContext(AuthContext)
 
   // userInfo 資料從 localStorage 拿
   const savedUserInfo = JSON.parse(localStorage.getItem("userInfo"))
@@ -95,7 +95,9 @@ export default function TopUserSection({ handleFollowDetailClick, followingCount
       setFollowingCountTemp(followingCount)
     }
     getUserAsync()
-  }, [getUser, savedUserInfoId, isUserEdited, followingCount])
+    setIsUserEdited(false)
+    console.log("我被執行")
+  }, [getUser, savedUserInfoId, setIsUserEdited, followingCount])
 
 
   return (
@@ -156,8 +158,6 @@ export default function TopUserSection({ handleFollowDetailClick, followingCount
 
 
 export function EditUserModal({ show, handleClose, onNameChange, onIntroChange, nameValue, introValue, onSave, nameBorderLine, introBorderLine, handleAvatarFile, handleBannerFile, modalAvatar, modalBanner, handleBannerDelete }) {
-  const avatarRefInput = useRef(null)
-  const bannerRefInput = useRef(null)
   return (
     <div className={styles.modalContainer}>
       <Modal className={clsx("fade modal show", styles.modal)} show={show} onHide={handleClose}>
@@ -177,18 +177,22 @@ export function EditUserModal({ show, handleClose, onNameChange, onIntroChange, 
             <img className={clsx(styles.topUserBanner, styles.modalBackgroundImage)} src={modalBanner} alt="backgroundImage.svg" />
             {/* 頭像 */}
             <img className={clsx(styles.topUserPhoto, styles.modalUserPhoto)} src={modalAvatar} alt="userPhoto.svg" />
+
             {/* 更換頭像 */}
+            <div className={styles.uploadFileContainer}>
             <input id="avatarInput" className={styles.avatarInput} type="file" onChange={e => {
               handleAvatarFile?.(e)
-            }} ref={avatarRefInput} />
+            }} />
+            </div>
             <img className={styles.iconCameraUserPhoto} src={camera} alt="camera.svg" />
+
             {/* 更換背景圖 */}
+            <div className={styles.uploadFileContainer}>
             <input id="bannerInput" className={styles.bannerInput} type="file" onChange={e => {
               handleBannerFile?.(e)
-            }} ref={bannerRefInput} />
-            <img className={styles.iconCamera} src={camera} alt="camera.svg" onClick={() => {
-              console.log(bannerRefInput.current)
             }} />
+            </div>
+            <img className={styles.iconCamera} src={camera} alt="camera.svg" />
             <img className={styles.iconWhiteCross} src={white_cross} alt="white_cross.svg" />
           </div>
           <div className={styles.topUserWordsWrapper}>

@@ -43,11 +43,10 @@ There will be an alert while deleting for double check:
 
 
 # If you just want to have a taste of this project
-You are welcome to directly visit https://phoenix850508.github.io/simple-twitter without downloading any thing.  
-Alternatively, look at the right part of this GitHub repo, you can find github-pages with rocket and active icons near it. Press it and you will be directed to Deployments page, then press "View deployment" on the right side.
+You are welcome to directly visit https://phoenix850508.github.io/simple-twitter without downloading any thing. Alternatively, look at the right part of this GitHub repo, you can find github-pages with rocket and active icons near it. Press it and you will be directed to Deployments page, then press "View deployment" on the right side.
 
 # Test Accounts
-Here are test accounts that you can use:
+Here are test accounts you can use:
 
 👨‍👩‍👧‍👦 As a user  
 account: user1  
@@ -62,8 +61,13 @@ password: 12345678
 * React 18.2.0
 * Sass 1.62.1
 
-# （待補上套件版本）
-* test
+# Other Dependencies
+* axios 1.4.0
+* clsx 1.2.1
+* jsonwebtoken 8.5.1
+* bootstrap 5.3.0
+* react-bootstrap 2.7.4
+* gh-pages: 4.0.0
 
 # Installation and Execution
 1. Please ensure that Node.js and npm are well installed in your local environment.
@@ -87,5 +91,6 @@ webpack compiled successfully
 7. Press "ctrl + c" in Terminal if you want to stop running the project.  
 
 # Dear Project Team Members
+I feel lucky and fulfilled to work with such hard-working and self-disciplined friends. GOGOGO  
 Front-end: [Johnny Fang](https://github.com/JohnnyFangFangFang), [Sutao Liang](https://github.com/phoenix850508)  
 Back-end: [Allison Huang](https://github.com/AllisonLin8), [Wayne Sun](https://github.com/WeiWayne1030)
