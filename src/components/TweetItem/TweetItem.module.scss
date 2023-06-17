@@ -5,6 +5,7 @@
   left: 70px;
   height: 2px;
   width: 70%;
+
   &::after {
     content: "";
     position: absolute;
@@ -20,6 +21,8 @@
   width: 641px;
   height: 168px;
   border-bottom: 1px solid #e6ecf0;
+  // border-right: 1px solid #e6ecf0;
+  // border-left: 1px solid #e6ecf0;
   padding: 16px 24px;
 
   .tweetItemWrapper {
@@ -373,6 +376,7 @@
 
 .wordLengthError {
   @extend %authError;
+
   &::after {
     content: "回覆推文不能超過140字";
   }
@@ -380,6 +384,7 @@
 
 .emptyReplyError {
   @extend %authError;
+
   &::after {
     content: "推文不能為空白";
   }

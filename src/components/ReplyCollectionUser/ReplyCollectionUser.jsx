@@ -7,7 +7,7 @@ import clsx from 'clsx'
 export default function ReplyCollection({ replies, userDetail }) {
 
   return (
-    <div className={clsx({[styles.replyCollectionContainer]: replies}, styles.noBorder)}>
+    <div className={clsx({ [styles.replyCollectionContainer]: replies }, !replies && styles.noBorder)}>
       {replies ? (replies.map((reply) => {
         const { name, account, avatar } = userDetail
         const { id, comment, createdAt } = reply

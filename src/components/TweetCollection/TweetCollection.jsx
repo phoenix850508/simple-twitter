@@ -7,7 +7,7 @@ import clsx from 'clsx'
 export default function TweetCollection({ tweets, userDetail, fromPage }) {
   // userDetail帶入的參數是從localStorage取的，若有大頭貼、名字或是帳號更新，會同步更動
   return (
-    <div className={clsx({[styles.tweetCollectionContainer]: tweets}, styles.noBorder)}>
+    <div className={clsx({ [styles.tweetCollectionContainer]: tweets.length !== 0 }, styles.noBorder)}>
       {tweets.length !== 0 ? (tweets.map((tweet) => {
         let { name, account, avatar } = tweet.User
         const { id, UserId, description, createdAt, replyCount, likeCount, isLiked } = tweet
@@ -16,13 +16,13 @@ export default function TweetCollection({ tweets, userDetail, fromPage }) {
             key={id}
             id={id}
             UserId={UserId}
-            name={userDetail? userDetail.name : name}
-            account={userDetail? userDetail.account : account}
+            name={userDetail ? userDetail.name : name}
+            account={userDetail ? userDetail.account : account}
             description={description}
             createdAt={createdAt}
             replyCount={replyCount}
             likeCount={likeCount}
-            avatar={userDetail? userDetail.avatar : (avatar ? (avatar? avatar : avatarDefaultMini) : avatarDefaultMini)}
+            avatar={userDetail ? userDetail.avatar : (avatar ? (avatar ? avatar : avatarDefaultMini) : avatarDefaultMini)}
             isLiked={isLiked}
             fromPage={fromPage}
           />

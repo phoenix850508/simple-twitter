@@ -7,20 +7,20 @@ import clsx from 'clsx'
 
 export default function LikeCollection({ likes, userDetail }) {
   return (
-    <div className={clsx({[styles.tweetCollectionContainer]: likes}, styles.noBorder)}>
-      {likes? (likes.map((likedTweet) => {
+    <div className={clsx({ [styles.tweetCollectionContainer]: likes.length !== 0 }, likes.length === 0 && styles.noBorder)}>
+      {likes.length !== 0 ? (likes.map((likedTweet) => {
         const { shortDescription, createdAt, UserId } = likedTweet
         let { name, account, avatar } = likedTweet.Tweet.User
         // 這邊先確認likedTweet有get到資料
-        if(likedTweet) {
-        // 假如喜歡的某個發的tweet剛好是自己，需要把名字和大頭貼換成最新，否則資料不會即時更新
-        if(userDetail && UserId === userDetail.id) {
-          avatar =  userDetail.avatar
-          name = userDetail.name
-        }
+        if (likedTweet) {
+          // 假如喜歡的某個發的tweet剛好是自己，需要把名字和大頭貼換成最新，否則資料不會即時更新
+          if (userDetail && UserId === userDetail.id) {
+            avatar = userDetail.avatar
+            name = userDetail.name
+          }
         }
         const { id } = likedTweet.Tweet
-        const {replyCount, likeCount} = likedTweet
+        const { replyCount, likeCount } = likedTweet
         return (
           <LikeItem
             key={id}

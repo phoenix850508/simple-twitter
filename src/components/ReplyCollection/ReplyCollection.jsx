@@ -12,7 +12,7 @@ export default function ReplyCollection({ tweetReplyList, replyTo }) {
   }, [tweetReplyList])
 
   return (
-    <div className={clsx({[styles.replyCollectionContainer]: arrayData.length !== 0}, styles.noBorder)}>
+    <div className={clsx({ [styles.replyCollectionContainer]: arrayData.length !== 0 }, arrayData.length === 0 && styles.noBorder)}>
       {arrayData.length !== 0 ? (arrayData && arrayData.map((reply) => {
         return <ReplyItem
           key={reply.id}
