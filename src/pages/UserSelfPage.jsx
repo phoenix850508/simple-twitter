@@ -26,7 +26,7 @@ export default function UserSelfPage() {
   const [replies, setReplies] = useState([]);
   // 喜歡過的推特存在這
   const [likes, setLikes] = useState([]);
-  const { isUpdatedReplies, isTweetUpdated, isUpdateLikes, isUserEdited } = useContext(AuthContext)
+  const { isUpdatedReplies, isTweetUpdated, isUpdateLikes } = useContext(AuthContext)
   // 使用者詳細帳號資訊
   const [userDetail, setUserDetail] = useState({})
   // userId 從 localStorage 拿
@@ -130,7 +130,7 @@ export default function UserSelfPage() {
         <ChangeUserContent userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
         {userContent === 'tweets' && <TweetCollection tweets={tweets} userDetail={savedUserInfo} fromPage='/user/self' />}
         {userContent === 'replies' && <ReplyCollectionUser replies={replies} userDetail={savedUserInfo} />}
-        {userContent === 'likes' && <LikeCollection likes={likes} />}
+        {userContent === 'likes' && <LikeCollection likes={likes} userDetail={savedUserInfo} />}
       </MiddleColumnContainer>
       <RightBanner
         flagForRendering={flagForRendering}
