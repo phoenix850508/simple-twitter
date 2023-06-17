@@ -16,7 +16,7 @@ import { postUserFollow, deleteUserFollow } from 'api/tweets'
 
 export default function TopUserSectionOther({ notification, handleNotiClick, userDetail, handleFollowDetailClick, followerCount, isFollowed, flagForRendering, setFlagForRendering }) {
   // 拿到該使用者資料
-  const { id, name, account, avatar, introduction, followingCount, tweetCount } = userDetail
+  const { id, name, account, avatar, banner, introduction, followingCount, tweetCount } = userDetail
 
   // 拿 authToken
   const authToken = localStorage.getItem("authToken");
@@ -69,8 +69,8 @@ export default function TopUserSectionOther({ notification, handleNotiClick, use
     <div>
       <PrePageBtn toPage='/main' name={name} tweetCount={tweetCount} />
       <div className={styles.topUserInfoWrapper}>
-        <img src={dummyBackgroundImage2} alt="dummyBackgroundImage2.svg" />
-        <img className={styles.topUserPhoto} src={avatar ? avatar : avatarDefaultMini} alt='avatar' />
+        <img className={styles.topUserBanner} src={banner? (banner? banner : dummyBackgroundImage2) : dummyBackgroundImage2} alt="dummyBackgroundImage2.svg" />
+        <img className={styles.topUserPhoto} src={avatar ? (avatar? avatar : avatarDefaultMini) : avatarDefaultMini} alt='avatar' />
         <div className={styles.topUserEditBtnWrapper}>
           <button className={styles.topUserEditBtn}>
             <img src={emailMessage} alt="emailMessage.svg" />

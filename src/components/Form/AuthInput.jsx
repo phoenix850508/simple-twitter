@@ -23,7 +23,7 @@ export default function AuthInput({ type, label, placeholder, className, borderL
       <input className={styles.input} type={type || "text"} placeholder={placeholder} onChange={e => onChange?.(e.target.value)} defaultValue={value} ref={inputRef} />
       <div className={clsx(styles.borderLine, borderLine)}></div>
       {/* 即時顯示目前輸入字串長度 */}
-      {inputLengthLimit && <div className={styles.inputLength}>{value.length}/{inputLengthLimit}</div>}
+      {inputLengthLimit && <div className={styles.inputLength}>{value && value.length}/{inputLengthLimit}</div>}
     </div>
   )
 }
