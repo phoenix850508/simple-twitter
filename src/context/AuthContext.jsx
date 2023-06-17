@@ -2,7 +2,7 @@ import { login, adminLogin } from "api/auth.js";
 import { createContext, useState, useEffect } from "react";
 import * as jwt from "jsonwebtoken";
 import { useLocation } from "react-router-dom";
-import {postTweets, putUserSelf, getUser, getUserReplies, getUserLikes, postReply, postLike, postUnlike} from 'api/tweets.js'
+import { postTweets, putUserSelf, getUser, getUserReplies, getUserLikes, postReply, postLike, postUnlike } from 'api/tweets.js'
 import { useNavigate } from "react-router-dom";
 
 
@@ -57,6 +57,7 @@ const AuthProvider = ({ children }) => {
     setIsUpdatedReplies(false)
     //更新過回覆推文後，要把isUpdateLikes退回false
     setIsUpdateLikes(false)
+    // 驗證 Token 是否有效
     const checkTokenIsValid = async () => {
       // 從 localStorage 拿 token
       const authToken = localStorage.getItem("authToken");
@@ -66,11 +67,8 @@ const AuthProvider = ({ children }) => {
         setPayload(null);
         return navigate('/login')
       }
-      // 若 token 存在則驗證其有效性
-      // 這邊似乎交給後端驗證？
-      // const result = await checkPermission(authToken);
 
-      // 如果有 token（但似乎要給後端檢核是否有效）
+      // 若 token 存在則驗證其有效性
       if (authToken) {
         const tempPayload = jwt.decode(authToken);
         setPayload(tempPayload);
@@ -103,7 +101,6 @@ const AuthProvider = ({ children }) => {
   }, [pathname, navigate]);
 
 
-  // console.log('AuthProvider 重新渲染')
   return (
     <AuthContext.Provider
       value={{
@@ -117,12 +114,14 @@ const AuthProvider = ({ children }) => {
         setUserReplyList,
         isTweetUpdated,
         setIsTweetUpdated,
-        isUserEdited, 
+        isUserEdited,
         setIsUserEdited,
         isUpdatedReplies,
         setIsUpdatedReplies,
         isUpdateLikes,
         setIsUpdateLikes,
+
+        // 一般使用者登入
         login: async (data) => {
           const response = await login({
             account: data.account,
@@ -151,7 +150,9 @@ const AuthProvider = ({ children }) => {
           }
           return response;
         },
-        adminLogin: async(data) => {
+
+        // 管理員登入
+        adminLogin: async (data) => {
           const response = await adminLogin({
             account: data.account, password: data.password
           })
@@ -178,6 +179,8 @@ const AuthProvider = ({ children }) => {
           }
           return response;
         },
+
+        // 登出
         logout: () => {
           localStorage.removeItem("authToken");
           localStorage.removeItem("userInfo");
@@ -188,16 +191,20 @@ const AuthProvider = ({ children }) => {
           setPayload(null);
           setIsAuthenticated(false);
         },
+
+        // 推文
         postTweets: async (data) => {
           const response = await postTweets({ description: data.description })
           if (response.data) setIsTweetUpdated(true)
           return response
-        }, 
-        putUserSelf: async(id, formData) => {
+        },
+
+        // 更新個人資料
+        putUserSelf: async (id, formData) => {
           const response = await putUserSelf(id, formData)
           // 若成功更新user資料 把isUserEdited設為true
           if (!response.response) {
-            if(response.data) {
+            if (response.data) {
               // 更新localStorage的內容
               const savedUserInfo = localStorage.getItem("userInfo")
               let savedUserInfoParsed = JSON.parse(savedUserInfo)
@@ -206,42 +213,48 @@ const AuthProvider = ({ children }) => {
               const modifiedSavedUserInfo = JSON.stringify(savedUserInfoParsed);
               localStorage.setItem("userInfo", modifiedSavedUserInfo)
               setIsUserEdited(true)
-              }
+            }
           }
           return response
-        }, 
-        getUser: async(id) => {
+        },
+
+        getUser: async (id) => {
           const response = await getUser(id)
           console.log("get all user data", response)
           return response
-        }, 
-        getUserReplies: async(id) => {
+        },
+
+        getUserReplies: async (id) => {
           const response = await getUserReplies(id)
           console.log("get all user replies", response)
-          if(response.data) setIsUpdatedReplies(true)
+          if (response.data) setIsUpdatedReplies(true)
           return response
         },
-        getUserLikes: async(id) => {
+
+        getUserLikes: async (id) => {
           const response = await getUserLikes(id)
           console.log("get all user likes", response)
           return response
         },
-        postReply: async(id, {comment}) => {
-          const response = await postReply(id, {comment})
+
+        postReply: async (id, { comment }) => {
+          const response = await postReply(id, { comment })
           console.log("post a reply", response)
-          if(response.data) setIsUpdatedReplies(true)
+          if (response.data) setIsUpdatedReplies(true)
           return response
         },
-        postLike: async(id) => {
+
+        postLike: async (id) => {
           const response = await postLike(id)
           console.log("post a like", response)
-          if(response.data) setIsUpdateLikes(true)
+          if (response.data) setIsUpdateLikes(true)
           return response
         },
-        postUnlike: async(id) => {
+        
+        postUnlike: async (id) => {
           const response = await postUnlike(id)
           console.log("post an unlike", response)
-          if(response.data) setIsUpdateLikes(true)
+          if (response.data) setIsUpdateLikes(true)
           return response
         },
       }}

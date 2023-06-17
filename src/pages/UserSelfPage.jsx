@@ -26,12 +26,13 @@ export default function UserSelfPage() {
   const [replies, setReplies] = useState([]);
   // 喜歡過的推特存在這
   const [likes, setLikes] = useState([]);
-  const {isUpdatedReplies, isTweetUpdated, isUpdateLikes, isUserEdited} = useContext(AuthContext)
+  const { isUpdatedReplies, isTweetUpdated, isUpdateLikes, isUserEdited } = useContext(AuthContext)
   // 使用者詳細帳號資訊
   const [userDetail, setUserDetail] = useState({})
   // userId 從 localStorage 拿
   const savedUserInfo = JSON.parse(localStorage.getItem("userInfo"))
   const savedUserInfoId = savedUserInfo.id
+  const role = savedUserInfo.role
 
   // 設置 flag 讓 TopUserSectionOther 與 RightBanner 能彼此連動
   const [flagForRendering, setFlagForRendering] = useState(false);
@@ -104,14 +105,18 @@ export default function UserSelfPage() {
         console.error(error);
       }
     }
-    if (savedUserInfoId) {
+    // 驗證角色，如果是管理者那就導回管理者自己的頁面
+    if (savedUserInfoId && role === 'admin') {
+      navigate('/admin_users');
+    } else if (savedUserInfoId && role === 'user') {
       getTweetsAsync();
       getUserRepliesAsync();
       getUserLikesAsync();
       getUserAsync()
-      console.log("我被執行")
+    } else {
+      navigate('/login');
     }
-  }, [savedUserInfoId, flagForRendering, isUpdatedReplies, isTweetUpdated, isUpdateLikes]);
+  }, [savedUserInfoId, flagForRendering, isUpdatedReplies, isTweetUpdated, isUpdateLikes, navigate, role]);
 
   return (
     <MainContainer >

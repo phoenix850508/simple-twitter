@@ -8,12 +8,12 @@ import { useState } from 'react'
 import clsx from 'clsx'
 import { getUser, putUserSelf } from 'api/tweets.js'
 import { useEffect, useRef } from 'react'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function SettingPage() {
-  const savedUserInfo = localStorage.getItem("userInfo")
-  const savedUserInfoParsed = JSON.parse(savedUserInfo)
-  const savedUserInfoId = savedUserInfoParsed.id
+  const savedUserInfo = JSON.parse(localStorage.getItem("userInfo"))
+  const savedUserInfoId = savedUserInfo.id
+  const role = savedUserInfo.role
   //這邊的setState是用來儲存onChange資料
   const [account, setAccount] = useState('')
   const [name, setName] = useState('')
@@ -38,7 +38,7 @@ export default function SettingPage() {
   const handleClick = async () => {
     //檢查格式是否符合需求
     // 防止使用者輸入空值，若input欄位感應不到則會帶入原本的資料
-    console.log("accountInputRef",accountInputRef.current.value)
+    console.log("accountInputRef", accountInputRef.current.value)
     console.log("dataObject", dataObject)
     if (accountInputRef.current.value.length === 0) return alert("請輸入帳號")
     // setAccount(dataObject.account)
@@ -56,7 +56,7 @@ export default function SettingPage() {
       formData.append(key, dataObject[key]);
     }
     formData.set("name", name ? name : nameInputRef.current.value)
-    formData.set("email", email? email : emailInputRef.current.value)
+    formData.set("email", email ? email : emailInputRef.current.value)
     formData.set("account", account ? account : accountInputRef.current.value)
     formData.set("password", password)
     formData.set("checkPassword", checkPassword)
@@ -74,6 +74,8 @@ export default function SettingPage() {
       }
     }
   }
+
+
   useEffect(() => {
     const getUserAsync = async () => {
       try {
@@ -83,8 +85,15 @@ export default function SettingPage() {
         console.error(error)
       }
     }
-    getUserAsync();
-  }, [savedUserInfoId])
+    // 驗證角色，如果是管理者那就導回管理者自己的頁面
+    if (savedUserInfoId && role === 'admin') {
+      navigate('/admin_users');
+    } else if (savedUserInfoId && role === 'user') {
+      getUserAsync();
+    } else {
+      navigate('/login');
+    }
+  }, [savedUserInfoId, navigate, role])
 
   return (
     <div className={styles.settingContainer}>

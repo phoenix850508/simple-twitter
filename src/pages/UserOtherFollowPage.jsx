@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import styles from './UserOtherFollowPage.module.scss'
 import MainContainer from "components/MainContainer/MainContainer.jsx";
 import LeftBanner from "components/LeftBanner/LeftBanner.jsx";
@@ -12,6 +13,7 @@ import FollowingCollection from 'components/Follow/FollowingCollection/Following
 import { getUserFollowings, getUserFollowers, getUser } from '../api/tweets';
 
 export default function UserOtherFollowPage() {
+  const navigate = useNavigate()
   // 先從 localStorage 拿使用者在 UserOtherPage 存的 userContent 當作初始值
   const savedFollowContent = localStorage.getItem("followContent");
   // userInfo 資料從 localStorage 拿
@@ -32,6 +34,11 @@ export default function UserOtherFollowPage() {
   function handleChangeUserContentClick(targetValue) {
     setUserContent(targetValue)
   }
+
+  // userInfo 資料從 localStorage 拿
+  const savedUserInfo = JSON.parse(localStorage.getItem("userInfo"))
+  const savedUserId = savedUserInfo.id
+  const role = savedUserInfo.role
 
   // 透過 API 撈取該使用者 follow 資訊
   useEffect(() => {
@@ -68,10 +75,21 @@ export default function UserOtherFollowPage() {
       }
 
     }
-    getUserFollowingsAsync();
-    getUserFollowersAsync()
-    getUserAsync()
-  }, [savedOtherUserId, flagForRendering]);
+    // 驗證角色，如果是管理者那就導回管理者自己的頁面，若為登入的使用者則維持在原頁面並撈資料
+    if (savedUserId && savedOtherUserId && userContent && role === 'user') {
+      getUserFollowingsAsync();
+      getUserFollowersAsync()
+      getUserAsync()
+      // 還沒點想看的內容或點擊使用者就直接到這頁就要請使用者回到首頁
+    } else if (savedUserId && role === 'user') {
+      navigate('/main');
+    } else if (savedUserId && role === 'admin') {
+      navigate('/admin_users');
+      // 剩下的請先登入
+    } else {
+      navigate('/login');
+    }
+  }, [savedOtherUserId, flagForRendering, savedUserId, userContent, navigate, role]);
 
 
   return (
