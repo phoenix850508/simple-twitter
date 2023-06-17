@@ -183,18 +183,32 @@
 
   &Body {
     flex: none;
-    padding: 0;
-    height: 443px;
+    min-height: 443px;
     display: flex;
     flex-direction: column;
     padding: 16px 0 16px;
+    .firstModalPost {
+      position: relative;
+      min-height: 129px;
+      &::after {
+        content: "";
+        position: absolute;
+        left: 48px;
+        top: 62px;
+        bottom: 0;
+        background-color: var(--grayscale-dark-60);
+        width: 2px;
+      }
+    }
   }
 
   &Post {
     position: relative;
     padding: 0 24px;
     display: flex;
+    flex: 0;
     align-items: flex-start;
+    height: 100%;
     gap: 8px;
   }
 
@@ -213,7 +227,10 @@
   }
 
   &InputContainer {
-    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+    padding-bottom: 30px;
   }
 
   &Input {
@@ -236,18 +253,7 @@
 }
 
 .replyModaldAvatarContainer {
-  position: relative;
   align-self: flex-start;
-
-  &::after {
-    content: "";
-    position: absolute;
-    right: 50%;
-    top: 56px;
-    background-color: var(--grayscale-dark-60);
-    width: 2px;
-    height: 86px;
-  }
 }
 
 .replyAt {
@@ -296,11 +302,9 @@
     align-items: flex-start;
     padding: 0px;
     width: 528px;
-    height: 78px;
-
+    height: 100%;
     // Tweet 文字內容
     .tweetItemInfoContent {
-      height: 80px;
       text-align: left;
       font-weight: 400;
       font-size: 16px;

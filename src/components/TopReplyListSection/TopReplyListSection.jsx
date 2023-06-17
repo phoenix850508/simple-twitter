@@ -142,7 +142,7 @@ export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserA
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className={clsx(styles.modalBody)}>
-          <div className={styles.modalPost}>
+          <div className={clsx(styles.modalPost, styles.firstModalPost)}>
             <div className={styles.replyModaldAvatarContainer}>
               <img className={styles.threadUserAvatar} src={threadUserAvatar? (threadUserAvatar? threadUserAvatar : avatarDefaultMini) : avatarDefaultMini} alt="avatarDefaultMini.svg" />
             </div>
