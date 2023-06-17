@@ -4,13 +4,20 @@ import styles from "./LikeCollection.module.scss";
 import LikeItem from "components/LikeItem/LikeItem.jsx";
 // import dummyTweets from "./dummyTweets";
 
-export default function LikeCollection({ likes }) {
-
+export default function LikeCollection({ likes, userDetail }) {
   return (
     <div className={styles.tweetCollectionContainer}>
       {likes? (likes.map((likedTweet) => {
-        const { shortDescription, createdAt } = likedTweet
-        const { name, account, avatar } = likedTweet.Tweet.User
+        const { shortDescription, createdAt, UserId } = likedTweet
+        let { name, account, avatar } = likedTweet.Tweet.User
+        // 這邊先確認likedTweet有get到資料
+        if(likedTweet) {
+        // 假如喜歡的某個發的tweet剛好是自己，需要把名字和大頭貼換成最新，否則資料不會即時更新
+        if(userDetail && UserId === userDetail.id) {
+          avatar =  userDetail.avatar
+          name = userDetail.name
+        }
+        }
         const { id } = likedTweet.Tweet
         const {replyCount, likeCount} = likedTweet
         return (

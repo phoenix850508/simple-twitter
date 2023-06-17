@@ -130,7 +130,7 @@ export default function UserSelfPage() {
         <ChangeUserContent userContent={userContent} handleChangeUserContentClick={handleChangeUserContentClick} />
         {userContent === 'tweets' && <TweetCollection tweets={tweets} userDetail={savedUserInfo} fromPage='/user/self' />}
         {userContent === 'replies' && <ReplyCollectionUser replies={replies} userDetail={savedUserInfo} />}
-        {userContent === 'likes' && <LikeCollection likes={likes} />}
+        {userContent === 'likes' && <LikeCollection likes={likes} userDetail={savedUserInfo} />}
       </MiddleColumnContainer>
       <RightBanner
         flagForRendering={flagForRendering}
