@@ -98,14 +98,17 @@ export default function LeftBanner({ currentPage }) {
 function LeftBannerItems({ onTweetClick, onHomePageClick, onUserSelfClick, onSettingClick, currentPage }) {
   return (
     <div>
+      {/* 首頁按鈕 */}
       <div className={styles.leftBannerItem} onClick={onHomePageClick}>
-        {currentPage === 1 ? <img className={styles.leftBannerIcon} src={homeActive} alt="homeActive.svg" /> : <img className={styles.leftBannerIcon} src={home} alt="home.svg" />}
+        {currentPage === 1 ? <img className={`${styles.leftBannerIcon} ${styles.iconHome}`} src={homeActive} alt="homeActive.svg" /> : <img className={`${styles.leftBannerIcon} ${styles.iconHome}`} src={home} alt="home.svg" />}
       </div>
+      {/* 個人資料按鈕 */}
       <div className={styles.leftBannerItem} onClick={onUserSelfClick}>
-        {currentPage === 2 ? <img className={styles.leftBannerIcon} src={userInfoActive} alt="userInfoActive.svg" /> : <img className={styles.leftBannerIcon} src={userInfo} alt="userInfo.svg" />}
+        {currentPage === 2 ? <img className={`${styles.leftBannerIcon} ${styles.iconUserInfo}`} src={userInfoActive} alt="userInfoActive.svg" /> : <img className={`${styles.leftBannerIcon} ${styles.iconUserInfo}`} src={userInfo} alt="userInfo.svg" />}
       </div>
+      {/* 設定按鈕 */}
       <div className={styles.leftBannerItem} onClick={onSettingClick}>
-        {currentPage === 3 ? <img className={styles.leftBannerIcon} src={settingsActive} alt="settingsActive.svg" /> : <img className={styles.leftBannerIcon} src={settings} alt="settings.svg" />}
+        {currentPage === 3 ? <img className={`${styles.leftBannerIcon} ${styles.iconSettings}`} src={settingsActive} alt="settingsActive.svg" /> : <img className={`${styles.leftBannerIcon} ${styles.iconSettings}`} src={settings} alt="settings.svg" />}
       </div>
       <LeftBannerTweet onClick={onTweetClick} />
     </div>
