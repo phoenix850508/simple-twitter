@@ -4,9 +4,9 @@ import ac_logo from 'icons/ac_logo.svg'
 import styles from './SignupPage.module.scss'
 import clsx from 'clsx'
 import { Link } from 'react-router-dom';
-import {useState} from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import {signup} from 'api/auth.js'
+import { signup } from 'api/auth.js'
 import Alert from 'components/Form/Alert.jsx'
 export default function SignupPage() {
   const [account, setAccount] = useState('')
@@ -26,67 +26,79 @@ export default function SignupPage() {
     else if (password !== checkPassword) {
       return setIsPasswordEqual(false)
     }
-    const response = await signup({account, name, email, password, checkPassword})
+    const response = await signup({ account, name, email, password, checkPassword })
     //產生錯誤訊息
     if (response.response) return setErrorMsg(response.response.data.message)
     //成功註冊
-    else if(response.data.status === "success") {
+    else if (response.data.status === "success") {
       setIsSuccess(true)
       setTimeout(() => {
         navigate('/login')
       }, 1200)
     }
   }
+
   return (
     <div className={styles.signupContainer}>
-      <Alert alertClassName={clsx('', {[styles.alert]: isSuccess})} alertText={"註冊成功"} />
+      <Alert alertClassName={clsx('', { [styles.alert]: isSuccess })} alertText={"註冊成功"} />
       <img src={ac_logo} alt="ac_logo.svg" />
       <h3 className={styles.authTitle}>{"建立你的帳號"}</h3>
-      <AuthInput 
-      className={styles.account} 
-      borderLine={clsx('', {[styles.accountBorderLineError]: errorMsg === "Error: 帳號已存在！"})}
-      label={"帳號"} 
-      placeholder={"請輸入帳號"} 
-      onChange={(accountInput) => {
-        setErrorMsg('')
-        setAccount(accountInput)
-      }} />
-      <AuthInput 
-      className={styles.name} 
-      borderLine={clsx('', {[styles.nameLengthError]: name.length > 50})}
-      label={"名稱"} 
-      placeholder={"請輸入使用者名稱"} 
-      onChange={(nameInput) => setName(nameInput)} />
-      <AuthInput 
-      className={styles.email} 
-      label={"Email"} 
-      placeholder={"請輸入 Email"} 
-      onChange={(emailInput) => {
-        setErrorMsg('')
-        setEmail(emailInput)
-      }}
-      borderLine={clsx('', {[styles.emailBorderLineError]: errorMsg === "Error: 信箱已存在！"})}   
-       />
-      <AuthInput 
-      className={styles.password} 
-      borderLine={clsx('', {[styles.passwordUnequal]: !isPasswordEqual})}
-      label={"密碼"} 
-      type="password" 
-      placeholder={"請設定密碼"} 
-      onChange={(passwordInput) => {
-        setIsPasswordEqual(true)
-        setPassword(passwordInput)
-        }} 
+      {/* 輸入帳號 */}
+      <AuthInput
+        className={styles.account}
+        borderLine={clsx('', { [styles.accountBorderLineError]: errorMsg === "Error: 帳號已存在！" })}
+        label={"帳號"}
+        placeholder={"請輸入帳號"}
+        dataFrom={'SignupPage'}
+        onChange={(accountInput) => {
+          setErrorMsg('')
+          setAccount(accountInput)
+        }} />
+      {/* 輸入名稱 */}
+      <AuthInput
+        className={styles.name}
+        borderLine={clsx('', { [styles.nameLengthError]: name.length > 50 })}
+        label={"名稱"}
+        placeholder={"請輸入使用者名稱"}
+        dataFrom={'SignupPage'}
+        onChange={(nameInput) => setName(nameInput)} />
+      {/* 輸入 Email */}
+      <AuthInput
+        className={styles.email}
+        label={"Email"}
+        placeholder={"請輸入 Email"}
+        dataFrom={'SignupPage'}
+        onChange={(emailInput) => {
+          setErrorMsg('')
+          setEmail(emailInput)
+        }}
+        borderLine={clsx('', { [styles.emailBorderLineError]: errorMsg === "Error: 信箱已存在！" })}
       />
-      <AuthInput 
-      className={styles.checkPassword} 
-      borderLine={clsx('', {[styles.passwordUnequal]: !isPasswordEqual})}
-      label={"密碼確認"} 
-      type="password" 
-      placeholder={"請再次輸入密碼"} 
-      onChange={(passwordConfirmInput) => {
-        setIsPasswordEqual(true)
-        setCheckPassword(passwordConfirmInput)}} />
+      {/* 輸入密碼 */}
+      <AuthInput
+        className={styles.password}
+        borderLine={clsx('', { [styles.passwordUnequal]: !isPasswordEqual })}
+        label={"密碼"}
+        type="password"
+        placeholder={"請設定密碼"}
+        dataFrom={'SignupPage'}
+        onChange={(passwordInput) => {
+          setIsPasswordEqual(true)
+          setPassword(passwordInput)
+        }}
+      />
+      {/* 密碼確認 */}
+      <AuthInput
+        className={styles.checkPassword}
+        borderLine={clsx('', { [styles.passwordUnequal]: !isPasswordEqual })}
+        label={"密碼確認"}
+        type="password"
+        placeholder={"請再次輸入密碼"}
+        dataFrom={'SignupPage'}
+        onChange={(passwordConfirmInput) => {
+          setIsPasswordEqual(true)
+          setCheckPassword(passwordConfirmInput)
+        }} />
       <AuthButton btn={"註冊"} onClick={handleClick} />
       <Link to="/login">
         <p className={styles.cancel}>取消</p>

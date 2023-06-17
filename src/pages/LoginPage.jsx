@@ -22,7 +22,7 @@ export default function LoginPage() {
     if (account.length === 0 || password.length === 0) return
     const response = await login({ account, password })
     //產生錯誤訊息
-    if(!response.data) {
+    if (!response.data) {
       if (response.response.data.status === "error") return setErrorMsg(response.response.data.message)
     }
     //成功的話可以取得該使用者的資料
@@ -32,6 +32,7 @@ export default function LoginPage() {
       navigate('/main');
     }
   }, [navigate, isAuthenticated])
+
   return (
     <div className={styles.loginContainer}>
       <img src={ac_logo} alt="ac_logo.svg" />
@@ -42,6 +43,7 @@ export default function LoginPage() {
         label={"帳號"}
         placeholder={"請輸入帳號"}
         value={account}
+        dataFrom={'LoginPage'}
         onChange={(accountInput) => {
           setErrorMsg('')
           setAccount(accountInput)
@@ -53,6 +55,7 @@ export default function LoginPage() {
         placeholder={"請輸入密碼"}
         type="password"
         value={password}
+        dataFrom={'LoginPage'}
         onChange={(passwordInput) => {
           setErrorMsg('')
           setPassword(passwordInput)

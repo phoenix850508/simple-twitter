@@ -18,6 +18,9 @@ export default function RightBanner({ flagForRendering, setFlagForRendering }) {
   // topUsers 存在這
   const [topUsers, setTopUsers] = useState([]);
 
+  // RightBanner 自己的 flagForRendering，若使用者在 main 會用到
+  const [flagForRenderingSelf, setFlagForRenderingSelf] = useState(false)
+
   // 去撈跟隨 API
   const postUserFollowAsync = async (authToken, id) => {
     try {
@@ -45,7 +48,12 @@ export default function RightBanner({ flagForRendering, setFlagForRendering }) {
     } else {
       await postUserFollowAsync(authToken, idTopUserReceived)
     }
-    await setFlagForRendering(!flagForRendering)
+    // 要加條件式判斷是因為 main 頁面不會傳值，所以如果是在 main 頁面就不用重新渲染中間欄
+    if (setFlagForRendering) {
+      await setFlagForRendering(!flagForRendering)
+    } else {
+      setFlagForRenderingSelf(!flagForRenderingSelf)
+    }
   }
 
   // 透過 API 撈所有 topUsers 資料
@@ -60,7 +68,7 @@ export default function RightBanner({ flagForRendering, setFlagForRendering }) {
     };
     getTopUsersAsync()
     console.log('讓 RightBanner 重新渲染')
-  }, [flagForRendering]);
+  }, [flagForRendering, flagForRenderingSelf]);
 
 
   return (

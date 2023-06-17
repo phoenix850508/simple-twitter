@@ -173,12 +173,16 @@ export function EditUserModal({ show, handleClose, onNameChange, onIntroChange, 
         </Modal.Header>
         <Modal.Body className={clsx(styles.modalBody)}>
           <div className={styles.modalImageContainer}>
+            {/* 背景圖 */}
             <img className={clsx(styles.topUserBanner, styles.modalBackgroundImage)} src={modalBanner} alt="backgroundImage.svg" />
+            {/* 頭像 */}
             <img className={clsx(styles.topUserPhoto, styles.modalUserPhoto)} src={modalAvatar} alt="userPhoto.svg" />
+            {/* 更換頭像 */}
             <input id="avatarInput" className={styles.avatarInput} type="file" onChange={e => {
               handleAvatarFile?.(e)
             }} ref={avatarRefInput} />
             <img className={styles.iconCameraUserPhoto} src={camera} alt="camera.svg" />
+            {/* 更換背景圖 */}
             <input id="bannerInput" className={styles.bannerInput} type="file" onChange={e => {
               handleBannerFile?.(e)
             }} ref={bannerRefInput} />
@@ -188,23 +192,25 @@ export function EditUserModal({ show, handleClose, onNameChange, onIntroChange, 
             <img className={styles.iconWhiteCross} src={white_cross} alt="white_cross.svg" />
           </div>
           <div className={styles.topUserWordsWrapper}>
+            {/* 使用者input的名字 */}
+            <AuthInput
+              className={styles.nameInput}
+              borderLine={nameBorderLine}
+              label={"名稱"}
+              onChange={onNameChange}
+              value={nameValue}
+              dataFrom={'TopUserSection'}
+            />
+            {/* 使用者input的自我介紹 */}
+            <AuthInput
+              className={styles.introductionInput}
+              borderLine={introBorderLine}
+              label={"自我介紹"}
+              onChange={onIntroChange}
+              value={introValue}
+              dataFrom={'TopUserSection'}
+            />
           </div>
-          {/* 使用者input的名字 */}
-          <AuthInput
-            className={styles.nameInput}
-            borderLine={nameBorderLine}
-            label={"名稱"}
-            onChange={onNameChange}
-            value={nameValue}
-          />
-          {/* 使用者input的自我介紹 */}
-          <AuthInput
-            className={styles.introductionInput}
-            borderLine={introBorderLine}
-            label={"自我介紹"}
-            onChange={onIntroChange}
-            value={introValue}
-          />
         </Modal.Body>
       </Modal>
     </div>

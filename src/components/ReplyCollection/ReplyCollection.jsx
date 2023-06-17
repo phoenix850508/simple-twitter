@@ -1,32 +1,33 @@
 import styles from "./ReplyCollection.module.scss";
 import { useState, useEffect } from 'react';
 import ReplyItem from "components/ReplyItem/ReplyItem.jsx";
-// import dummyReplies from "./dummyReplies"; 假資料，目前不會用到
-// 引用封裝好的 Context 資訊
-// import { AuthContext } from 'context/AuthContext.jsx';
-// API
-// import { getUserReplies } from 'api/tweets'
+
 
 export default function ReplyCollection({ tweetReplyList }) {
   console.log('ReplyCollection 裡的 tweetReplyList: ', tweetReplyList)
   const [arrayData, setArrayData] = useState([])
   useEffect(() => {
     setArrayData(tweetReplyList)
-  },[tweetReplyList])
+  }, [tweetReplyList])
 
   return (
     <div className={styles.replyCollectionContainer}>
-      {arrayData?( arrayData && arrayData.map((reply) => {
+      {arrayData.length !== 0 ? (arrayData && arrayData.map((reply) => {
         return <ReplyItem
-            key={reply.id}
-            name={reply.User.name}
-            account={reply.User.account}
-            avatar={reply.User.avatar}
-            comment={reply.comment}
-            createdAt={reply.createdAt}
-            replyTo={reply.account}
-          />
-      })) : '（此使用者尚未回覆任何推文）'}
+          key={reply.id}
+          name={reply.User.name}
+          account={reply.User.account}
+          avatar={reply.User.avatar}
+          comment={reply.comment}
+          createdAt={reply.createdAt}
+          replyTo={reply.account}
+        />
+      })) : (
+        <div className={styles.margin}>
+          <div></div>
+          <span>（尚未有任何回覆）</span>
+        </div>
+      )}
     </div>
   )
 }
