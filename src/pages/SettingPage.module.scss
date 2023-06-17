@@ -1,5 +1,6 @@
 %authError {
   background-color: var(--error);
+
   &::after {
     content: "";
     position: absolute;
@@ -13,10 +14,13 @@
 
 .settingContainer {
   width: 972px;
+
   .rightContainer {
     border-right: 1px solid var(--border);
+
     .contentContainer {
       display: block;
+      overflow-y: hidden;
     }
   }
 }
@@ -43,6 +47,7 @@
 
 .nameLengthError {
   @extend %authError;
+
   &::after {
     content: "字數超出上限";
   }
@@ -50,6 +55,7 @@
 
 .accountBorderLineError {
   @extend %authError;
+
   &::after {
     content: "此帳號已經存在";
   }
@@ -57,6 +63,7 @@
 
 .passwordUnequal {
   @extend %authError;
+
   &::after {
     content: "密碼和確認密碼不一致";
   }
@@ -64,6 +71,7 @@
 
 .emailBorderLineError {
   @extend %authError;
+
   &::after {
     content: "此Email已經存在";
   }
