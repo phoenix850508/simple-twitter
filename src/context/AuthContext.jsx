@@ -17,6 +17,8 @@ const AuthProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState({});
   // 儲存使用者點擊想看的 tweetId
   const [tweetId, setTweetId] = useState(null);
+  // 儲存使用者點擊想看的 tweet user account
+  const [userTweetAccount, setUserTweetAccount] = useState('')
   // 儲存使用者所有已回覆的 tweet
   const [userReplyList, setUserReplyList] = useState([]);
   // 若自己有Tweet更新
@@ -34,6 +36,12 @@ const AuthProvider = ({ children }) => {
   function handleSetTweetIdClick(tweetIdReceived) {
     setTweetId(tweetIdReceived);
     localStorage.setItem("tweetId", tweetIdReceived);
+  };
+
+  // 儲存點擊的 tweet user account
+  function handleSetUserTweetAccount(accountReceived) {
+    setUserTweetAccount(accountReceived);
+    localStorage.setItem("userTweetAccount", accountReceived);
   };
 
   // 現在每條 API 都會驗證身份，要再測試一下被擋後的回傳值是什麼，再做對應畫面
@@ -103,6 +111,7 @@ const AuthProvider = ({ children }) => {
         userInfo,
         tweetId,
         handleSetTweetIdClick,
+        handleSetUserTweetAccount,
         userReplyList,
         setUserReplyList,
         isTweetUpdated,
