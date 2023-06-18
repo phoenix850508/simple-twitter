@@ -28,6 +28,8 @@ export default function SettingPage() {
   const accountInputRef = useRef(null)
   const nameInputRef = useRef(null)
   const emailInputRef = useRef(null)
+  const passwordRef = useRef(null)
+  const checkPasswordRef = useRef(null)
   // 這邊的errorMsg是用來判斷若後端response的資料不存在或有誤，可以讓<AuthInput/>可以製造出相對的錯誤訊息
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -44,9 +46,9 @@ export default function SettingPage() {
     // setAccount(dataObject.account)
     if (nameInputRef.current.value.trim().length === 0) return alert("請輸入名字")
     // setName(dataObject.name)
-    if (emailInputRef.current.value.trim().length === 0) return ("請輸入email")
+    if (emailInputRef.current.value.trim().length === 0) return alert("請輸入email")
     // setEmail(dataObject.email)
-    if (password.trim().length === 0 || checkPassword.trim().length === 0) return alert("請輸入密碼")
+    if (passwordRef.current.value.trim().length === 0 || checkPasswordRef.current.value.trim().length === 0) return alert("請輸入密碼")
     else if (name.length > 50) return
     else if (password !== checkPassword) {
       return setIsPasswordEqual(false)
@@ -144,6 +146,7 @@ export default function SettingPage() {
                 passwordInput && setPassword(passwordInput)
               }}
               type="password"
+              inputRef={passwordRef}
             />
             <AuthInput
               className={styles.inputContainerLast}
@@ -155,6 +158,7 @@ export default function SettingPage() {
                 setIsPasswordEqual(true)
                 passwordConfirmInput && setCheckPassword(passwordConfirmInput)
               }}
+              inputRef={checkPasswordRef}
             />
             <div className={styles.buttonContainer}>
               <SaveSettingButton btn={"儲存"} onClick={handleClick} />
