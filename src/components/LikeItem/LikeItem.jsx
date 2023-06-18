@@ -9,14 +9,13 @@ import discussion from 'icons/discussion.svg'
 import likeActive from 'icons/likeActive.svg'
 import clsx from 'clsx'
 import { useState } from "react";
-import {postReply} from 'api/tweets'
 import { useEffect } from "react";
 import { useContext } from "react";
 import { AuthContext } from "context/AuthContext";
 import { clear } from "@testing-library/user-event/dist/clear";
 
 export default function LikeItem({ id, avatar, name, account, description, createdAt, replyCount, likeCount }) {
-  const {setIsUpdatedReplies, setIsUpdateLikes, postUnlike} = useContext(AuthContext)
+  const {setIsUpdatedReplies, setIsUpdateLikes, postUnlike, postReply} = useContext(AuthContext)
   const [show, setShow] = useState(false);
   const handleClose = () => {
     clearForm()
@@ -38,7 +37,7 @@ export default function LikeItem({ id, avatar, name, account, description, creat
     if (response.data.comment) {
       clearForm()
       handleClose()
-      return setIsUpdatedReplies(false)
+      return 
     }
     else {
       clearForm()
