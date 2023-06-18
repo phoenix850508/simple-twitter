@@ -252,7 +252,7 @@ input[type="file"]::-webkit-file-upload-button {
   @extend %authError;
 
   &::after {
-    content: "字數超出上限";
+    content: "字數超出上限！";
   }
 }
 

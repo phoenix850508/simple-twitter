@@ -187,7 +187,7 @@
     min-height: 443px;
     display: flex;
     flex-direction: column;
-    padding: 16px 0 16px;
+    padding: 16px 0 30px;
     .firstModalPost {
       position: relative;
       min-height: 129px;
@@ -216,7 +216,6 @@
   &TweetItemInfoWrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
     padding: 0px;
     gap: 8px;
     width: 528px;
@@ -232,7 +231,6 @@
     display: flex;
     align-items: center;
     margin-top: 16px;
-    padding-bottom: 30px;
   }
 
   &Input {
@@ -381,13 +379,13 @@
 .wordLengthError {
   @extend %authError;
   &::after {
-    content: "回覆推文不能超過140字";
+    content: "字數不可超過140字";
   }
 }
 
 .emptyReplyError {
   @extend %authError;
   &::after {
-    content: "推文不能為空白";
+    content: "內容不可空白";
   }
 }

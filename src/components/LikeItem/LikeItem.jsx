@@ -13,26 +13,35 @@ import {postReply} from 'api/tweets'
 import { useEffect } from "react";
 import { useContext } from "react";
 import { AuthContext } from "context/AuthContext";
+import { clear } from "@testing-library/user-event/dist/clear";
 
 export default function LikeItem({ id, avatar, name, account, description, createdAt, replyCount, likeCount }) {
   const {setIsUpdatedReplies, setIsUpdateLikes, postUnlike} = useContext(AuthContext)
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    clearForm()
+    setShow(false)
+  }
   const handleShow = () => setShow(true);
   const [replyTweet, setReplyTweet] = useState('')
   const [errorMsg, setErrorMsg] = useState(false)
+  const clearForm = () => {
+    setReplyTweet('');
+  };
   // 送出回覆文字
   const handleSave = async () => {
     //預防空值與回覆文字限制
     if (replyTweet.length > 140) return
-    if (replyTweet.length < 1) return setErrorMsg(true)
+    if (replyTweet.trim().length < 1) return setErrorMsg(true)
     const response = await postReply(id, { comment: replyTweet })
     //若新增推文成功
     if (response.data.comment) {
+      clearForm()
       handleClose()
-      return
+      return setIsUpdatedReplies(false)
     }
     else {
+      clearForm()
       handleClose()
       return alert("新增回覆失敗")
     }
@@ -43,9 +52,11 @@ export default function LikeItem({ id, avatar, name, account, description, creat
       const response = await postUnlike(id)
       //若取消喜歡成功
       if (!response.data) {
-        return alert("取消喜歡失敗")
+        alert("取消喜歡失敗")
+        return 
       }
   }
+
   useEffect(() => {
     setIsUpdateLikes(false)
     setIsUpdatedReplies(false)
@@ -93,12 +104,13 @@ export default function LikeItem({ id, avatar, name, account, description, creat
         }
         onSave={handleSave}
         borderLine={clsx('', { [styles.wordLengthError]: replyTweet.length > 140 }, { [styles.emptyReplyError]: errorMsg })}
+        value={replyTweet}
       />
     </div>
   )
 }
 
-export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserAccount, threadDescription, threadCreatedAt, threadUserAvatar, onInputChange, onSave, borderLine }) {
+export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserAccount, threadDescription, threadCreatedAt, threadUserAvatar, onInputChange, onSave, borderLine, value }) {
   const savedUserInfo = localStorage.getItem("userInfo")
   const savedUserInfoParsed = JSON.parse(savedUserInfo)
   return (
@@ -131,7 +143,7 @@ export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserA
           </div>
           <div className={styles.modalPost}>
             <img className={styles.avatar} src={savedUserInfoParsed.avatar? savedUserInfoParsed.avatar : avatarDefaultMini} alt="avatar" />
-            <input className={clsx(styles.modalInput)} type="text" placeholder="推你的回覆" onChange={e => onInputChange?.(e.target.value)} />
+            <input className={clsx(styles.modalInput)} type="text" placeholder="推你的回覆" onChange={e => onInputChange?.(e.target.value)} value={value} />
             <div className={borderLine}></div>
           </div>
           <TopTweetButton btnName={clsx(styles.modalSubmit)} text={"回覆"} onClick={onSave} />
