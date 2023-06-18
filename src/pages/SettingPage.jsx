@@ -44,7 +44,7 @@ export default function SettingPage() {
     // setAccount(dataObject.account)
     if (nameInputRef.current.value.trim().length === 0) return alert("請輸入名字")
     // setName(dataObject.name)
-    if (emailInputRef.current.value.trim().length === 0) return ("請輸入email")
+    if (emailInputRef.current.value.trim().length === 0) return alert("請輸入email")
     // setEmail(dataObject.email)
     if (password.trim().length === 0 || checkPassword.trim().length === 0) return alert("請輸入密碼")
     else if (name.length > 50) return
