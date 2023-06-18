@@ -48,7 +48,7 @@ export default function SignupPage() {
 
   const handleClick = async () => {
     //檢查格式是否符合需求
-    if (account.length === 0 || name.length === 0 || email.length === 0 || password.length === 0) return
+    if (account.trim().length === 0 || name.trim().length === 0 || email.trim().length === 0 || password.trim().length === 0) return
     else if (name.length > 50) return
     else if (password !== checkPassword) {
       return setIsPasswordEqual(false)
