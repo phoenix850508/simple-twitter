@@ -39,7 +39,7 @@ export default function AdminPage() {
 
   const handleClick = async () => {
     // 檢查格式是否符合需求
-    if (account.length === 0 || password.length === 0) return
+    if (account.trim().length === 0 || password.trim().length === 0) return
     const response = await adminLogin({ account, password })
     //產生錯誤訊息
     if (response.response) return setErrorMsg(response.response.data.message)
