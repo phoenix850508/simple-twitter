@@ -43,15 +43,15 @@
 
     // 以下是 hover 效果
     .iconHome:hover {
-      content: url('../../icons/homeActive.svg');
+      content: url("../../icons/homeActive.svg");
     }
 
     .iconUserInfo:hover {
-      content: url('../../icons/userInfoActive.svg');
+      content: url("../../icons/userInfoActive.svg");
     }
 
     .iconSettings:hover {
-      content: url('../../icons/settingsActive.svg');
+      content: url("../../icons/settingsActive.svg");
     }
   }
 
@@ -103,7 +103,7 @@
   @extend %authError;
 
   &::after {
-    content: "推文不能超過140字";
+    content: "字數不可超過140字";
   }
 }
 
