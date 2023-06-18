@@ -40,13 +40,13 @@ export default function SettingPage() {
     // 防止使用者輸入空值，若input欄位感應不到則會帶入原本的資料
     console.log("accountInputRef", accountInputRef.current.value)
     console.log("dataObject", dataObject)
-    if (accountInputRef.current.value.length === 0) return alert("請輸入帳號")
+    if (accountInputRef.current.value.trim().length === 0) return alert("請輸入帳號")
     // setAccount(dataObject.account)
-    if (nameInputRef.current.value.length === 0) return alert("請輸入名字")
+    if (nameInputRef.current.value.trim().length === 0) return alert("請輸入名字")
     // setName(dataObject.name)
-    if (emailInputRef.current.value.length === 0) return ("請輸入email")
+    if (emailInputRef.current.value.trim().length === 0) return ("請輸入email")
     // setEmail(dataObject.email)
-    if (password.length === 0 || checkPassword.length === 0) return alert("請輸入密碼")
+    if (password.trim().length === 0 || checkPassword.trim().length === 0) return alert("請輸入密碼")
     else if (name.length > 50) return
     else if (password !== checkPassword) {
       return setIsPasswordEqual(false)
