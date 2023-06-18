@@ -2,7 +2,7 @@ import { login, adminLogin } from "api/auth.js";
 import { createContext, useState, useEffect } from "react";
 import * as jwt from "jsonwebtoken";
 import { useLocation } from "react-router-dom";
-import {postTweets, putUserSelf, getUser, getUserReplies, getUserLikes, postReply, postLike, postUnlike} from 'api/tweets.js'
+import { postTweets, putUserSelf, getUser, getUserReplies, getUserLikes, postReply, postLike, postUnlike } from 'api/tweets.js'
 import { useNavigate } from "react-router-dom";
 
 
@@ -117,7 +117,7 @@ const AuthProvider = ({ children }) => {
         setUserReplyList,
         isTweetUpdated,
         setIsTweetUpdated,
-        isUserEdited, 
+        isUserEdited,
         setIsUserEdited,
         isUpdatedReplies,
         setIsUpdatedReplies,
@@ -151,7 +151,7 @@ const AuthProvider = ({ children }) => {
           }
           return response;
         },
-        adminLogin: async(data) => {
+        adminLogin: async (data) => {
           const response = await adminLogin({
             account: data.account, password: data.password
           })
@@ -185,7 +185,7 @@ const AuthProvider = ({ children }) => {
           localStorage.removeItem("otherUserId");
           localStorage.removeItem("followContent");
           localStorage.removeItem("fromPage");
-          localStorage.removeItem("userTweetAccount")
+          localStorage.removeItem("userTweetAccount");
           setPayload(null);
           setIsAuthenticated(false);
         },
@@ -193,12 +193,12 @@ const AuthProvider = ({ children }) => {
           const response = await postTweets({ description: data.description })
           if (response.data) setIsTweetUpdated(true)
           return response
-        }, 
-        putUserSelf: async(id, formData) => {
+        },
+        putUserSelf: async (id, formData) => {
           const response = await putUserSelf(id, formData)
           // 若成功更新user資料 把isUserEdited設為true
           if (!response.response) {
-            if(response.data) {
+            if (response.data) {
               // 更新localStorage的內容
               const savedUserInfo = localStorage.getItem("userInfo")
               let savedUserInfoParsed = JSON.parse(savedUserInfo)
@@ -207,42 +207,42 @@ const AuthProvider = ({ children }) => {
               const modifiedSavedUserInfo = JSON.stringify(savedUserInfoParsed);
               localStorage.setItem("userInfo", modifiedSavedUserInfo)
               setIsUserEdited(true)
-              }
+            }
           }
           return response
-        }, 
-        getUser: async(id) => {
+        },
+        getUser: async (id) => {
           const response = await getUser(id)
           console.log("get all user data", response)
           return response
-        }, 
-        getUserReplies: async(id) => {
+        },
+        getUserReplies: async (id) => {
           const response = await getUserReplies(id)
           console.log("get all user replies", response)
-          if(response.data) setIsUpdatedReplies(true)
+          if (response.data) setIsUpdatedReplies(true)
           return response
         },
-        getUserLikes: async(id) => {
+        getUserLikes: async (id) => {
           const response = await getUserLikes(id)
           console.log("get all user likes", response)
           return response
         },
-        postReply: async(id, {comment}) => {
-          const response = await postReply(id, {comment})
+        postReply: async (id, { comment }) => {
+          const response = await postReply(id, { comment })
           console.log("post a reply", response)
-          if(response.data) setIsUpdatedReplies(true)
+          if (response.data) setIsUpdatedReplies(true)
           return response
         },
-        postLike: async(id) => {
+        postLike: async (id) => {
           const response = await postLike(id)
           console.log("post a like", response)
-          if(response.data) setIsUpdateLikes(true)
+          if (response.data) setIsUpdateLikes(true)
           return response
         },
-        postUnlike: async(id) => {
+        postUnlike: async (id) => {
           const response = await postUnlike(id)
           console.log("post an unlike", response)
-          if(response.data) setIsUpdateLikes(true)
+          if (response.data) setIsUpdateLikes(true)
           return response
         },
       }}
