@@ -13,21 +13,30 @@ import clsx from 'clsx'
 // 引用封裝好的 Context 資訊
 import { AuthContext} from 'context/AuthContext.jsx';
 import { useEffect } from 'react';
+import { clear } from '@testing-library/user-event/dist/clear';
 
 export default function TweetItem({ id, UserId, name, account, description, createdAt, replyCount, likeCount, avatar, isLiked, fromPage }) {
+  // 從context呼叫函示
   const {handleSetTweetIdClick, handleSetUserTweetAccount, postLike, postReply, postUnlike, setIsUpdatedReplies, setIsUpdateLikes}  = useContext(AuthContext)
   const navigate = useNavigate();
+  //取得localStorage資料
   const savedUserInfo = localStorage.getItem("userInfo")
   const savedUserInfoParsed = JSON.parse(savedUserInfo)
   const savedUserInfoId = savedUserInfoParsed.id
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false)
+    clearForm()
+  }
   const handleShow = () => setShow(true);
   const [replyTweet, setReplyTweet] = useState('')
   const [replyNum, setReplyNum] = useState(replyCount)
   const [errorMsg, setErrorMsg] = useState(false)
   const [isLikedBoolean, setIsLikedBoolean] = useState(isLiked)
   const [likeNum, setLikeNum] = useState(likeCount)
+  const clearForm = () => {
+    setReplyTweet('');
+  };
 
   const onTweetClick = (tweetIdReceived, accountReceived) => {
     // 在 Context 用 state 管理，把該推文user ID和account 存起來
@@ -42,15 +51,17 @@ export default function TweetItem({ id, UserId, name, account, description, crea
   const handleSave = async () => {
     //預防空值與回覆文字限制
     if (replyTweet.length > 140) return
-    if (replyTweet.length < 1) return setErrorMsg(true)
+    if (replyTweet.trim().length < 1) return setErrorMsg(true)
     const response = await postReply(id, { comment: replyTweet })
     //若新增推文成功
     if (response.data.comment) {
+      clearForm()
       handleClose()
       setReplyNum(replyNum + 1)
-      return
+      return 
     }
     else {
+      clearForm()
       handleClose()
       return alert("新增回覆失敗")
     }
@@ -72,9 +83,11 @@ export default function TweetItem({ id, UserId, name, account, description, crea
             }
             else return likeNum
           })
+            return
         }
       }
       else {
+        setIsUpdatedReplies(false)
         return alert("取消喜歡失敗")
       }
     }
@@ -85,6 +98,7 @@ export default function TweetItem({ id, UserId, name, account, description, crea
         if (response.data.status === "已加入喜歡！") {
           setIsLikedBoolean(true)
           setLikeNum(likeNum + 1)
+          return
         }
         else {
           return alert("新增喜歡失敗")
@@ -94,10 +108,9 @@ export default function TweetItem({ id, UserId, name, account, description, crea
   }
 
   useEffect(() => {
-    setIsUpdatedReplies(false)
     setIsUpdateLikes(false)
-  }, [setIsUpdatedReplies, setIsUpdateLikes])
-
+    setIsUpdatedReplies(false)
+  }, [setIsUpdateLikes, setIsUpdatedReplies])
   return (
     <div className={styles.tweetItemContainer}>
       <div className={styles.tweetItemWrapper}>
@@ -158,12 +171,13 @@ export default function TweetItem({ id, UserId, name, account, description, crea
         }
         onSave={handleSave}
         borderLine={clsx('', { [styles.wordLengthError]: replyTweet.length > 140 }, { [styles.emptyReplyError]: errorMsg })}
+        value = {replyTweet}
       />
     </div>
   )
 }
 
-export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserAccount, threadDescription, threadCreatedAt, threadUserAvatar, onInputChange, onSave, borderLine }) {
+export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserAccount, threadDescription, threadCreatedAt, threadUserAvatar, onInputChange, onSave, borderLine, value }) {
   const savedUserInfo = localStorage.getItem("userInfo")
   const savedUserInfoParsed = JSON.parse(savedUserInfo)
   return (
@@ -196,7 +210,7 @@ export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserA
           </div>
           <div className={styles.modalPost}>
             <img className={styles.avatar} src={savedUserInfoParsed.avatar? savedUserInfoParsed.avatar: avatarDefaultMini} alt="avatar" />
-            <input className={clsx(styles.modalInput)} type="text" placeholder="推你的回覆" onChange={e => onInputChange?.(e.target.value)} />
+            <input className={clsx(styles.modalInput)} type="text" placeholder="推你的回覆" onChange={e => onInputChange?.(e.target.value)} value={value} />
             <div className={borderLine}></div>
           </div>
           <TopTweetButton btnName={clsx(styles.modalSubmit)} text={"回覆"} onClick={onSave} />

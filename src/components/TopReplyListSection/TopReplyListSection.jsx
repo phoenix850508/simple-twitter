@@ -18,23 +18,31 @@ export default function TopReplyListSection({ singleTweetInfo }) {
   const [errorMsg, setErrorMsg] = useState(false)
   const [show, setShow] = useState(false);
   const [objectData, setObjectData] = useState(null)
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    clearForm()
+    setShow(false)
+  }
   const handleShow = () => setShow(true);
+  const clearForm = () => {
+    setReplyTweet('');
+  };
 
 
     // 送出回覆文字
   const handleSave = async () => {
     //預防空值與回覆文字限制
     if (replyTweet.length > 140) return
-    if (replyTweet.length < 1) return setErrorMsg(true)
+    if (replyTweet.trim().length < 1) return setErrorMsg(true)
     const response = await postReply(objectData.id, { comment: replyTweet })
     //若新增推文成功
     if (response.data.comment) {
+      clearForm()
       handleClose()
       setObjectData({...objectData, replyCount: objectData.replyCount + 1})
       return
     }
     else {
+      clearForm()
       handleClose()
       return alert("新增回覆失敗")
     }

@@ -43,7 +43,7 @@
 .accountBorderLineError {
   @extend %authError;
   &::after {
-    content: "此帳號已經存在";
+    content: "account 已重複註冊！";
   }
 }
 
@@ -61,7 +61,7 @@
 .emailBorderLineError {
   @extend %authError;
   &::after {
-    content: "此信箱已存在";
+    content: "email 已重複註冊！";
   }
 }
 

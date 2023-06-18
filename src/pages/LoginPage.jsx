@@ -54,7 +54,7 @@ export default function LoginPage() {
       <h3 className={styles.authTitle}>{"登入 Alphitter"}</h3>
       <AuthInput
         className={styles.account}
-        borderLine={clsx({ [styles.borderLine]: !errorMsg.length }, { [styles.accountBorderLineError]: errorMsg === "Error: 帳號不存在！" || errorMsg === "Error: 帳密錯誤！" || errorMsg === "帳號不存在" })}
+        borderLine={clsx({ [styles.borderLine]: !errorMsg.length }, { [styles.accountBorderLineError]: errorMsg === "Error: 帳密錯誤！"}, {[styles.accountNotExit]: errorMsg === "帳號不存在" || errorMsg === "Error: 帳號不存在！"})}
         label={"帳號"}
         placeholder={"請輸入帳號"}
         value={account}
@@ -65,7 +65,7 @@ export default function LoginPage() {
         }} />
       <AuthInput
         className={styles.password}
-        borderLine={clsx({ [styles.borderLine]: !errorMsg.length }, { [styles.invalidUserBorderLine]: errorMsg === "Error: 帳號不存在！" || errorMsg === "Error: 帳密錯誤！" || errorMsg === "帳號不存在" })}
+        borderLine={clsx({ [styles.borderLine]: !errorMsg.length }, { [styles.invalidUserBorderLine]: errorMsg === "Error: 帳密錯誤！" || errorMsg === "帳號不存在" }, {[styles.accountNotExit]: errorMsg === "帳號不存在" || errorMsg === "Error: 帳號不存在！"})}
         label={"密碼"}
         placeholder={"請輸入密碼"}
         type="password"

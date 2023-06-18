@@ -9,7 +9,8 @@ export default function LikeCollection({ likes, userDetail }) {
   return (
     <div className={clsx({ [styles.tweetCollectionContainer]: likes.length !== 0 }, likes.length === 0 && styles.noBorder)}>
       {likes.length !== 0 ? (likes.map((likedTweet) => {
-        const { shortDescription, createdAt, UserId } = likedTweet
+        const { shortDescription, createdAt } = likedTweet
+        const {UserId} = likedTweet.Tweet
         let { name, account, avatar } = likedTweet.Tweet.User
         // 這邊先確認likedTweet有get到資料
         if (likedTweet) {

@@ -28,6 +28,13 @@
       content: "帳號或密碼錯誤";
     }
   }
+
+  .accountNotExist {
+    @extend %authError;
+    &::after {
+      content: "帳號不存在";
+    }
+  }
 }
 
 .authTitle {

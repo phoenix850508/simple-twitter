@@ -57,7 +57,7 @@ export default function AdminPage() {
       <h3 className={styles.authTitle}>{"後台登入"}</h3>
       <AuthInput
         className={styles.account}
-        borderLine={clsx({ [styles.borderLine]: !errorMsg.length }, { [styles.accountBorderLineError]: errorMsg === "Error: 帳號不存在！" || errorMsg === "Error: 帳密錯誤！" || errorMsg === "帳號不存在" })}
+        borderLine={clsx({ [styles.borderLine]: !errorMsg.length }, { [styles.accountBorderLineError]:  errorMsg === "Error: 帳密錯誤！" }, {[styles.accountNotExist]: errorMsg === "Error: 帳號不存在！" || errorMsg === "帳號不存在"})}
         label={"帳號"}
         placeholder={"請輸入帳號"}
         value={account}
@@ -68,7 +68,7 @@ export default function AdminPage() {
         }} />
       <AuthInput
         className={styles.password}
-        borderLine={clsx({ [styles.borderLine]: !errorMsg.length }, { [styles.invalidUserBorderLine]: errorMsg === "Error: 帳號不存在！" || errorMsg === "Error: 帳密錯誤！" || errorMsg === "帳號不存在" })}
+        borderLine={clsx({ [styles.borderLine]: !errorMsg.length }, { [styles.invalidUserBorderLine]:  errorMsg === "Error: 帳密錯誤！" }, {[styles.accountNotExist]: errorMsg === "Error: 帳號不存在！" || errorMsg === "帳號不存在"})}
         label={"密碼"}
         placeholder={"請輸入密碼"}
         type="password"
