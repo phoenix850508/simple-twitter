@@ -9,9 +9,11 @@
   &::after {
     content: "";
     position: absolute;
-    left: 0;
+    // 讓他依照設計稿對齊推文按鈕
+    right: 80px;
+    top: 146px;
     color: var(--error);
-    font-size: 12px;
+    font-size: 15px;
     line-height: 20px;
     font-weight: 500;
   }
@@ -111,6 +113,6 @@
   @extend %authError;
 
   &::after {
-    content: "推文不能為空白";
+    content: "內容不可空白";
   }
 }
