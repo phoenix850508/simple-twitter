@@ -32,7 +32,7 @@
   .accountNotExist {
     @extend %authError;
     &::after {
-      content: "帳號不存在";
+      content: "帳號不存在！";
     }
   }
 }

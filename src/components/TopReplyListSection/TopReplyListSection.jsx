@@ -168,9 +168,9 @@ export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserA
           <div className={clsx(styles.modalPost, styles.modalInputContainer)}>
             <img className={styles.threadUserAvatar} src={savedUserInfoParsed.avatar? (savedUserInfoParsed.avatar? savedUserInfoParsed.avatar : avatarDefaultMini): avatarDefaultMini} alt="avatar" />
             <input className={clsx(styles.modalInput)} type="text" placeholder="推你的回覆" onChange={e => onInputChange?.(e.target.value)} />
-            <div className={borderLine}></div>
           </div>
           <TopTweetButton btnName={clsx(styles.modalSubmit)} text={"回覆"} onClick={onSave} />
+          <div className={borderLine}></div>
         </Modal.Body>
       </Modal>
     </div>

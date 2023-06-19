@@ -5,12 +5,15 @@
   left: 0;
   height: 2px;
   width: 100%;
+
   &::after {
     content: "";
     position: absolute;
-    left: 0;
+    // 讓他依照設計稿對齊推文按鈕
+    right: 80px;
+    top: 146px;
     color: var(--error);
-    font-size: 12px;
+    font-size: 15px;
     line-height: 20px;
     font-weight: 500;
   }
@@ -21,9 +24,11 @@
   height: 211px;
   border-left: 1px solid #e6ecf0;
   border-right: 1px solid #e6ecf0;
+
   .overLimitedHide {
     display: none;
   }
+
   .avatar {
     width: 50px;
     height: 50px;
@@ -147,6 +152,7 @@
 
 .wordLengthError {
   @extend %authError;
+
   &::after {
     content: "字數不可超過140字";
   }
@@ -154,6 +160,7 @@
 
 .emptyTweetError {
   @extend %authError;
+
   &::after {
     content: "內容不可空白";
   }

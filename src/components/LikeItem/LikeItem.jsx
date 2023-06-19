@@ -15,7 +15,7 @@ import { AuthContext } from "context/AuthContext";
 import { clear } from "@testing-library/user-event/dist/clear";
 
 export default function LikeItem({ id, avatar, name, account, description, createdAt, replyCount, likeCount }) {
-  const {setIsUpdatedReplies, setIsUpdateLikes, postUnlike, postReply} = useContext(AuthContext)
+  const { setIsUpdatedReplies, setIsUpdateLikes, postUnlike, postReply } = useContext(AuthContext)
   const [show, setShow] = useState(false);
   const handleClose = () => {
     clearForm()
@@ -37,7 +37,7 @@ export default function LikeItem({ id, avatar, name, account, description, creat
     if (response.data.comment) {
       clearForm()
       handleClose()
-      return 
+      return
     }
     else {
       clearForm()
@@ -48,12 +48,12 @@ export default function LikeItem({ id, avatar, name, account, description, creat
 
   // 喜歡功能
   const handleLike = async () => {
-      const response = await postUnlike(id)
-      //若取消喜歡成功
-      if (!response.data) {
-        alert("取消喜歡失敗")
-        return 
-      }
+    const response = await postUnlike(id)
+    //若取消喜歡成功
+    if (!response.data) {
+      alert("取消喜歡失敗")
+      return
+    }
   }
 
   useEffect(() => {
@@ -64,9 +64,9 @@ export default function LikeItem({ id, avatar, name, account, description, creat
     <div className={styles.tweetItemContainer}>
       <div className={styles.tweetItemWrapper}>
         <div>
-          <img className={styles.avatar} src={avatar ? (avatar? avatar : avatarDefaultMini) : avatarDefaultMini} alt='avatar' />
+          <img className={styles.avatar} src={avatar ? (avatar ? avatar : avatarDefaultMini) : avatarDefaultMini} alt='avatar' />
         </div>
-        <div className={styles.tweetItemInfoWrapper}> 
+        <div className={styles.tweetItemInfoWrapper}>
           <div className={styles.tweetItemInfoUser}>
             <div className={styles.tweetItemInfoUserName}>{name}</div>
             <div className={styles.tweetItemInfoUserDetail}>@{account}・{createdAt}</div>
@@ -141,11 +141,11 @@ export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserA
             </div>
           </div>
           <div className={styles.modalPost}>
-            <img className={styles.avatar} src={savedUserInfoParsed.avatar? savedUserInfoParsed.avatar : avatarDefaultMini} alt="avatar" />
+            <img className={styles.avatar} src={savedUserInfoParsed.avatar ? savedUserInfoParsed.avatar : avatarDefaultMini} alt="avatar" />
             <input className={clsx(styles.modalInput)} type="text" placeholder="推你的回覆" onChange={e => onInputChange?.(e.target.value)} value={value} />
-            <div className={borderLine}></div>
           </div>
           <TopTweetButton btnName={clsx(styles.modalSubmit)} text={"回覆"} onClick={onSave} />
+          <div className={borderLine}></div>
         </Modal.Body>
       </Modal>
     </div>

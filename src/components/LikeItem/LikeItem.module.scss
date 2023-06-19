@@ -1,16 +1,18 @@
 %authError {
-  background-color: var(--error);
+  // background-color: var(--error);
   position: absolute;
   bottom: 0;
   left: 70px;
   height: 2px;
-  width: 50%;
+  width: 70%;
+
   &::after {
     content: "";
     position: absolute;
-    left: 0;
+    right: -20px;
+    bottom: 25px;
     color: var(--error);
-    font-size: 12px;
+    font-size: 15px;
     line-height: 20px;
     font-weight: 500;
   }
@@ -370,6 +372,7 @@
 
 .wordLengthError {
   @extend %authError;
+
   &::after {
     content: "字數不可超過140字";
   }
@@ -377,6 +380,7 @@
 
 .emptyReplyError {
   @extend %authError;
+
   &::after {
     content: "內容不可空白";
   }

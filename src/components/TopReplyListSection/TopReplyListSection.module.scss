@@ -1,16 +1,18 @@
 %authError {
-  background-color: var(--error);
+  // background-color: var(--error);
   position: absolute;
   bottom: 0;
   left: 70px;
   height: 2px;
-  width: 50%;
+  width: 70%;
+
   &::after {
     content: "";
     position: absolute;
-    left: 0;
+    right: -20px;
+    bottom: 25px;
     color: var(--error);
-    font-size: 12px;
+    font-size: 15px;
     line-height: 20px;
     font-weight: 500;
   }
@@ -188,9 +190,11 @@
     display: flex;
     flex-direction: column;
     padding: 16px 0 30px;
+
     .firstModalPost {
       position: relative;
       min-height: 129px;
+
       &::after {
         content: "";
         position: absolute;
@@ -303,6 +307,7 @@
     padding: 0px;
     width: 528px;
     height: 100%;
+
     // Tweet 文字內容
     .tweetItemInfoContent {
       text-align: left;
@@ -378,6 +383,7 @@
 
 .wordLengthError {
   @extend %authError;
+
   &::after {
     content: "字數不可超過140字";
   }
@@ -385,6 +391,7 @@
 
 .emptyReplyError {
   @extend %authError;
+
   &::after {
     content: "內容不可空白";
   }

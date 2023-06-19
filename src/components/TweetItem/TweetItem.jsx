@@ -11,13 +11,13 @@ import TopTweetButton from 'components/TopTweetSection/TopTweetComponents/TopTwe
 import { useState, useContext } from 'react'
 import clsx from 'clsx'
 // 引用封裝好的 Context 資訊
-import { AuthContext} from 'context/AuthContext.jsx';
+import { AuthContext } from 'context/AuthContext.jsx';
 import { useEffect } from 'react';
 import { clear } from '@testing-library/user-event/dist/clear';
 
 export default function TweetItem({ id, UserId, name, account, description, createdAt, replyCount, likeCount, avatar, isLiked, fromPage }) {
   // 從context呼叫函示
-  const {handleSetTweetIdClick, handleSetUserTweetAccount, postLike, postReply, postUnlike, setIsUpdatedReplies, setIsUpdateLikes}  = useContext(AuthContext)
+  const { handleSetTweetIdClick, handleSetUserTweetAccount, postLike, postReply, postUnlike, setIsUpdatedReplies, setIsUpdateLikes } = useContext(AuthContext)
   const navigate = useNavigate();
   //取得localStorage資料
   const savedUserInfo = localStorage.getItem("userInfo")
@@ -58,7 +58,7 @@ export default function TweetItem({ id, UserId, name, account, description, crea
       clearForm()
       handleClose()
       setReplyNum(replyNum + 1)
-      return 
+      return
     }
     else {
       clearForm()
@@ -83,7 +83,7 @@ export default function TweetItem({ id, UserId, name, account, description, crea
             }
             else return likeNum
           })
-            return
+          return
         }
       }
       else {
@@ -171,7 +171,7 @@ export default function TweetItem({ id, UserId, name, account, description, crea
         }
         onSave={handleSave}
         borderLine={clsx('', { [styles.wordLengthError]: replyTweet.length > 140 }, { [styles.emptyReplyError]: errorMsg })}
-        value = {replyTweet}
+        value={replyTweet}
       />
     </div>
   )
@@ -209,11 +209,11 @@ export function ReplyTweetModal({ show, handleClose, threadUserName, threadUserA
             </div>
           </div>
           <div className={styles.modalPost}>
-            <img className={styles.avatar} src={savedUserInfoParsed.avatar? savedUserInfoParsed.avatar: avatarDefaultMini} alt="avatar" />
+            <img className={styles.avatar} src={savedUserInfoParsed.avatar ? savedUserInfoParsed.avatar : avatarDefaultMini} alt="avatar" />
             <input className={clsx(styles.modalInput)} type="text" placeholder="推你的回覆" onChange={e => onInputChange?.(e.target.value)} value={value} />
-            <div className={borderLine}></div>
           </div>
           <TopTweetButton btnName={clsx(styles.modalSubmit)} text={"回覆"} onClick={onSave} />
+          <div className={borderLine}></div>
         </Modal.Body>
       </Modal>
     </div>
