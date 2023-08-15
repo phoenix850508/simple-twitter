@@ -2,6 +2,7 @@
 This is a Simple Twitter project from Alpha Camp in semester 3 (frontend), and could be regarded as a capstone of this amazing learning journey. We have kept updating through time while upscaling our skills in JSX, components, Sass, etc, and this one is the final version in June 2023.
 
 The image below shows what it looks like.  
+20230815 Notice: Due to re-deployment, the real content may be different from the demo below, including the images in the following section.  
 ![螢幕截圖 2023-06-18 16 44 30](https://github.com/phoenix850508/simple-twitter/assets/121143837/f5a7cf95-66b1-4902-b0e8-d8b479bb3137)
 
 
