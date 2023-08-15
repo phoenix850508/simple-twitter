@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const authURL = "https://mighty-woodland-74272.herokuapp.com";
+// 舊部署
+// const authURL = "https://mighty-woodland-74272.herokuapp.com";
+// 新部署
+const authURL = "https://simple-twitter-02dbeaafb59f.herokuapp.com";
 
 export const login = async ({ account, password }) => {
   try {
