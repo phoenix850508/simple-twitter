@@ -1,6 +1,9 @@
 // axios 設定檔
 import axios from "axios";
-const baseUrl = "https://mighty-woodland-74272.herokuapp.com/api";
+// 舊部署
+// const baseUrl = "https://mighty-woodland-74272.herokuapp.com/api";
+// 新部署
+const baseUrl = "https://simple-twitter-02dbeaafb59f.herokuapp.com/api";
 
 // 新增一個 instance，使用方法可見 axios interceptor readme
 const axiosInstance = axios.create({
